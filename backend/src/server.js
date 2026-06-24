@@ -1,0 +1,58 @@
+import express from "express";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import "dotenv/config";
+
+const app = express();
+
+// Middlewares
+app.use(express.json());
+app.use(cookieParser());
+app.use(
+  cors({
+    origin: process.env.ORIGIN,
+    credentials: true,
+  }),
+);
+
+// Routes
+app.get("/", (req, res) => {
+  res.send("<h1>Hello</h1>");
+});
+
+// Error Handling
+app.use((req, res, next) => {
+  console.log(req.protocol, req.host, req.path);
+  next({
+    status: 404,
+    name: "InvalidRoute",
+    message: "The route you are trying to access in the server does not exists",
+    errorDetails: {
+      method: req.method,
+      url: `${req.protocol}://${req.host}${req.path}`,
+    },
+  });
+});
+
+app.use((err, req, res, next) => {
+  const status = err.status || err.statusCode || 500;
+  const name = err.name || "UncaughtError";
+  const message = err.message || "Internal server error.";
+  const errorDetails = err.errorDetails || null;
+
+  res
+    .status(status)
+    .json(
+      errorDetails
+        ? { ok: false, name, message, errorDetails }
+        : { ok: false, name, message },
+    );
+});
+
+// Config
+const port = process.env.PORT || 1235;
+
+app.listen(port, (err) => {
+  if (err) throw err;
+  console.log(`App is currently listening on http://localhost:${port}`);
+});
