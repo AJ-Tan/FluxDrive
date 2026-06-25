@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import "dotenv/config";
+import { protectedRoutes } from "./routes/protected/protected.routes.js";
+import { authRoutes } from "./routes/auth/auth.routes.js";
 
 const app = express();
 
@@ -16,13 +18,11 @@ app.use(
 );
 
 // Routes
-app.get("/", (req, res) => {
-  res.send("<h1>Hello</h1>");
-});
+app.use("/protected", protectedRoutes);
+app.use("/auth", authRoutes);
 
 // Error Handling
 app.use((req, res, next) => {
-  console.log(req.protocol, req.host, req.path);
   next({
     status: 404,
     name: "InvalidRoute",
