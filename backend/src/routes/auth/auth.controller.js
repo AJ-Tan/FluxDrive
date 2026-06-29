@@ -53,14 +53,14 @@ const signinController = async (req, res, next) => {
       });
 
     const payload = { id: user.id };
-    const accessToken = generateToken(payload, "access", "40s");
-    const refreshToken = generateToken(payload, "refresh", "2m");
+    const accessToken = generateToken(payload, "access", "1h");
+    const refreshToken = generateToken(payload, "refresh", "3d");
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "prod",
       sameSite: "strict",
-      maxAge: 1000 * 60 * 2,
+      maxAge: 1000 * 60 * 60 * 24 * 3,
     });
 
     res.status(200).json({
