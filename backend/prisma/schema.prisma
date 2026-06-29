@@ -31,8 +31,8 @@ model Folder {
   id String @id @default(uuid())
   name String? @default("")
 
-  parentId String
-  parent Folder @relation("folderHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
+  parentId String?
+  parent Folder? @relation("folderHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
   children Folder[] @relation("folderHierarchy")
 
   ownerId String
