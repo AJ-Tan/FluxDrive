@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import "dotenv/config";
 import { protectedRoutes } from "./routes/protected/protected.routes.js";
 import { authRoutes } from "./routes/auth/auth.routes.js";
+import { folderRoutes } from "./routes/folder/folder.routes.js";
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(
 // Routes
 app.use("/protected", protectedRoutes);
 app.use("/auth", authRoutes);
+app.use("/folder", folderRoutes);
 
 // Error Handling
 app.use((req, res, next) => {

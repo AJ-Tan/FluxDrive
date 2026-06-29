@@ -1,0 +1,26 @@
+import prisma from "../../config/database/database.config.js";
+
+const folderBaseMiddleware = async (req, res, next) => {
+  try {
+    const user = req.user;
+    if (!user)
+      return next({
+        status: 404,
+        name: "UserNotFound",
+        message: "User was not found when running folderBaseMiddleware.",
+      });
+    const baseFolder = await prisma.folder.findUnique({
+      where: { id: `${user.id}-base` },
+    });
+    if (!baseFolder)
+      await prisma.folder.create({
+        data: { id: `${user.id}-base`, name: "root", ownerId: user.id },
+      });
+
+    next();
+  } catch (err) {
+    next(err);
+  }
+};
+
+export default folderBaseMiddleware;
