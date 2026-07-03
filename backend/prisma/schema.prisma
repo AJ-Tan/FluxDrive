@@ -55,7 +55,8 @@ model File {
   fileType   String?
   size       Int?
 
-  storageKey String
+  fileUrl String
+  publicId String
 
   folderId String
   folder Folder @relation(fields: [folderId], references: [id], onDelete: Cascade)
