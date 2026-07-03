@@ -5,6 +5,7 @@ import "dotenv/config";
 import { protectedRoutes } from "./routes/protected/protected.routes.js";
 import { authRoutes } from "./routes/auth/auth.routes.js";
 import { folderRoutes } from "./routes/folder/folder.routes.js";
+import { fileRoutes } from "./routes/file/file.routes.js";
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.use(
 app.use("/protected", protectedRoutes);
 app.use("/auth", authRoutes);
 app.use("/folder", folderRoutes);
+app.use("/file", fileRoutes);
 
 // Error Handling
 app.use((req, res, next) => {
