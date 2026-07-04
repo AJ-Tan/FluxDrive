@@ -14,7 +14,13 @@ const signupController = async (req, res, next) => {
         firstName,
         lastName,
       },
-      select: { id: true, email: true, firstName: true, lastName: true },
+      select: {
+        id: true,
+        email: true,
+        firstName: true,
+        lastName: true,
+        createdAt: true,
+      },
     });
 
     res.status(201).json({
