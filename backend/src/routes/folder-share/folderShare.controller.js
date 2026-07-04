@@ -5,7 +5,10 @@ const generateFolderShareController = async (req, res, next) => {
   try {
     const user = req.user;
     const folderId = req.params.folderId;
-    const { expiresAt } = req.body;
+
+    const dateNow = new Date();
+    const daysToExpire = Number(req.query.expire) || 1 * 24 * 60 * 60 * 1000; // 1 day expiration (default)
+    const expiresAt = new Date(dateNow.getTime() + daysToExpire);
 
     const checkFolderId = await checkFolderAccessAuthorized(user.id, folderId);
     if (!checkFolderId.ok) return next(checkFolderId.err);
