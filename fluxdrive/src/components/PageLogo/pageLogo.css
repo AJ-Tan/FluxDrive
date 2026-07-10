@@ -1,0 +1,7 @@
+.page-logo {
+  margin-block-start: -0.2rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  text-shadow: var(--shadow-logo);
+}

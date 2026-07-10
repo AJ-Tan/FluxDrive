@@ -8,7 +8,7 @@ function AuthProvider({ children }: { children: JSX.Element | JSX.Element[] }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!localStorage.getItem("accessToken")) return;
+    if (!localStorage.getItem("accessToken")) return () => setLoading(false);
     auth_user().then(({ ok, data }) => {
       if (ok) {
         setUser(data.user);

@@ -1,21 +1,50 @@
+*,
+::before,
+::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
 :root {
   --text: #6b6375;
   --text-h: #08060d;
+  --text-1: gray;
+  --text-1--hover: black;
+
+  --border: rgb(218, 218, 218);
   --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
+
+  --primary-color: #aa3bff;
+  --primary-color--hover: #9334db;
+  --primary-color--shadow: #aa3bff59;
+  --primary-text: white;
+  --secondary-color: white;
+  --secondary-color--hover: rgb(245, 245, 245);
+  --secondary-border: rgb(165, 165, 165);
+  --secondary-text: var(--primary-color--hover);
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --shadow-logo: 1px 1px 4px var(--primary-color--shadow);
+  --shadow-page-header: 0px 1px 5px rgba(0, 0, 0, 0.185);
 
-  --sans: system-ui, "Segoe UI", Roboto, sans-serif;
-  --heading: system-ui, "Segoe UI", Roboto, sans-serif;
+  --sans: "Roboto", system-ui, "Segoe UI", Roboto, sans-serif;
+  --heading: "Roboto", system-ui, "Segoe UI", sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
-  font: 18px/145% var(--sans);
+  /* Transition speed */
+  --transition-fast: 0.15s;
+
+  /* Spacing */
+  --spacing-1: 0.5rem;
+  --spacing-2: 0.75rem;
+  --spacing-3: 1rem;
+  --spacing-4: 1.5rem;
+  --spacing-5: 2rem;
+  --spacing-6: 3rem;
+  --spacing-7: 4rem;
+
+  font-family: var(--sans);
   letter-spacing: 0.18px;
   color-scheme: light dark;
   color: var(--text);
@@ -27,6 +56,10 @@
 
   @media (max-width: 1024px) {
     font-size: 16px;
+  }
+
+  @media (max-width: 600px) {
+    font-size: 14px;
   }
 }
 
@@ -56,7 +89,6 @@
   min-height: 100svh;
   display: flex;
   flex-direction: column;
-  box-sizing: border-box;
 }
 
 body {
@@ -66,30 +98,38 @@ body {
 h1,
 h2 {
   font-family: var(--heading);
-  font-weight: 500;
   color: var(--text-h);
 }
 
 h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
+  font-size: 2.7rem;
+  font-weight: 700;
+  line-height: 130%;
+
+  @media screen and (max-width: 600px) {
+    font-size: 2rem;
   }
 }
 h2 {
-  font-size: 24px;
+  font-size: 2rem;
   line-height: 118%;
   letter-spacing: -0.24px;
+  font-weight: 500;
   margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
+
+  @media screen and (max-width: 600px) {
+    font-size: 1.6rem;
   }
 }
 p {
   margin: 0;
+  line-height: 150%;
+}
+
+button {
+  font: inherit;
+  font-weight: 500;
+  font-size: 0.75rem;
 }
 
 code,
@@ -105,4 +145,13 @@ code {
   line-height: 135%;
   padding: 4px 8px;
   background: var(--code-bg);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  width: 100%;
 }

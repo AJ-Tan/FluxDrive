@@ -1,0 +1,127 @@
+.landing-page-layout {
+  --page-mw: 62.5rem;
+  --main-padding-block-start: 3rem;
+  @media screen and (max-width: 800px) {
+    --main-padding-block-start: 6rem;
+  }
+
+  @media screen and (max-width: 450px) {
+    --main-padding-block-start: 3rem;
+  }
+
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  & > :nth-child(1) {
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+
+  & > :nth-child(2) {
+    flex: 1;
+    padding-block-start: var(--main-padding-block-start);
+  }
+
+  main {
+    width: var(--page-mw);
+    max-width: 100%;
+    margin-inline: auto;
+
+    & > section {
+      padding-inline: var(--spacing-7);
+
+      @media screen and (max-width: 600px) {
+        padding-inline: var(--spacing-4);
+      }
+    }
+  }
+
+  footer {
+    text-align: center;
+    padding-block: var(--spacing-1);
+    border-top: 1px solid var(--border);
+    margin-inline: auto;
+    width: var(--page-mw);
+    max-width: 100%;
+  }
+}
+
+.landing-page-header {
+  display: grid;
+  grid-template-columns: max-content 1fr max-content;
+  align-items: center;
+  column-gap: var(--spacing-5);
+  padding-inline: var(--spacing-4);
+  border-bottom: 1px solid var(--border);
+  background-color: var(--bg);
+  box-shadow: var(--shadow-page-header);
+
+  height: 3rem;
+  width: 100%;
+
+  @media screen and (max-width: 800px) {
+    height: 6rem;
+
+    grid-template-columns: 1fr max-content;
+    grid-template-rows: 3rem 3rem;
+    & > :nth-child(1) {
+      flex-shrink: 0;
+    }
+
+    & > :nth-child(1) {
+      grid-area: 1 / 1 / 2 / 2;
+    }
+
+    & > :nth-child(2) {
+      grid-area: 2 / 1 / 3 / 3;
+    }
+
+    & > :nth-child(3) {
+      grid-area: 1 / 2 / 2 / 3;
+    }
+    &::before {
+      content: "";
+      height: 1px;
+      width: 100%;
+      background-color: var(--border);
+      position: absolute;
+    }
+  }
+
+  @media screen and (max-width: 450px) {
+    height: 3rem;
+
+    & > :nth-child(2) {
+      display: none;
+    }
+
+    &::before {
+      display: none;
+    }
+  }
+
+  & > :nth-child(3) {
+    display: flex;
+    gap: var(--spacing-2);
+    flex-shrink: 0;
+  }
+
+  .page-nav ul {
+    display: flex;
+    list-style-type: none;
+    gap: var(--spacing-5);
+  }
+
+  li {
+    font-size: 0.75rem;
+    color: var(--text-1);
+    transition: color var(--transition-fast);
+
+    &.selected,
+    &:hover {
+      color: var(--text-1--hover);
+    }
+  }
+}
