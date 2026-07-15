@@ -15,7 +15,7 @@ const generateToken = (payload, tokenType = "access", expiresIn = "1h") => {
 const refreshAccess = (refreshToken) => {
   let token = null;
   let error = null;
-  console.log(refreshToken);
+
   try {
     const payload = jwt.verify(refreshToken, process.env.SECRET_REFRESH);
     token = generateToken({ id: payload.id });
