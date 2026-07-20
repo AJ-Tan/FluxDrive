@@ -4,7 +4,7 @@ import PublicRoute from "./PublicRoute";
 import HomePage from "../pages/HomePage/HomePage";
 import SigninPage from "../pages/SigninPage/SigninPage";
 import SignupPage from "../pages/SignupPage/SignupPage";
-import LandingPage from "../pages/Landing/LandingPage";
+import LandingPage from "../pages/LandingPage/LandingPage";
 
 export const routes: RouteObject[] = [
   {
