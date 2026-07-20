@@ -6,7 +6,7 @@ type BaseResponse = {
 };
 
 type ErrorResponse = {
-  errDetails: Record<string, string> & {
+  errorDetails: Record<string, string> & {
     validationError: Record<string, string[]>;
   };
 };
