@@ -7,6 +7,7 @@ import { authRoutes } from "./routes/auth/auth.routes.js";
 import { folderRoutes } from "./routes/folder/folder.routes.js";
 import { fileRoutes } from "./routes/file/file.routes.js";
 import { folderShareRoutes } from "./routes/folder-share/folderShare.routes.js";
+import { ctaRoutes } from "./routes/cta/cta.routes.js";
 
 const app = express();
 
@@ -26,6 +27,7 @@ app.use("/auth", authRoutes);
 app.use("/folder", folderRoutes);
 app.use("/file", fileRoutes);
 app.use("/folderShare", folderShareRoutes);
+app.use("/cta", ctaRoutes);
 
 // Error Handling
 app.use((req, res, next) => {
