@@ -6,27 +6,50 @@
   margin: 0;
 }
 
+html {
+  interpolate-size: allow-keywords;
+}
+
 :root {
   --text: #6b6375;
-  --text-h: #08060d;
+  --text-h: #08060dd8;
   --text-1: gray;
   --text-1--hover: black;
 
   --border: rgb(218, 218, 218);
   --bg: #fff;
+  --bg-hover: rgb(241, 241, 241);
+  --bg-active: rgb(230, 230, 230);
+  --bg-secondary: rgb(248, 249, 250);
+
+  /* Button Icon */
+  --icon-base: rgb(95, 99, 104);
+  --icon-disabled: rgb(154, 160, 166);
 
   --primary-color: #aa3bff;
+  --primary-color--light: #aa3bff5d;
+  --primary-color--hover: #9334db;
+  --primary-color-bg: #aa3bff2f;
+  --primary-color-bg--hover: #9334db07;
   --primary-color--hover: #9334db;
   --primary-color--shadow: #aa3bff59;
   --primary-text: white;
+
   --secondary-color: white;
   --secondary-color--hover: rgb(245, 245, 245);
   --secondary-border: rgb(165, 165, 165);
   --secondary-text: var(--primary-color--hover);
+
+  --warning-color: rgb(177, 2, 2);
+
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
   --shadow-logo: 1px 1px 4px var(--primary-color--shadow);
   --shadow-page-header: 0px 1px 5px rgba(0, 0, 0, 0.185);
+
+  /* Pagination dot */
+  --dot-color: rgb(154, 160, 166);
+  --dot-color-active: rgb(95, 99, 104);
 
   --sans: "Roboto", system-ui, "Segoe UI", Roboto, sans-serif;
   --heading: "Roboto", system-ui, "Segoe UI", sans-serif;
@@ -34,6 +57,8 @@
 
   /* Transition speed */
   --transition-fast: 0.15s;
+  --transition-normal-1: 0.25s;
+  --transition-normal-2: 0.4s;
 
   /* Spacing */
   --spacing-1: 0.5rem;
@@ -44,7 +69,10 @@
   --spacing-6: 3rem;
   --spacing-7: 4rem;
 
+  --page-mw: 63.5rem;
+
   font-family: var(--sans);
+  font-size: 20px;
   letter-spacing: 0.18px;
   color-scheme: light dark;
   color: var(--text);
@@ -55,11 +83,11 @@
   -moz-osx-font-smoothing: grayscale;
 
   @media (max-width: 1024px) {
-    font-size: 16px;
+    font-size: clamp(17px, calc(((100vw - 50px) * 0.0285)), 20px);
   }
 
   @media (max-width: 600px) {
-    font-size: 14px;
+    font-size: 16px;
   }
 }
 
@@ -102,7 +130,7 @@ h2 {
 }
 
 h1 {
-  font-size: 2.7rem;
+  font-size: 2.5rem;
   font-weight: 700;
   line-height: 130%;
 
@@ -115,11 +143,20 @@ h2 {
   line-height: 118%;
   letter-spacing: -0.24px;
   font-weight: 500;
-  margin: 0 0 8px;
+  margin-block-end: 0.5rem;
+
+  @media screen and (max-width: 1024px) {
+    margin-block-end: 0.8rem;
+  }
 
   @media screen and (max-width: 600px) {
     font-size: 1.6rem;
+    margin-block-end: 1rem;
   }
+}
+h3 {
+  font-size: 1rem;
+  font-weight: 600;
 }
 p {
   margin: 0;
@@ -128,8 +165,7 @@ p {
 
 button {
   font: inherit;
-  font-weight: 500;
-  font-size: 0.75rem;
+  cursor: pointer;
 }
 
 code,
@@ -154,4 +190,40 @@ a {
 
 img {
   width: 100%;
+}
+
+input {
+  font: inherit;
+}
+
+details {
+  .content {
+    height: 0;
+    transition: height var(--transition-normal-2) ease-in-out;
+  }
+
+  &[open] .content {
+    height: auto;
+  }
+}
+
+summary {
+  list-style: none;
+  cursor: pointer;
+  color: var(--text-h);
+}
+
+details::details-content {
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition:
+    height var(--transition-normal-2) ease-in-out,
+    opacity var(--transition-normal-2) ease-in-out,
+    content-visibility var(--transition-normal-2) allow-discrete;
+}
+
+details[open]::details-content {
+  height: auto;
+  opacity: 1;
 }
