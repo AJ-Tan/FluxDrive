@@ -1,0 +1,106 @@
+.accordion-2 {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+
+  button {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    height: 3rem;
+    border: none;
+    border-radius: 10rem;
+    margin-inline-start: auto;
+    padding-inline: var(--spacing-4);
+    background-color: transparent;
+    color: var(--primary-color);
+    font-size: 0.9rem;
+    font-weight: 500;
+
+    &:focus {
+      border: 2px solid var(--primary-color);
+    }
+
+    &:hover {
+      background-color: var(--primary-color-bg--hover);
+    }
+
+    .icon::before,
+    .icon::after {
+      content: "";
+      aspect-ratio: 1/1;
+      display: block;
+      width: 0.35rem;
+      border-top: 2px solid var(--primary-color);
+      border-right: 2px solid var(--primary-color);
+    }
+    .icon::before {
+      transform: rotate(-45deg);
+    }
+    .icon::after {
+      transform: rotate(135deg);
+    }
+
+    &[aria-expanded="true"] .icon {
+      display: grid;
+      gap: 0.4rem;
+    }
+
+    &[aria-expanded="true"] .icon::before {
+      transform: rotate(135deg);
+    }
+    &[aria-expanded="true"] .icon::after {
+      transform: rotate(-45deg);
+    }
+  }
+
+  .content-list {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+
+  details {
+    padding-block: var(--spacing-4);
+    border-bottom: 1px solid var(--border);
+
+    &:nth-child(1) {
+      border-top: 1px solid var(--border);
+    }
+  }
+
+  .description-container {
+    font-size: 0.9rem;
+    padding-block-start: var(--spacing-2);
+  }
+
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .rotating-arrow {
+    aspect-ratio: 1/1;
+    width: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform var(--transition-normal-1);
+
+    &::before {
+      content: "";
+      display: block;
+      aspect-ratio: 1/1;
+      width: 60%;
+      border-top: 2px solid var(--primary-color);
+      border-right: 2px solid var(--primary-color);
+      margin-block-start: -35%;
+      transform: rotate(135deg);
+    }
+  }
+
+  details[open] .rotating-arrow {
+    transform: rotate(-180deg);
+  }
+}
