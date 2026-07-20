@@ -1,0 +1,53 @@
+#cta {
+  display: flex;
+  justify-content: space-between;
+  column-gap: var(--spacing-5);
+  border-radius: 1rem;
+  padding-block: var(--spacing-7);
+  background-color: var(--primary-color-bg);
+  padding-inline: var(--spacing-4);
+
+  h2 {
+    font-size: 1.7rem;
+    color: var(--primary-color);
+    margin-block-end: var(--spacing-4);
+    font-weight: 500;
+  }
+
+  button {
+    margin-inline-start: auto;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: var(--spacing-1);
+  }
+
+  @media screen and (min-width: 1024px) {
+    .heading {
+      max-width: 25rem;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, max-content);
+      max-width: 32.5rem;
+
+      button {
+        align-self: self-start;
+        grid-area: 3 / 2 / 4 / 3;
+      }
+    }
+  }
+
+  @media screen and (max-width: 1024px) {
+    flex-direction: column;
+    button {
+      margin-block-start: var(--spacing-4);
+      margin-inline-end: auto;
+    }
+  }
+}
