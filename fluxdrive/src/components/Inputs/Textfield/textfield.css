@@ -1,0 +1,93 @@
+.textfield {
+  --padding-x: var(--spacing-3);
+
+  width: 100%;
+  font-size: 0.9rem;
+
+  label {
+    display: flex;
+    align-items: center;
+    height: 2.5rem;
+    width: 100%;
+    position: relative;
+    padding-inline: var(--spacing-3);
+    border: 1px solid var(--border);
+    border-radius: 0.4rem;
+    background-color: var(--bg);
+
+    .label-wrapper {
+      position: absolute;
+      top: 50%;
+      left: 0.7rem;
+      transform: translateY(-50%);
+      transition:
+        transform var(--transition-fast),
+        top var(--transition-fast),
+        left var(--transition-fast);
+      background: linear-gradient(to bottom, transparent 50%, white 50%);
+    }
+
+    &:focus-within,
+    &:has(input:not(:placeholder-shown)) {
+      .label-wrapper {
+        font-size: 0.7rem;
+        top: -1px;
+        left: 0.7rem;
+      }
+    }
+  }
+
+  :where(label:has(input:user-invalid):nth-child(1)) {
+    color: var(--warning-color);
+  }
+
+  label:focus-within:nth-child(1) {
+    color: var(--primary-color);
+  }
+
+  .label-wrapper {
+    position: absolute;
+    background-color: var(--bg);
+    padding-inline: 0.25rem;
+    transition:
+      transform var(--transition-fast),
+      font-size var(--transition-fast);
+  }
+
+  input {
+    border: none;
+    outline: none;
+    width: 100%;
+  }
+
+  label:where(:has(input:user-invalid)) {
+    border-color: var(--warning-color);
+  }
+  label:where(:has(input:hover)) {
+    border-color: var(--primary-color--light);
+  }
+  label:where(:has(input:focus)) {
+    border-color: var(--primary-color);
+  }
+
+  .textfield-errors {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-block: 0.25rem;
+    list-style-type: none;
+    color: var(--warning-color);
+    font-size: 0.65rem;
+    padding-inline-start: 1.2rem;
+  }
+
+  &:has(.textfield-errors) {
+    label {
+      border-color: var(--warning-color);
+    }
+
+    label:has(input:focus) {
+      color: var(--warning-color);
+    }
+  }
+}
