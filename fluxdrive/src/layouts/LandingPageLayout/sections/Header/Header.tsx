@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import PageLogo from "../../../../components/PageLogo/PageLogo";
 import { Link, useLocation, useNavigate } from "react-router";
 import LinkButton from "../../../../components/Buttons/LinkButton";
+import "./header.css";
 
 const navList = [
   {

@@ -1,7 +1,7 @@
 import type { JSX } from "react/jsx-runtime";
 import "./landingPageLayout.css";
-import Footer from "./components/Footer/Footer";
-import Header from "./components/Header/Header";
+import Footer from "./sections/Footer/Footer";
+import Header from "./sections/Header/Header";
 
 function LandingPageLayout({
   children,
