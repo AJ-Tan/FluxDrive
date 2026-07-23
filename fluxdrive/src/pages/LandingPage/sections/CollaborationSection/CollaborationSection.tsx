@@ -49,7 +49,7 @@ const accordionData = [
     title: "3rd party integrations",
     description: (
       <p>
-        Import and create Google Drive files within third party apps like Slack,
+        Import and create FluxDrive files within third party apps like Slack,
         Zoom, Salesforce, Atlassian, SAP and many more to streamline your work.
       </p>
     ),
