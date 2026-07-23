@@ -16,7 +16,8 @@ html {
   --text-1: gray;
   --text-1--hover: black;
 
-  --border: rgb(218, 218, 218);
+  --border-1: rgb(218, 218, 218);
+  --border-2: rgb(165, 165, 165);
   --bg: #fff;
   --bg-hover: rgb(241, 241, 241);
   --bg-active: rgb(230, 230, 230);
@@ -37,7 +38,6 @@ html {
 
   --secondary-color: white;
   --secondary-color--hover: rgb(245, 245, 245);
-  --secondary-border: rgb(165, 165, 165);
   --secondary-text: var(--primary-color--hover);
 
   --warning-color: rgb(177, 2, 2);
@@ -96,7 +96,7 @@ html {
     --text: #9ca3af;
     --text-h: #f3f4f6;
     --bg: #16171d;
-    --border: #2e303a;
+    --border-1: #2e303a;
     --code-bg: #1f2028;
     --accent: #c084fc;
     --accent-bg: rgba(192, 132, 252, 0.15);
@@ -113,7 +113,7 @@ html {
 
 #root {
   max-width: 100%;
-  border-inline: 1px solid var(--border);
+  border-inline: 1px solid var(--border-1);
   min-height: 100svh;
   display: flex;
   flex-direction: column;
