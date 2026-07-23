@@ -4,7 +4,7 @@
   align-items: center;
   column-gap: var(--spacing-5);
   padding-inline: var(--spacing-4);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--border-1);
   background-color: var(--bg);
   box-shadow: var(--shadow-page-header);
 
@@ -14,7 +14,7 @@
   position: relative;
   z-index: 100;
 
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 1024px) {
     height: 6rem;
 
     grid-template-columns: 1fr max-content;
@@ -38,7 +38,7 @@
       content: "";
       height: 1px;
       width: 100%;
-      background-color: var(--border);
+      background-color: var(--border-1);
       position: absolute;
     }
   }
