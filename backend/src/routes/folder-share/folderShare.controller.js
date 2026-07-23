@@ -13,6 +13,7 @@ const generateFolderShareController = async (req, res, next) => {
     const checkFolderId = await checkFolderAccessAuthorized(user.id, folderId);
     if (!checkFolderId.ok) return next(checkFolderId.err);
 
+    await prisma.folderShare.deleteMany({ where: { folderId: folderId } });
     const folderShare = await prisma.folderShare.create({
       data: { folderId, expiresAt, ownerId: user.id },
     });
