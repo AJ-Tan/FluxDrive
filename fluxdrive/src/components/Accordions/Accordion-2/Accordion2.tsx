@@ -1,10 +1,12 @@
 import { useState } from "react";
 import type { JSX } from "react/jsx-runtime";
 import "./accordion2.css";
+import RotatingArrow1 from "../../AnimatedIcon/RotatingArrow1/RotatingArrow1";
 
 type AccordionProps = {
   accordionData: {
     title: string;
+
     description: JSX.Element;
   }[];
   keyText: string;
@@ -42,7 +44,7 @@ function Accordion2({ accordionData, keyText }: AccordionProps) {
         {active.length === accordionData.length ? "Collapse all" : "Extend all"}
         <div className="icon"></div>
       </button>
-      <div id={keyText} role="tablist" className="content-list">
+      <div id={`accordion2-${keyText}`} role="tablist" className="content-list">
         {accordionData.map((item, index) => (
           <details
             key={`${keyText}-${index}`}
@@ -59,7 +61,7 @@ function Accordion2({ accordionData, keyText }: AccordionProps) {
               }}
             >
               <h3>{item.title}</h3>
-              <div className="rotating-arrow"></div>
+              <RotatingArrow1 rotate={active.includes(index)} />
             </summary>
             <div className="description-container">
               <div className="description-container-wrapper">

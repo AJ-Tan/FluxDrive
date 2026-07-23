@@ -62,10 +62,10 @@
 
   details {
     padding-block: var(--spacing-4);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--border-1);
 
     &:nth-child(1) {
-      border-top: 1px solid var(--border);
+      border-top: 1px solid var(--border-1);
     }
   }
 
@@ -78,29 +78,5 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-  }
-
-  .rotating-arrow {
-    aspect-ratio: 1/1;
-    width: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: transform var(--transition-normal-1);
-
-    &::before {
-      content: "";
-      display: block;
-      aspect-ratio: 1/1;
-      width: 60%;
-      border-top: 2px solid var(--primary-color);
-      border-right: 2px solid var(--primary-color);
-      margin-block-start: -35%;
-      transform: rotate(135deg);
-    }
-  }
-
-  details[open] .rotating-arrow {
-    transform: rotate(-180deg);
   }
 }
