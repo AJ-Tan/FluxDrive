@@ -1,9 +1,10 @@
-import socialIconX from "../../../../../assets/icons/socials/social-x.svg?react";
-import socialIconYoutube from "../../../../../assets/icons/socials/social-youtube.svg?react";
-import socialIconLinkedIn from "../../../../../assets/icons/socials/social-linkedin.svg?react";
-import socialIconInstagram from "../../../../../assets/icons/socials/social-instagram.svg?react";
-import socialIconFacebook from "../../../../../assets/icons/socials/social-facebook.svg?react";
-import socialIconTiktok from "../../../../../assets/icons/socials/social-tiktok.svg?react";
+import socialIconX from "../../../../../../assets/icons/socials/social-x.svg?react";
+import socialIconYoutube from "../../../../../../assets/icons/socials/social-youtube.svg?react";
+import socialIconLinkedIn from "../../../../../../assets/icons/socials/social-linkedin.svg?react";
+import socialIconInstagram from "../../../../../../assets/icons/socials/social-instagram.svg?react";
+import socialIconFacebook from "../../../../../../assets/icons/socials/social-facebook.svg?react";
+import socialIconTiktok from "../../../../../../assets/icons/socials/social-tiktok.svg?react";
+import "./footerSocials.css";
 
 const socialLinks = [
   {
@@ -40,7 +41,7 @@ const socialLinks = [
 
 function FooterSocials() {
   return (
-    <div className="footer-socials">
+    <section className="footer-socials">
       <div className="footer-socials_title">
         <p>
           Follow our <strong>Blog</strong>
@@ -51,14 +52,14 @@ function FooterSocials() {
           const Icon = item.icon;
           return (
             <li key={`${item}-${index}`}>
-              <button type="button">
+              <button type="button" title={item.name}>
                 <Icon />
               </button>
             </li>
           );
         })}
       </ul>
-    </div>
+    </section>
   );
 }
 
