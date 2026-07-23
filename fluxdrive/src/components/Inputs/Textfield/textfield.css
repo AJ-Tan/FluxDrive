@@ -11,7 +11,7 @@
     width: 100%;
     position: relative;
     padding-inline: var(--spacing-3);
-    border: 1px solid var(--border);
+    border: 1px solid var(--border-1);
     border-radius: 0.4rem;
     background-color: var(--bg);
 
