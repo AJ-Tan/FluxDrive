@@ -1,4 +1,5 @@
 import Accordion2 from "../../../../components/Accordions/Accordion-2/Accordion2";
+import "./faqsSection.css";
 
 function FAQsSection() {
   return (
