@@ -1,0 +1,10 @@
+.footer-credits {
+  text-align: center;
+  font-size: 0.9rem;
+
+  .highlight {
+    color: var(--primary-color);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
