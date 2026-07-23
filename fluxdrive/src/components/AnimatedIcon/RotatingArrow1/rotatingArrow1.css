@@ -1,0 +1,23 @@
+.rotating-arrow1 {
+  aspect-ratio: 1/1;
+  width: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform var(--transition-normal-1);
+
+  &::before {
+    content: "";
+    display: block;
+    aspect-ratio: 1/1;
+    width: 60%;
+    border-top: 2px solid var(--primary-color);
+    border-right: 2px solid var(--primary-color);
+    margin-block-start: -35%;
+    transform: rotate(135deg);
+  }
+
+  &.rotate {
+    transform: rotate(-180deg);
+  }
+}
