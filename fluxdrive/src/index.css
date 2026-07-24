@@ -85,10 +85,6 @@ html {
   @media (max-width: 1024px) {
     font-size: clamp(17px, calc(((100vw - 50px) * 0.0285)), 20px);
   }
-
-  @media (max-width: 600px) {
-    font-size: 16px;
-  }
 }
 
 @media (prefers-color-scheme: dark) {
