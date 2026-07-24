@@ -25,11 +25,11 @@
     gap: var(--spacing-1);
   }
 
-  @media screen and (min-width: 1025px) {
-    .heading {
-      max-width: 25rem;
-    }
+  .heading {
+    max-width: 25rem;
+  }
 
+  @media screen and (min-width: 1025px) {
     form {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -45,9 +45,20 @@
 
   @media screen and (max-width: 1024px) {
     flex-direction: column;
+    padding-block: var(--spacing-6);
+
     button {
       margin-block-start: var(--spacing-4);
       margin-inline-end: auto;
     }
+
+    .heading {
+      text-align: center;
+      margin-inline: auto;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    padding-inline: var(--spacing-3);
   }
 }

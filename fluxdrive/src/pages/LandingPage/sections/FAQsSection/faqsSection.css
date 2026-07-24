@@ -1,3 +1,7 @@
 #faqs {
   padding-inline: var(--spacing-4);
+
+  @media screen and (max-width: 600px) {
+    padding-inline: var(--spacing-3);
+  }
 }
