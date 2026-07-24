@@ -24,7 +24,7 @@
         transform var(--transition-fast),
         top var(--transition-fast),
         left var(--transition-fast);
-      background: linear-gradient(to bottom, transparent 50%, white 50%);
+      background: linear-gradient(to bottom, transparent 50%, var(--bg) 50%);
     }
 
     &:focus-within,
