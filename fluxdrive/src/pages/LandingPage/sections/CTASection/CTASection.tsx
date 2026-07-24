@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { ctaLandingPage } from "../../../../services/cta-service";
 import TextField from "../../../../components/Inputs/Textfield/TextField";
 import Button from "../../../../components/Buttons/Button";
@@ -27,13 +27,13 @@ function CTASection() {
     setFormData(initialFormState);
   };
 
-  const setValue = (id: string, value: string) => {
+  const setValue = useCallback((id: string, value: string) => {
     setFormData((prev) => ({
       ...prev,
       values: { ...prev.values, [id]: value },
       errors: { ...prev.errors, [id]: [] },
     }));
-  };
+  }, []);
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -84,7 +84,7 @@ function CTASection() {
           value={contact}
           setValue={setValue}
           placeholder="0912 123 4567"
-          errors={errors?.["firstName"]}
+          errors={errors?.["contact"]}
         />
         <Button type="submit" scale={1}>
           Continue
