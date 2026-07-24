@@ -93,4 +93,8 @@
       color: var(--text-1--hover);
     }
   }
+
+  @media screen and (max-width: 600px) {
+    padding-inline: var(--spacing-3);
+  }
 }

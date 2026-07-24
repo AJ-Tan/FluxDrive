@@ -1,6 +1,6 @@
 .landing-page-layout {
   --main-padding-block-start: 3rem;
-  @media screen and (max-width: 800px) {
+  @media screen and (max-width: 1024px) {
     --main-padding-block-start: 6rem;
   }
 
@@ -30,20 +30,12 @@
     width: 100%;
     margin-inline: auto;
     padding-block-end: var(--spacing-4);
-
-    @media screen and (max-width: 1024px) {
-      padding-block-end: var(--spacing-7);
-    }
   }
   main > section {
     margin-inline: auto;
     padding-inline: var(--spacing-7);
     width: var(--page-mw);
     max-width: 100%;
-
-    @media screen and (max-width: 600px) {
-      padding-inline: var(--spacing-4);
-    }
   }
 
   main .section--full-width {
@@ -60,10 +52,23 @@
       h2 {
         padding-block-end: var(--spacing-4);
       }
+    }
+  }
 
-      @media screen and (max-width: 1024px) {
-        padding-block: var(--spacing-6);
-      }
+  @media screen and (max-width: 1024px) {
+    main {
+      padding-block-end: var(--spacing-6);
+    }
+
+    main .section--full-width {
+      padding-block: var(--spacing-6);
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    main > section,
+    main .section--full-width .content-container {
+      padding-inline: var(--spacing-3);
     }
   }
 
