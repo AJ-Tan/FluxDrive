@@ -2,29 +2,37 @@ import { useState } from "react";
 import { ctaLandingPage } from "../../../../services/cta-service";
 import TextField from "../../../../components/Inputs/Textfield/TextField";
 import Button from "../../../../components/Buttons/Button";
+import type { FormDataType } from "../../../../types/form-types";
 import "./ctaSection.css";
 
-function CTASection() {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [contact, setContact] = useState("");
-  const [errors, setErrors] = useState<null | Record<string, string[]>>(null);
+const initialFormState = {
+  values: {
+    firstName: "",
+    lastName: "",
+    email: "",
+    contact: "",
+  },
+  errors: null,
+};
 
+function CTASection() {
+  const [
+    {
+      values: { firstName, lastName, email, contact },
+      errors,
+    },
+    setFormData,
+  ] = useState<FormDataType>(initialFormState);
   const resetInputs = () => {
-    setFirstName("");
-    setLastName("");
-    setEmail("");
-    setContact("");
-    setErrors(null);
+    setFormData(initialFormState);
   };
 
-  const clearErrors = (id: string) => {
-    setErrors((prev) => {
-      if (!prev) return prev;
-      prev[id] = [];
-      return prev;
-    });
+  const setValue = (id: string, value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      values: { ...prev.values, [id]: value },
+      errors: { ...prev.errors, [id]: [] },
+    }));
   };
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
@@ -32,13 +40,17 @@ function CTASection() {
     const res = await ctaLandingPage(firstName, lastName, email, contact);
 
     if (!res.ok) {
-      setErrors(res.errorDetails.validationError);
+      setFormData((prev) => ({
+        ...prev,
+        errors: res.errorDetails.validationError,
+      }));
       return;
     }
 
     resetInputs();
     alert("This is just a design.");
   };
+
   return (
     <section id="cta" className="section-page">
       <div className="heading">
@@ -49,34 +61,30 @@ function CTASection() {
           id="firstName"
           label="First name"
           value={firstName}
-          setValue={setFirstName}
+          setValue={setValue}
           errors={errors?.["firstName"]}
-          clearErrors={clearErrors}
         />
         <TextField
           id="lastName"
           label="Last name"
           value={lastName}
-          setValue={setLastName}
+          setValue={setValue}
           errors={errors?.["lastName"]}
-          clearErrors={clearErrors}
         />
         <TextField
           id="email"
           label="Email"
           value={email}
-          setValue={setEmail}
+          setValue={setValue}
           errors={errors?.["email"]}
           type="email"
-          clearErrors={clearErrors}
         />
         <TextField
           id="contact"
           value={contact}
-          setValue={setContact}
+          setValue={setValue}
           placeholder="0912 123 4567"
           errors={errors?.["firstName"]}
-          clearErrors={clearErrors}
         />
         <Button type="submit" scale={1}>
           Continue

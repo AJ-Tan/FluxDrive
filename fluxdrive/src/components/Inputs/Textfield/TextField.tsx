@@ -1,11 +1,11 @@
+import { memo } from "react";
 import "./textfield.css";
 
 type TextFieldProps = {
   id: string;
   value: string;
-  setValue: React.Dispatch<React.SetStateAction<string>>;
+  setValue: (id: string, value: string) => void;
   errors: string[] | undefined;
-  clearErrors: (id: string) => void;
   label?: string;
   placeholder?: string;
   type?: string;
@@ -17,7 +17,6 @@ function TextField({
   value,
   setValue,
   errors,
-  clearErrors,
   label = "",
   placeholder = "",
   type = "text",
@@ -35,8 +34,7 @@ function TextField({
           type={type}
           value={value}
           onChange={(e) => {
-            clearErrors(id);
-            setValue(e.target.value);
+            setValue(id, e.target.value);
           }}
           placeholder={placeholder}
           autoComplete="chrome-off"
@@ -55,4 +53,4 @@ function TextField({
   );
 }
 
-export default TextField;
+export default memo(TextField);
