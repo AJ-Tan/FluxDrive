@@ -2,12 +2,12 @@
   --padding-x: var(--spacing-3);
 
   width: 100%;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 
   label {
     display: flex;
     align-items: center;
-    height: 2.5rem;
+    height: 2.75rem;
     width: 100%;
     position: relative;
     padding-inline: var(--spacing-3);
