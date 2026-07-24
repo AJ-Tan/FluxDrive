@@ -9,5 +9,4 @@ export const ctaLandingSchema = [
     .withMessage("This is required")
     .isEmail()
     .withMessage("Invalid format"),
-  body("contact").notEmpty().withMessage("This is required"),
 ];
