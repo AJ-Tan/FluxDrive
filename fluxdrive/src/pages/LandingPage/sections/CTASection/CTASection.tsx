@@ -59,21 +59,21 @@ function CTASection() {
       <form onSubmit={handleSubmit}>
         <TextField
           id="firstName"
-          label="First name"
+          label="First name*"
           value={firstName}
           setValue={setValue}
           errors={errors?.["firstName"]}
         />
         <TextField
           id="lastName"
-          label="Last name"
+          label="Last name*"
           value={lastName}
           setValue={setValue}
           errors={errors?.["lastName"]}
         />
         <TextField
           id="email"
-          label="Email"
+          label="Email*"
           value={email}
           setValue={setValue}
           errors={errors?.["email"]}

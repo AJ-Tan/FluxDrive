@@ -4,7 +4,7 @@ import "./button.css";
 type LinkButtonProps = {
   to: string;
   children: string;
-  variants?: "primary" | "secondary";
+  variants?: "primary" | "secondary" | "transparent";
   scale?: number;
 };
 

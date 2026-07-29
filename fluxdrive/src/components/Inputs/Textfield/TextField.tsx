@@ -20,13 +20,12 @@ function TextField({
   label = "",
   placeholder = "",
   type = "text",
-  required = true,
 }: TextFieldProps) {
   return (
     <div className="textfield">
       <label>
         <div className="label-wrapper" hidden={label === ""}>
-          <span className="label">{`${label}${required ? "*" : ""}`}</span>
+          <span className="label">{label}</span>
         </div>
         <input
           id={id}

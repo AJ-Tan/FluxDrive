@@ -14,10 +14,10 @@ function HeroSection() {
           collaboration
         </p>
         <div className="page-hero-controls">
-          <LinkButton to="/signin" scale={1}>
+          <LinkButton to="/signin" scale={2}>
             Sign in
           </LinkButton>
-          <LinkButton to="/signup" variants="secondary" scale={1}>
+          <LinkButton to="/signup" variants="secondary" scale={2}>
             Sign up
           </LinkButton>
         </div>

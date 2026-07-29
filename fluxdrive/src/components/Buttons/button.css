@@ -18,6 +18,12 @@
   }
 
   &.scale-1 {
+    font-size: 0.8rem;
+    padding-inline: 1.2rem;
+    height: 2.5rem;
+  }
+
+  &.scale-2 {
     font-size: 0.9rem;
     border-radius: 2rem;
     padding-inline: 1.4rem;
@@ -41,5 +47,15 @@
 
   &:hover {
     background-color: var(--secondary-color--hover);
+  }
+}
+
+.btn--transparent {
+  background-color: transparent;
+  border: none;
+  color: var(--secondary-text);
+
+  &:hover {
+    background-color: var(--primary-color-bg);
   }
 }

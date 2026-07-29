@@ -12,8 +12,9 @@
     position: relative;
     padding-inline: var(--spacing-3);
     border: 1px solid var(--border-1);
-    border-radius: 0.4rem;
+    border-radius: 0.2rem;
     background-color: var(--bg);
+    cursor: text;
 
     .label-wrapper {
       position: absolute;
@@ -24,7 +25,7 @@
         transform var(--transition-fast),
         top var(--transition-fast),
         left var(--transition-fast);
-      background: linear-gradient(to bottom, transparent 50%, var(--bg) 50%);
+      background: linear-gradient(to bottom, transparent 44%, var(--bg) 44%);
     }
 
     &:focus-within,
@@ -43,6 +44,7 @@
 
   label:focus-within:nth-child(1) {
     color: var(--primary-color);
+    border-width: 2px;
   }
 
   .label-wrapper {
@@ -63,7 +65,7 @@
   label:where(:has(input:user-invalid)) {
     border-color: var(--warning-color);
   }
-  label:where(:has(input:hover)) {
+  :where(label:has(input:hover)) {
     border-color: var(--primary-color--light);
   }
   label:where(:has(input:focus)) {
@@ -78,7 +80,7 @@
     list-style-type: none;
     color: var(--warning-color);
     font-size: 0.65rem;
-    padding-inline-start: 1.2rem;
+    padding-inline: 1.1rem;
   }
 
   &:has(.textfield-errors) {

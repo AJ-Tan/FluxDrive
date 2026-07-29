@@ -1,3 +1,7 @@
 #customer {
   background-color: var(--bg-secondary);
+
+  .content-container {
+    padding-block: var(--spacing-6);
+  }
 }
