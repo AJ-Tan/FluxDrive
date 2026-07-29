@@ -1,8 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import PageLogo from "../../../../components/PageLogo/PageLogo";
 import { Link, useLocation, useNavigate } from "react-router";
 import LinkButton from "../../../../components/Buttons/LinkButton";
 import "./header.css";
+import DialogDropdown from "../../../../components/DialogControls/DialogDropdown/DialogDropdown";
 
 const navList = [
   {
@@ -30,6 +31,7 @@ const navList = [
 function Header() {
   const { hash } = useLocation();
   const navigate = useNavigate();
+  const [mobileLayer, setMobileLayer] = useState(false);
 
   // Scroll to section when nav link is clicked
   useEffect(() => {
@@ -89,9 +91,26 @@ function Header() {
     return () => observer.disconnect();
   }, [navigate]);
 
+  useEffect(() => {
+    const body = document.querySelector("body");
+
+    if (!body) return;
+
+    body.classList = mobileLayer ? "mobile-modal-layer" : "";
+  }, [mobileLayer]);
+
   return (
     <header className="landing-page-header">
-      <PageLogo />
+      <div className="left-header">
+        <DialogDropdown
+          onClick={() => {
+            setMobileLayer((prev) => !prev);
+          }}
+          aria-controls="mobile-nav"
+          aria-expanded={mobileLayer}
+        />
+        <PageLogo />
+      </div>
       <nav className="page-nav">
         <ul>
           {navList.map((item) => (
@@ -109,6 +128,30 @@ function Header() {
           Sign up
         </LinkButton>
       </div>
+      <dialog
+        id="mobile-nav"
+        open={mobileLayer}
+        onClick={(e) => {
+          if (e.target instanceof HTMLDialogElement) {
+            setMobileLayer(false);
+          }
+        }}
+      >
+        <div className="content">
+          <ul>
+            {navList.map((item) => (
+              <li
+                key={item.text}
+                className={hash === item.to ? "selected" : ""}
+              >
+                <Link to={item.to} onClick={() => setMobileLayer(false)}>
+                  {item.text}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </dialog>
     </header>
   );
 }

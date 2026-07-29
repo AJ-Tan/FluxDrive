@@ -9,7 +9,7 @@ function LandingPageLayout({
   children: JSX.Element[] | JSX.Element;
 }) {
   return (
-    <div className="landing-page-layout">
+    <div className={`landing-page-layout`}>
       <Header />
       <main>{children}</main>
       <Footer />
