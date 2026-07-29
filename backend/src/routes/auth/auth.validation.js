@@ -4,11 +4,8 @@ import prisma from "../../config/database/database.config.js";
 const signupSchema = [
   body("email")
     .trim()
-    .normalizeEmail()
     .notEmpty()
     .withMessage("Email is required.")
-    .isEmail()
-    .withMessage("Invalid email format.")
     .custom(async (email) => {
       const user = await prisma.user.findUnique({
         where: { email: email || "" },

@@ -48,6 +48,11 @@ const signinController = async (req, res, next) => {
         status: 401,
         name: "InvalidEmail",
         message: "Invalid credential.",
+        errorDetails: {
+          validationError: {
+            email: ["The email you entered isn’t connected to an account."],
+          },
+        },
       });
 
     const comparePassword = await bcrypt.compare(password, user.password);
@@ -56,6 +61,11 @@ const signinController = async (req, res, next) => {
         status: 401,
         name: "InvalidPassowrd",
         message: "Invalid credential.",
+        errorDetails: {
+          validationError: {
+            password: ["The password you entered is incorrect."],
+          },
+        },
       });
 
     const payload = { id: user.id };
