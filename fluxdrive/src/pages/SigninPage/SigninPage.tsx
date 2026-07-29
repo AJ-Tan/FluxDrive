@@ -23,6 +23,7 @@ function SigninPage() {
     },
     setFormData,
   ] = useState<FormDataType>(initialFormState);
+  const [loading, setLoading] = useState(false);
   const auth = useAuth();
 
   const setValue = useCallback((id: string, value: string) => {
@@ -39,23 +40,25 @@ function SigninPage() {
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setLoading(true);
     const result = await auth_signIn(email, password);
     if (!result.ok) {
       setFormData((prev) => ({
         ...prev,
         errors: result.errorDetails.validationError,
       }));
+      setLoading(false);
       return;
     }
 
     localStorage.setItem("accessToken", result.data.accessToken);
     auth.setUser(result.data.user);
+    setLoading(false);
     resetInputs();
   };
 
   return (
-    <AuthLayout>
+    <AuthLayout loading={loading}>
       <form onSubmit={handleSubmit}>
         <div className="form-details">
           <h1>Sign In</h1>
