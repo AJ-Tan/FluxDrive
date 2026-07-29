@@ -4,6 +4,7 @@ import AuthLayout from "../../layouts/AuthLayout/AuthLayout";
 import TextField from "../../components/Inputs/Textfield/TextField";
 import type { FormDataType } from "../../types/form-types";
 import Button from "../../components/Buttons/Button";
+import { useNavigate } from "react-router";
 
 const initialFormState = {
   values: {
@@ -24,7 +25,10 @@ function SignupPage() {
     },
     setFormData,
   ] = useState<FormDataType>(initialFormState);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
+  // Function to set value for inputs
   const setValue = useCallback((id: string, value: string) => {
     setFormData((prev) => ({
       ...prev,
@@ -39,7 +43,7 @@ function SignupPage() {
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setLoading(true);
     const result = await auth_signUp(
       firstName,
       lastName,
@@ -53,14 +57,17 @@ function SignupPage() {
         ...prev,
         errors: result.errorDetails.validationError,
       }));
+      setLoading(false);
       return;
     }
     alert(result.message);
+    setLoading(false);
+    navigate("/signin");
     resetInputs();
   };
 
   return (
-    <AuthLayout>
+    <AuthLayout loading={loading}>
       <form onSubmit={handleSubmit}>
         <div className="form-details">
           <h1>Create a FluxDrive Account</h1>

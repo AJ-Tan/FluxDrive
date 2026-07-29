@@ -1,3 +1,12 @@
+@keyframes auth-loading-bar {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(200%);
+  }
+}
+
 .auth-layout {
   display: flex;
   align-items: center;
@@ -15,6 +24,30 @@
     max-width: 50rem;
     min-width: 42.5rem;
     padding: var(--spacing-5);
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .content.loading::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: var(--bg-loading);
+    z-index: 1;
+  }
+
+  .content.loading::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: var(--primary-color);
+    border-radius: 1rem;
+    height: 0.25rem;
+    width: 50%;
+    z-index: 2;
+    animation: auth-loading-bar 1.5s ease-in-out infinite;
   }
 
   .page-logo {

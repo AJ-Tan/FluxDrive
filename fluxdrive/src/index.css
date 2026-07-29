@@ -11,6 +11,7 @@ html {
 }
 
 :root {
+  /* Text */
   --text: #6b6375;
   --text-h: #08060dd8;
   --text-1: gray;
@@ -18,11 +19,14 @@ html {
 
   --border-1: rgb(218, 218, 218);
   --border-2: rgb(165, 165, 165);
+
+  /* BG */
   --bg: #fff;
   --bg-hover: rgb(241, 241, 241);
   --bg-active: rgb(230, 230, 230);
   --bg-secondary: rgb(246, 246, 246);
   --bg-modal: #00000080;
+  --bg-loading: rgba(255, 255, 255, 0.377);
 
   /* Button Icon */
   --icon-base: rgb(95, 99, 104);
@@ -43,6 +47,7 @@ html {
 
   --warning-color: rgb(177, 2, 2);
 
+  /* Shadow */
   --shadow:
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
   --shadow-logo: 1px 1px 4px var(--primary-color--shadow);
