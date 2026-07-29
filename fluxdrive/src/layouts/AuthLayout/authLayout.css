@@ -1,0 +1,80 @@
+.auth-layout {
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-secondary);
+  min-height: 100vh;
+  width: 100%;
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    border-radius: 1rem;
+    background-color: white;
+    margin-inline: auto;
+    width: 60%;
+    max-width: 50rem;
+    min-width: 42.5rem;
+    padding: var(--spacing-5);
+  }
+
+  .page-logo {
+    margin-block-end: var(--spacing-2);
+  }
+
+  form {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--spacing-6);
+
+    & > * {
+      flex: 1;
+    }
+  }
+
+  .form-details {
+    h1 {
+      font-size: 2rem;
+      font-weight: 500;
+      margin-block-end: var(--spacing-1);
+    }
+    p {
+      font-size: 0.8rem;
+    }
+  }
+
+  .form-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2);
+  }
+
+  .form-controls {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: var(--spacing-2);
+  }
+
+  @media screen and (max-width: 934px) {
+    .content {
+      width: unset;
+      min-width: unset;
+      max-width: 25rem;
+    }
+
+    form {
+      flex-direction: column;
+      gap: var(--spacing-4);
+    }
+  }
+
+  @media screen and (max-width: 500px) {
+    .content {
+      border-radius: unset;
+      min-height: 100vh;
+      width: 100%;
+      min-width: unset;
+      max-width: unset;
+    }
+  }
+}
