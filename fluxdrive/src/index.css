@@ -21,7 +21,8 @@ html {
   --bg: #fff;
   --bg-hover: rgb(241, 241, 241);
   --bg-active: rgb(230, 230, 230);
-  --bg-secondary: rgb(248, 249, 250);
+  --bg-secondary: rgb(246, 246, 246);
+  --bg-modal: #00000080;
 
   /* Button Icon */
   --icon-base: rgb(95, 99, 104);
@@ -30,7 +31,7 @@ html {
   --primary-color: #aa3bff;
   --primary-color--light: #aa3bff5d;
   --primary-color--hover: #9334db;
-  --primary-color-bg: #aa3bff2f;
+  --primary-color-bg: #aa3bff17;
   --primary-color-bg--hover: #9334db07;
   --primary-color--hover: #9334db;
   --primary-color--shadow: #aa3bff59;
@@ -103,7 +104,8 @@ html {
     --bg: #121212;
     --bg-hover: #1d1d1f;
     --bg-active: #2a2a2d;
-    --bg-secondary: #1a1b1e;
+    --bg-secondary: #0e0e0f;
+    --bg-modal: rgba(0, 0, 0, 0.7);
 
     /* Button Icon */
     --icon-base: #d1d5db;
@@ -145,7 +147,6 @@ html {
 
 #root {
   max-width: 100%;
-  border-inline: 1px solid var(--border-1);
   min-height: 100svh;
   display: flex;
   flex-direction: column;
