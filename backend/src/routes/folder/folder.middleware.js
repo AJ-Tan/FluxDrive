@@ -14,7 +14,7 @@ const folderBaseMiddleware = async (req, res, next) => {
     });
     if (!baseFolder)
       await prisma.folder.create({
-        data: { id: `${user.id}-base`, name: "root", ownerId: user.id },
+        data: { id: `${user.id}-base`, name: "My Drive", ownerId: user.id },
       });
 
     next();

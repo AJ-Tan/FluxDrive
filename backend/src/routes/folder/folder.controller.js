@@ -1,6 +1,35 @@
 import prisma from "../../config/database/database.config.js";
 import checkFolderAccessAuthorized from "./folder.utils.js";
 
+const allFolderController = async (req, res, next) => {
+  const user = req.user;
+
+  const allFolderData = await prisma.folder.findMany({
+    where: { ownerId: user.id },
+  });
+
+  const arrangeData = (folder) => {
+    const childrenFolders = allFolderData.filter(
+      (i) => i.parentId === folder.id,
+    );
+
+    const children = childrenFolders.map((child) => {
+      return arrangeData(child);
+    });
+
+    return {
+      ...folder,
+      children,
+    };
+  };
+
+  const baseId = `${user.id}-base`;
+  const baseFolder = allFolderData.filter((folder) => folder.id === baseId)[0];
+  const arrangedFolderData = arrangeData(baseFolder);
+
+  res.status(200).json({ ok: true, data: { folder: arrangedFolderData } });
+};
+
 const openFolderController = async (req, res, next) => {
   try {
     const user = req.user;
@@ -12,7 +41,11 @@ const openFolderController = async (req, res, next) => {
 
     const folder = await prisma.folder.findUnique({
       where: { id: folderId },
-      include: { parent: true, files: true },
+      include: {
+        parent: true,
+        files: true,
+        children: true,
+      },
     });
 
     let iterateFolder = folder;
@@ -119,6 +152,7 @@ const deleteFolderController = async (req, res, next) => {
 };
 
 export {
+  allFolderController,
   openFolderController,
   createFolderController,
   updateFolderController,
