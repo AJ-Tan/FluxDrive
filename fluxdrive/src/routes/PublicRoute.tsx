@@ -4,7 +4,7 @@ import { Navigate } from "react-router";
 
 function PublicRoute({ children }: { children: JSX.Element }) {
   const { user } = useAuth();
-  if (user) return <Navigate to="/home" replace />;
+  if (user) return <Navigate to="/app" replace />;
 
   return children;
 }

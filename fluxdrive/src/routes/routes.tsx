@@ -1,7 +1,7 @@
 import type { RouteObject } from "react-router";
 import PrivateRoute from "./PrivateRoute";
 import PublicRoute from "./PublicRoute";
-import HomePage from "../pages/HomePage/HomePage";
+import AppPage from "../pages/AppPage/AppPage";
 import SigninPage from "../pages/SigninPage/SigninPage";
 import SignupPage from "../pages/SignupPage/SignupPage";
 import LandingPage from "../pages/LandingPage/LandingPage";
@@ -12,10 +12,10 @@ export const routes: RouteObject[] = [
     element: <LandingPage />,
   },
   {
-    path: "/home",
+    path: "/app",
     element: (
       <PrivateRoute>
-        <HomePage />
+        <AppPage />
       </PrivateRoute>
     ),
   },
