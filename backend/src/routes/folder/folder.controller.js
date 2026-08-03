@@ -59,7 +59,7 @@ const createFolderController = async (req, res, next) => {
     const user = req.user;
     let { name, parentId } = req.body;
 
-    if (!parentId) parentId = `${user.id}-base`;
+    if (!parentId) parentId = `${user.id}-1`;
     // Check if parentId folder exists, and user has access to that folder.
     const checkParentId = await checkFolderAccessAuthorized(user.id, parentId);
     if (!checkParentId.ok) return next(checkParentId.err);

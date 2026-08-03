@@ -6,7 +6,7 @@ import cloudinary from "../../config/cloudinary/cloudinary.config.js";
 const uploadFileController = async (req, res, next) => {
   try {
     const user = req.user;
-    const folderId = req.body.folderId || `${user.id}-base`;
+    const folderId = req.body.folderId || `${user.id}-1`;
 
     // Check if folderId folder exists, and user has access to that folder.
     const checkFolderId = await checkFolderAccessAuthorized(user.id, folderId);

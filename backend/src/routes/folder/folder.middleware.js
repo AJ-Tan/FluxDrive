@@ -10,11 +10,11 @@ const folderBaseMiddleware = async (req, res, next) => {
         message: "User was not found when running folderBaseMiddleware.",
       });
     const baseFolder = await prisma.folder.findUnique({
-      where: { id: `${user.id}-base` },
+      where: { id: `${user.id}-1` },
     });
     if (!baseFolder)
       await prisma.folder.create({
-        data: { id: `${user.id}-base`, name: "My Drive", ownerId: user.id },
+        data: { id: `${user.id}-1`, name: "My Drive", ownerId: user.id },
       });
 
     next();
