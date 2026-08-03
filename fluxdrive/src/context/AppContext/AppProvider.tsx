@@ -33,9 +33,6 @@ const appReducer: AppReducerType = (state, action) => {
         ...state,
         allFolders: action.payload.allFolders,
         allFiles: action.payload.allFiles,
-        activeFolder: action.payload.folderId
-          ? action.payload.folderId
-          : state.activeFolder,
       };
     case "activeFolder":
       return {
@@ -80,7 +77,7 @@ function AppProvider({ children }: { children: JSX.Element }) {
       if (!res.ok) return console.log(res);
       dispatch({
         type: "updateData",
-        payload: { folderId: `${user?.id}-base`, ...res.data },
+        payload: { folderId: `${user?.id}-1`, ...res.data },
       });
     });
   }, [user, dispatch]);
