@@ -15,7 +15,7 @@ export type FolderType = {
 };
 
 export type FolderAllType = () => Promise<
-  ResponseType & { data: { folder: FolderType } }
+  ResponseType & { data: { allFolders: FolderType[]; allFiles: FileType[] } }
 >;
 
 export type FolderOpenType = (

@@ -1,25 +1,17 @@
+import { useState } from "react";
+import "./folderItem.css";
 import arrowIcon from "../../../../../../assets/aside-nav/down-arrow.png";
 import folderIcon from "../../../../../../assets/aside-nav/folder.png";
-import "./folderItem.css";
-import { useState } from "react";
-import type { AsideFoldersType } from "../../../../../../context/AppContext/AppContext";
 import useApp from "../../../../../../context/AppContext/useApp";
+import type { FolderType } from "../../../../../../types/folder-types";
 
-function FolderItem({
-  folder,
-  index,
-}: {
-  folder: AsideFoldersType;
-  index: number;
-}) {
+function FolderItem({ folder, index }: { folder: FolderType; index: number }) {
   const [expand, setExpand] = useState(false);
-  const {
-    selectedFolder: [selectedFolder, setSelectedFolder],
-  } = useApp();
+  const { appState, dispatch } = useApp();
 
   const handleClick = () => {
     if (!folder.id) return;
-    setSelectedFolder(folder);
+    dispatch({ type: "activeFolder", payload: folder.id });
   };
 
   const clickEvent = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -42,7 +34,7 @@ function FolderItem({
       data-open={expand}
     >
       <div
-        className={`folder-nav-control${selectedFolder?.id === folder.id ? " selected" : ""}`}
+        className={`folder-nav-control${appState.activeFolder === folder.id ? " selected" : ""}`}
         role="button"
         onClick={clickEvent}
         tabIndex={0}
@@ -62,7 +54,7 @@ function FolderItem({
       </div>
       {folder.children.length > 0 && (
         <div className="folder-nav-children">
-          {folder.children.map((c: AsideFoldersType) => (
+          {folder.children.map((c: FolderType) => (
             <FolderItem key={c.id} folder={c} index={index + 1} />
           ))}
         </div>
