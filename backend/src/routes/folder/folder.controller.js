@@ -68,12 +68,22 @@ const createFolderController = async (req, res, next) => {
       data: { name, parentId, ownerId: user.id },
     });
 
+    const allFolders = await prisma.folder.findMany({
+      where: { ownerId: user.id },
+      include: { children: true, files: true },
+    });
+
+    const allFiles = await prisma.file.findMany({
+      where: { ownerId: user.id },
+    });
+
     res.status(201).json({
       ok: true,
       name: "CreatedNewFolder",
       message: "User has successfully created a new folder.",
       data: {
-        createdFolder,
+        allFolders,
+        allFiles,
       },
     });
   } catch (err) {
