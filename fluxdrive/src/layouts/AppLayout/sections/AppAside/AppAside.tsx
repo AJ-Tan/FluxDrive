@@ -13,7 +13,7 @@ function AppAside() {
     const allFolders = appState.allFolders;
     if (!user || !allFolders[0]?.id) return allFolders[0];
 
-    const baseFolderId = `${user.id}-base`;
+    const baseFolderId = `${user.id}-1`;
     const baseFolder = allFolders.filter(
       (folder) => folder.id === baseFolderId,
     )[0];

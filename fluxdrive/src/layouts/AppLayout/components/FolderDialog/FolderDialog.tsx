@@ -2,6 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 import TextField from "../../../../components/Inputs/Textfield/TextField";
 import { folderAdd } from "../../../../services/folder-service";
 import useApp from "../../../../context/AppContext/useApp";
+import { useParams } from "react-router";
+import useAuth from "../../../../context/AuthContext/useAuth";
 
 type InitialStateType = {
   values: {
@@ -30,13 +32,11 @@ function FolderDialog({
   }, []);
 
   return (
-    <dialog ref={ref} className="dialog-form">
-      <AddFolderForm
-        input={formInput.values.input}
-        setValue={setValue}
-        ref={ref}
-      />
-    </dialog>
+    <AddFolderForm
+      input={formInput.values.input}
+      setValue={setValue}
+      ref={ref}
+    />
   );
 }
 
@@ -49,7 +49,10 @@ function AddFolderForm({
   setValue: (id: string, value: string) => void;
   ref: React.RefObject<HTMLDialogElement | null>;
 }) {
-  const { appState, dispatch } = useApp();
+  const [loading, setLoading] = useState(false);
+  const { dispatch } = useApp();
+  const { folderid } = useParams();
+  const { user } = useAuth();
 
   useEffect(() => {
     setValue("input", "Untitled Folder");
@@ -63,9 +66,11 @@ function AddFolderForm({
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const activeFolder = appState.activeFolder;
+    const activeFolder = folderid || `${user?.id}-1`;
     if (!activeFolder) return;
+    setLoading(true);
     const res = await folderAdd(input, activeFolder);
+    setLoading(false);
     if (!res.ok) return console.log(res);
     closeDialog();
     setValue("input", "Untitled Folder");
@@ -76,16 +81,18 @@ function AddFolderForm({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>New Folder</h2>
-      <TextField id="input" value={input} setValue={setValue} />
-      <div className="form-controls">
-        <button type="button" onClick={closeDialog}>
-          Cancel
-        </button>
-        <button type="submit">Create</button>
-      </div>
-    </form>
+    <dialog ref={ref} className={`dialog-form${loading ? " loading" : ""}`}>
+      <form onSubmit={handleSubmit}>
+        <h2>New Folder</h2>
+        <TextField id="input" value={input} setValue={setValue} />
+        <div className="form-controls">
+          <button type="button" onClick={closeDialog}>
+            Cancel
+          </button>
+          <button type="submit">Create</button>
+        </div>
+      </form>
+    </dialog>
   );
 }
 

@@ -20,6 +20,22 @@ export const routes: RouteObject[] = [
     ),
   },
   {
+    path: "/app/folders/",
+    element: (
+      <PrivateRoute>
+        <AppPage />
+      </PrivateRoute>
+    ),
+  },
+  {
+    path: "/app/folders/:folderid",
+    element: (
+      <PrivateRoute>
+        <AppPage />
+      </PrivateRoute>
+    ),
+  },
+  {
     path: "/signin",
     element: (
       <PublicRoute>
