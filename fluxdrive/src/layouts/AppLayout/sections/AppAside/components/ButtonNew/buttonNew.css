@@ -1,21 +1,72 @@
-.button-new {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-1);
-  background-color: transparent;
-  border: none;
-  box-shadow: var(--shadow-page-header);
-  border-radius: 0.75rem;
-  padding-inline: var(--spacing-2);
-  padding-block: 0.3rem;
-  font-size: 0.8rem;
+.btn-new-container {
+  position: relative;
 
-  .icon {
-    font-size: 1.75rem;
-    font-weight: 200;
+  .btn-new {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-1);
+    background-color: transparent;
+    border: none;
+    box-shadow: var(--shadow-elevation);
+    border-radius: 0.75rem;
+    padding-inline: var(--spacing-2);
+    padding-block: 0.3rem;
+    font-size: 0.8rem;
+
+    .icon {
+      font-size: 1.75rem;
+      font-weight: 200;
+    }
+
+    &:hover {
+      background-color: var(--primary-color-bg--hover);
+    }
   }
 
-  &:hover {
-    background-color: var(--primary-color-bg--hover);
+  .popup {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    border-radius: 0.3rem;
+    background-color: var(--bg);
+    font-size: 0.9rem;
+    box-shadow: var(--shadow-elevation);
+    opacity: 0;
+    padding-block: var(--spacing-1);
+    transform: scale(0.6);
+    transform-origin: top left;
+    visibility: hidden;
+    transition:
+      opacity var(--transition-normal-1),
+      transform var(--transition-normal-1),
+      visibility var(--transition-normal-1) allow-discrete;
+    z-index: 2;
+
+    &.show {
+      visibility: visible;
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    button {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-2);
+      border: none;
+      height: 1.5rem;
+      width: 100%;
+      padding-inline: var(--spacing-2);
+      background-color: transparent;
+      color: var(--text-2);
+      text-align: start;
+      transition: background-color var(--transition-fast);
+    }
+    button .icon-container {
+      width: 1rem;
+    }
+    button:hover {
+      background-color: var(--bg-hover);
+    }
   }
 }

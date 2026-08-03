@@ -1,0 +1,45 @@
+.dialog-form {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: none;
+  width: 100vw;
+  max-width: 20rem;
+  border-radius: 1.25rem;
+
+  form {
+    padding: var(--spacing-4) var(--spacing-4);
+  }
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 400;
+  }
+
+  .textfield {
+    margin-block-start: var(--spacing-3);
+    margin-block-end: var(--spacing-4);
+  }
+
+  button {
+    border: none;
+    background-color: transparent;
+    font-size: 0.8rem;
+    color: var(--primary-color);
+    font-weight: 500;
+    height: 2rem;
+    border-radius: 1rem;
+    padding-inline: var(--spacing-1);
+  }
+
+  button:hover {
+    background-color: var(--primary-color-bg--hover);
+  }
+
+  .form-controls {
+    display: flex;
+    gap: var(--spacing-1);
+    width: max-content;
+    margin-inline-start: auto;
+  }
+}

@@ -21,3 +21,10 @@ export type FolderAllType = () => Promise<
 export type FolderOpenType = (
   folderId: string,
 ) => Promise<ResponseType & { data: { folder: FolderType } }>;
+
+export type FolderAddType = (
+  name: string,
+  folderId: string,
+) => Promise<
+  ResponseType & { data: { allFolders: FolderType[]; allFiles: FileType[] } }
+>;

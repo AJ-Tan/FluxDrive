@@ -16,6 +16,7 @@ html {
   --text-h: #08060dd8;
   --text-1: gray;
   --text-1--hover: black;
+  --text-2: #3b3641;
 
   --border-1: rgb(218, 218, 218);
   --border-2: rgb(165, 165, 165);
@@ -53,6 +54,9 @@ html {
     rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
   --shadow-logo: 1px 1px 4px var(--primary-color--shadow);
   --shadow-page-header: 0px 1px 5px rgba(0, 0, 0, 0.185);
+  --shadow-elevation:
+    0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 5px 0px rgba(0, 0, 0, 0.12);
 
   /* Pagination dot */
   --dot-color: rgb(154, 160, 166);

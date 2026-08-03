@@ -5,7 +5,7 @@ type TextFieldProps = {
   id: string;
   value: string;
   setValue: (id: string, value: string) => void;
-  errors: string[] | undefined;
+  errors?: string[] | undefined;
   label?: string;
   placeholder?: string;
   type?: string;

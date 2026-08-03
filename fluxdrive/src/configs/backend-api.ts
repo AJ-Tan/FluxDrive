@@ -3,18 +3,18 @@ import type { ResponseType } from "../types/api-types";
 export const backendApi = async (
   parameter: string,
   method: "GET" | "POST" | "PUT" | "DELETE",
-  body: string = "{}",
+  body: string = "",
   headers: Record<string, string> = { "Content-Type": "application/json" },
 ) => {
   const accessToken = localStorage.getItem("accessToken");
   if (accessToken) headers.authorization = `Bearer ${accessToken}`;
 
-  const res = await fetch(
-    `${import.meta.env.VITE_BACKEND_API}${parameter}`,
-    method === "GET"
-      ? { method, headers, credentials: "include" }
-      : { method, headers, credentials: "include", body },
-  );
+  const res = await fetch(`${import.meta.env.VITE_BACKEND_API}${parameter}`, {
+    method,
+    headers,
+    credentials: "include",
+    ...(body && { body }),
+  });
   let data = await res.json();
 
   if (!data.ok && data.name === "TokenExpiredError") {
