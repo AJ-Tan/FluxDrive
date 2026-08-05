@@ -3,7 +3,7 @@ import type { ResponseType } from "../types/api-types";
 export const backendApi = async (
   parameter: string,
   method: "GET" | "POST" | "PUT" | "DELETE",
-  body: string = "",
+  body?: string | FormData,
   headers: Record<string, string> = { "Content-Type": "application/json" },
 ) => {
   const accessToken = localStorage.getItem("accessToken");
