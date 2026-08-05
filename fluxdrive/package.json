@@ -12,6 +12,7 @@
   "dependencies": {
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
+    "react-file-icon": "^1.6.0",
     "react-router": "^8.1.0",
     "react-router-hash-link": "^2.4.3"
   },
@@ -20,6 +21,7 @@
     "@types/node": "^24.13.2",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
+    "@types/react-file-icon": "^1.0.5",
     "@types/react-router-hash-link": "^2.4.9",
     "@vitejs/plugin-react": "^6.0.3",
     "eslint": "^10.6.0",
