@@ -4,6 +4,7 @@ import loadingIcon from "../../../../assets/icons/loading.gif";
 import checkIcon from "../../../../assets/icons/check.png";
 import useApp from "../../../../context/AppContext/useApp";
 import { useState } from "react";
+import ButtonClose from "../../../../components/Buttons/ButtonClose/ButtonClose";
 
 function UploadStatus() {
   const [hide, setHide] = useState(false);
@@ -33,11 +34,10 @@ function UploadStatus() {
             <button
               type="button"
               onClick={toggleHide}
-              className="toggle-visibility"
+              className="btn-toggle-visibility"
+              aria-label="Toggle upload status visibility"
             ></button>
-            <button type="button" onClick={handleClose}>
-              X
-            </button>
+            <ButtonClose handleClose={handleClose} />
           </div>
         </header>
         <ul className="upload-list">

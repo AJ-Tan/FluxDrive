@@ -25,23 +25,23 @@
     }
   }
 
-  .toggle-visibility {
+  .btn-toggle-visibility {
     display: flex;
     align-items: center;
   }
 
-  &.hide .toggle-visibility {
-    transform: rotate(180deg);
+  &.hide .btn-toggle-visibility {
+    transform: rotate(180deg) translate(-0.03rem, -0.06rem);
   }
 
-  .toggle-visibility::before {
+  .btn-toggle-visibility::before {
     content: "";
     display: block;
     aspect-ratio: 1/1;
     width: 0.5rem;
     border-block-end: 2px solid var(--text-h);
     border-inline-end: 2px solid var(--text-h);
-    transform: rotate(45deg) translate(-0.05rem, -0.05rem);
+    transform: rotate(45deg) translate(-0.09rem, -0.09rem);
   }
 
   &.hide .upload-list {
@@ -62,6 +62,12 @@
     padding: var(--spacing-2) var(--spacing-3);
     color: var(--text-h);
     font-weight: 500;
+  }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
   }
 
   .upload-list {
