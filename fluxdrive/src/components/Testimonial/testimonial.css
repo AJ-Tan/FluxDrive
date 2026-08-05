@@ -40,11 +40,11 @@
     }
 
     &:hover:not(:disabled) {
-      background-color: var(--bg-hover);
+      background-color: var(--bg--hover);
     }
 
     &:active:not(:disabled) {
-      background-color: var(--bg-active);
+      background-color: var(--bg--active);
     }
 
     &:disabled svg path {
