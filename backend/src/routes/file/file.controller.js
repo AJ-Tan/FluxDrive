@@ -47,7 +47,7 @@ const uploadFileController = async (req, res, next) => {
       ok: true,
       name: "UploadComplete",
       message: "Files upload complete.",
-      data: { allFolders, allFiles },
+      data: { files: filesUploaded, allFolders, allFiles },
     });
   } catch (err) {
     next(err);

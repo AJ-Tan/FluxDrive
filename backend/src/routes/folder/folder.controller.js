@@ -82,6 +82,7 @@ const createFolderController = async (req, res, next) => {
       name: "CreatedNewFolder",
       message: "User has successfully created a new folder.",
       data: {
+        folder: createdFolder,
         allFolders,
         allFiles,
       },
