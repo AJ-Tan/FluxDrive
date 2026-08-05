@@ -3,11 +3,18 @@ import folderAddIcon from "../../../../../../assets/icons/folder-add.png";
 import fileAddIcon from "../../../../../../assets/icons/file-add.png";
 import { useEffect, memo, useRef, useState } from "react";
 import FolderDialog from "../../../../components/FolderDialog/FolderDialog";
+import { fileAdd } from "../../../../../../services/file-service";
+import { useParams } from "react-router";
+import useAuth from "../../../../../../context/AuthContext/useAuth";
+import useApp from "../../../../../../context/AppContext/useApp";
 
 function ButtonNew() {
   const [displayPopup, setDisplayPopup] = useState(false);
   const folderDialogRef = useRef<HTMLDialogElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const { folderid } = useParams();
+  const { user } = useAuth();
+  const { dispatchAppState, dispatchUploadState } = useApp();
 
   useEffect(() => {
     const handleEvent = (e: PointerEvent) => {
@@ -34,6 +41,44 @@ function ButtonNew() {
     folderDialog.showModal();
   };
 
+  const addFile = () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.multiple = true;
+
+    input.onchange = async (e: Event) => {
+      const target = e.target;
+      if (!(target instanceof HTMLInputElement)) return;
+
+      const fileFolderId = folderid ? folderid : `${user?.id}-1`;
+      const files = [...(target.files || [])].map((file) => ({
+        id: crypto.randomUUID(),
+        folderId: fileFolderId,
+        file,
+      }));
+
+      if (files.length <= 0) return;
+
+      dispatchUploadState({ type: "add", payload: files });
+
+      files.forEach(async (item) => {
+        const res = await fileAdd(item.file, item.folderId);
+        if (!res.ok) return console.log(res);
+        dispatchAppState({
+          type: "updateData",
+          payload: {
+            allFolders: res.data.allFolders,
+            allFiles: res.data.allFiles,
+          },
+        });
+        dispatchUploadState({ type: "setComplete", payload: item.id });
+      });
+    };
+
+    setDisplayPopup(false);
+    input.click();
+  };
+
   return (
     <div ref={containerRef} className="btn-new-container">
       <FolderDialog ref={folderDialogRef} />
@@ -47,7 +92,7 @@ function ButtonNew() {
           </div>
           New Folder
         </button>
-        <button type="button">
+        <button type="button" onClick={addFile}>
           <div className="icon-container">
             <img src={fileAddIcon} alt="" />
           </div>

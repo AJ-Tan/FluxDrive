@@ -5,13 +5,14 @@
     display: flex;
     align-items: center;
     gap: var(--spacing-1);
-    background-color: transparent;
+    background-color: var(--bg);
     border: none;
     box-shadow: var(--shadow-elevation);
     border-radius: 0.75rem;
-    padding-inline: var(--spacing-2);
+    padding-inline: var(--spacing-3);
     padding-block: 0.3rem;
     font-size: 0.8rem;
+    transition: background-color var(--transition-fast);
 
     .icon {
       font-size: 1.75rem;
@@ -66,7 +67,7 @@
       width: 1rem;
     }
     button:hover {
-      background-color: var(--bg-hover);
+      background-color: var(--bg--hover);
     }
   }
 }

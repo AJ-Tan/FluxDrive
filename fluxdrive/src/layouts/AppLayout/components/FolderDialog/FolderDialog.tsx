@@ -50,7 +50,7 @@ function AddFolderForm({
   ref: React.RefObject<HTMLDialogElement | null>;
 }) {
   const [loading, setLoading] = useState(false);
-  const { dispatch } = useApp();
+  const { dispatchAppState } = useApp();
   const { folderid } = useParams();
   const { user } = useAuth();
 
@@ -74,7 +74,7 @@ function AddFolderForm({
     if (!res.ok) return console.log(res);
     closeDialog();
     setValue("input", "Untitled Folder");
-    dispatch({
+    dispatchAppState({
       type: "updateData",
       payload: { allFolders: res.data.allFolders, allFiles: res.data.allFiles },
     });
