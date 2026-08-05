@@ -1,0 +1,115 @@
+.upload-status {
+  position: absolute;
+  bottom: 0;
+  right: var(--spacing-4);
+  border-top-left-radius: 0.8rem;
+  border-top-right-radius: 0.8rem;
+  width: 17.6rem;
+  background-color: var(--bg);
+  box-shadow: var(--shadow-elevation);
+  font-size: 0.8rem;
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+    aspect-ratio: 1/1;
+    width: 1.5rem;
+    border-radius: 100%;
+    transition: background-color var(--transition-fast);
+
+    &:hover {
+      background-color: var(--bg--active);
+    }
+  }
+
+  .toggle-visibility {
+    display: flex;
+    align-items: center;
+  }
+
+  &.hide .toggle-visibility {
+    transform: rotate(180deg);
+  }
+
+  .toggle-visibility::before {
+    content: "";
+    display: block;
+    aspect-ratio: 1/1;
+    width: 0.5rem;
+    border-block-end: 2px solid var(--text-h);
+    border-inline-end: 2px solid var(--text-h);
+    transform: rotate(45deg) translate(-0.05rem, -0.05rem);
+  }
+
+  &.hide .upload-list {
+    content-visibility: hidden;
+  }
+
+  .header,
+  .controls,
+  .upload-item,
+  .file-item-details {
+    display: flex;
+  }
+
+  .header {
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--bg-app);
+    padding: var(--spacing-2) var(--spacing-3);
+    color: var(--text-h);
+    font-weight: 500;
+  }
+
+  .upload-list {
+    list-style: none;
+    max-height: 11rem;
+    overflow: auto;
+  }
+
+  .upload-item {
+    align-items: center;
+    justify-content: space-between;
+    height: 2.75rem;
+    font-size: 0.8rem;
+    padding-inline: var(--spacing-3);
+    color: var(--text-h);
+    cursor: pointer;
+    position: relative;
+
+    &:hover {
+      background-color: var(--bg--hover);
+    }
+
+    &.uploading::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-color: rgba(255, 255, 255, 0.329);
+    }
+  }
+
+  .file-item-details {
+    align-items: center;
+    gap: var(--spacing-2);
+    overflow: hidden;
+    width: 100%;
+    span {
+      display: block;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      max-width: 12rem;
+    }
+  }
+
+  .icon-file {
+    max-width: 1rem;
+  }
+  .icon-status {
+    max-width: 1rem;
+  }
+}

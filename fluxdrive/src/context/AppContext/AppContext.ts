@@ -1,9 +1,16 @@
 import { createContext } from "react";
-import type { AppActionType, AppStateType } from "./AppContextType";
+import type { AppStateType } from "./AppContextType";
+import type { AppActionType } from "./reducers/appReducer";
+import type {
+  UploadStatusActionType,
+  UploadStatusListType,
+} from "./reducers/uploadStatusReducer";
 
 type AppContextType = {
   appState: AppStateType;
-  dispatch: React.ActionDispatch<[action: AppActionType]>;
+  dispatchAppState: React.ActionDispatch<[action: AppActionType]>;
+  uploadState: UploadStatusListType;
+  dispatchUploadState: React.ActionDispatch<[action: UploadStatusActionType]>;
 } | null;
 
 export const AppContext = createContext<AppContextType>(null);
