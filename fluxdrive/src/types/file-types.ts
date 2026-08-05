@@ -1,3 +1,6 @@
+import type { ResponseType } from "./api-types";
+import type { FolderType } from "./folder-types";
+
 export type FileType = {
   id: string;
   name: string;
@@ -10,3 +13,10 @@ export type FileType = {
   createdAt: string;
   updatedAt: string;
 };
+
+export type FileAddType = (
+  file: File,
+  parentId: string,
+) => Promise<
+  ResponseType & { data: { allFolders: FolderType[]; allFiles: FileType[] } }
+>;
