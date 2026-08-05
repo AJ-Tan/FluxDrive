@@ -91,7 +91,7 @@
       border-radius: 10rem;
 
       &:hover {
-        background-color: var(--bg-hover);
+        background-color: var(--bg--hover);
       }
     }
 

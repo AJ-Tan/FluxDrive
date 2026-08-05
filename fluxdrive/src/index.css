@@ -24,8 +24,8 @@ html {
   /* BG */
   --bg: #fff;
   --bg-app: rgb(248, 250, 253);
-  --bg-hover: rgb(241, 241, 241);
-  --bg-active: rgb(230, 230, 230);
+  --bg--hover: rgb(241, 241, 241);
+  --bg--active: rgb(230, 230, 230);
   --bg-secondary: rgb(246, 246, 246);
   --bg-modal: #00000080;
   --bg-loading: rgba(255, 255, 255, 0.377);
@@ -112,8 +112,8 @@ html {
 
     /* Backgrounds */
     --bg: #121212;
-    --bg-hover: #1d1d1f;
-    --bg-active: #2a2a2d;
+    --bg--hover: #1d1d1f;
+    --bg--active: #2a2a2d;
     --bg-secondary: #0e0e0f;
     --bg-modal: rgba(0, 0, 0, 0.7);
 
