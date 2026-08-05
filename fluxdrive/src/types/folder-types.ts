@@ -26,5 +26,11 @@ export type FolderAddType = (
   name: string,
   folderId: string,
 ) => Promise<
-  ResponseType & { data: { allFolders: FolderType[]; allFiles: FileType[] } }
+  ResponseType & {
+    data: {
+      folder: FolderType;
+      allFolders: FolderType[];
+      allFiles: FileType[];
+    };
+  }
 >;

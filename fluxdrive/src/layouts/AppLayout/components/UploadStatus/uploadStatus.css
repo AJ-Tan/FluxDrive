@@ -83,11 +83,14 @@
     font-size: 0.8rem;
     padding-inline: var(--spacing-3);
     color: var(--text-h);
-    cursor: pointer;
     position: relative;
 
     &:hover {
       background-color: var(--bg--hover);
+    }
+
+    &:not(.uploading) {
+      cursor: pointer;
     }
 
     &.uploading::before {

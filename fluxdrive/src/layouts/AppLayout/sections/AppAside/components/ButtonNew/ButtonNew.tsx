@@ -71,7 +71,10 @@ function ButtonNew() {
             allFiles: res.data.allFiles,
           },
         });
-        dispatchUploadState({ type: "setComplete", payload: item.id });
+        dispatchUploadState({
+          type: "setComplete",
+          payload: { id: item.id, url: res.data.files[0].fileUrl },
+        });
       });
     };
 

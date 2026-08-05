@@ -21,6 +21,11 @@ function UploadStatus() {
     setHide((prev) => !prev);
   };
 
+  const navigateUrl = (url: string | null) => {
+    if (!url) return;
+    window.open(url, "_blank", "noopener,noreferrer");
+  };
+
   return (
     uploadState.length > 0 && (
       <div className={`upload-status${hide ? " hide" : ""}`}>
@@ -45,6 +50,7 @@ function UploadStatus() {
             <li
               key={item.id}
               className={`upload-item ${item.isComplete ? "complete" : "uploading"}`}
+              onClick={() => navigateUrl(item.url)}
             >
               <div className="file-item-details">
                 <div className="icon-file">
