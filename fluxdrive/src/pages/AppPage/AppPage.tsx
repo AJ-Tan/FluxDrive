@@ -1,6 +1,6 @@
 import AppLayout from "../../layouts/AppLayout/AppLayout";
-import FileDetails from "./sections/FileDetails/FileDetails";
 import "./appPage.css";
+import ItemDetails from "./sections/ItemDetails/ItemDetails";
 
 function AppPage() {
   return (
@@ -8,7 +8,7 @@ function AppPage() {
       <main className="app-page">
         <div className="content">Test</div>
       </main>
-      <FileDetails />
+      <ItemDetails />
     </AppLayout>
   );
 }
