@@ -27,18 +27,27 @@ const uploadFileController = async (req, res, next) => {
             size: fileResult.bytes,
             fileUrl: fileResult.secure_url,
             publicId: fileResult.public_id,
-            folderId,
+            folderId: file?.folderId ? file.folderId : folderId,
             ownerId: user.id,
           },
         }),
       );
     }
 
+    const allFolders = await prisma.folder.findMany({
+      where: { ownerId: user.id },
+      include: { children: true, files: true },
+    });
+
+    const allFiles = await prisma.file.findMany({
+      where: { ownerId: user.id },
+    });
+
     res.status(200).json({
       ok: true,
       name: "UploadComplete",
       message: "Files upload complete.",
-      data: { filesUploaded },
+      data: { allFolders, allFiles },
     });
   } catch (err) {
     next(err);

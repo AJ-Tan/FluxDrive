@@ -57,7 +57,7 @@ const openFolderController = async (req, res, next) => {
 const createFolderController = async (req, res, next) => {
   try {
     const user = req.user;
-    let { name, parentId } = req.body;
+    let { id, name, parentId } = req.body;
 
     if (!parentId) parentId = `${user.id}-1`;
     // Check if parentId folder exists, and user has access to that folder.
@@ -65,7 +65,7 @@ const createFolderController = async (req, res, next) => {
     if (!checkParentId.ok) return next(checkParentId.err);
 
     const createdFolder = await prisma.folder.create({
-      data: { name, parentId, ownerId: user.id },
+      data: { id, name, parentId, ownerId: user.id },
     });
 
     const allFolders = await prisma.folder.findMany({
