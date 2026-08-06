@@ -1,10 +1,23 @@
 .app-page {
-  padding-block-end: var(--spacing-3);
-  padding-inline-start: var(--spacing-2);
+  background-color: var(--bg);
+  margin-block-end: var(--spacing-3);
+  margin-inline-start: var(--spacing-2);
+  border-radius: 1rem;
 
-  .content {
-    border-radius: 1rem;
+  .app-content {
+    height: 88vh;
+  }
+
+  .tbl-folder-contents {
+    display: block;
     height: 100%;
-    background-color: var(--bg);
+    overflow: auto;
+    position: relative;
+
+    thead {
+      position: sticky;
+      top: 0;
+      background-color: var(--bg);
+    }
   }
 }

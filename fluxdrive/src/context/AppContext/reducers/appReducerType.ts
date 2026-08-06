@@ -4,7 +4,6 @@ import type { FolderType } from "../../../types/folder-types";
 export type AppStateType = {
   allFolders: FolderType[];
   allFiles: FileType[];
-  activeFolder: string | null;
   focusedItem: {
     id: string;
     itemType: "folder" | "file";

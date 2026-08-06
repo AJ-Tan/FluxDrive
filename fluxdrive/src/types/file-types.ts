@@ -7,6 +7,7 @@ export type FileType = {
   mimeType: string;
   fileType: string;
   fileUrl: string;
+  size: number;
   publicId: string;
   folderId: string;
   ownerId: string;

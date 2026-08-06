@@ -18,7 +18,6 @@ const allFoldersInitialState = [
 const appInitialState = {
   allFolders: allFoldersInitialState,
   allFiles: [],
-  activeFolder: null,
   focusedItem: null,
 };
 

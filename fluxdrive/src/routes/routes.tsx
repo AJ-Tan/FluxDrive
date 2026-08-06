@@ -5,6 +5,7 @@ import AppPage from "../pages/AppPage/AppPage";
 import SigninPage from "../pages/SigninPage/SigninPage";
 import SignupPage from "../pages/SignupPage/SignupPage";
 import LandingPage from "../pages/LandingPage/LandingPage";
+import AppLayout from "../layouts/AppLayout/AppLayout";
 
 export const routes: RouteObject[] = [
   {
@@ -15,26 +16,37 @@ export const routes: RouteObject[] = [
     path: "/app",
     element: (
       <PrivateRoute>
-        <AppPage />
+        <AppLayout />
       </PrivateRoute>
     ),
+    children: [
+      {
+        path: "/app",
+        element: (
+          <PrivateRoute>
+            <AppPage />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/app/folders/",
+        element: (
+          <PrivateRoute>
+            <AppPage />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/app/folders/:folderid",
+        element: (
+          <PrivateRoute>
+            <AppPage />
+          </PrivateRoute>
+        ),
+      },
+    ],
   },
-  {
-    path: "/app/folders/",
-    element: (
-      <PrivateRoute>
-        <AppPage />
-      </PrivateRoute>
-    ),
-  },
-  {
-    path: "/app/folders/:folderid",
-    element: (
-      <PrivateRoute>
-        <AppPage />
-      </PrivateRoute>
-    ),
-  },
+
   {
     path: "/signin",
     element: (
