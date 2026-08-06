@@ -6,6 +6,7 @@ import FolderDialog from "../../../../components/FolderDialog/FolderDialog";
 import { fileAdd } from "../../../../../../services/file-service";
 import { useParams } from "react-router";
 import useAuth from "../../../../../../context/AuthContext/useAuth";
+import useUpload from "../../../../../../context/UploadContext/useUpload";
 import useApp from "../../../../../../context/AppContext/useApp";
 
 function ButtonNew() {
@@ -14,7 +15,8 @@ function ButtonNew() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const { folderid } = useParams();
   const { user } = useAuth();
-  const { dispatchAppState, dispatchUploadState } = useApp();
+  const { dispatchAppState } = useApp();
+  const { dispatchUploadState } = useUpload();
 
   useEffect(() => {
     const handleEvent = (e: PointerEvent) => {

@@ -1,35 +1,4 @@
-import type { FileType } from "../../../types/file-types";
-import type { FolderType } from "../../../types/folder-types";
-import type { AppStateType } from "../AppContextType";
-
-export type AppActionType =
-  | {
-      type: "updateData";
-      payload: {
-        folderId?: string;
-        allFolders: FolderType[];
-        allFiles: FileType[];
-      };
-    }
-  | {
-      type: "activeFolder";
-      payload: string;
-    }
-  | {
-      type: "focusedItem";
-      payload: {
-        id: string;
-        itemType: "folder" | "file";
-      };
-    }
-  | {
-      type: "clearFocusedItem";
-    };
-
-type AppReducerType = (
-  state: AppStateType,
-  action: AppActionType,
-) => AppStateType;
+import type { AppReducerType } from "./appReducerType";
 
 const allFoldersInitialState = [
   {
@@ -48,6 +17,7 @@ const allFoldersInitialState = [
 
 const appInitialState = {
   allFolders: allFoldersInitialState,
+  folderNodes: this,
   allFiles: [],
   activeFolder: null,
   focusedItem: null,

@@ -3,14 +3,9 @@ import { AppContext } from "./AppContext";
 import { folderAll } from "../../services/folder-service";
 import useAuth from "../AuthContext/useAuth";
 import { appInitialState, appReducer } from "./reducers/appReducer";
-import { uploadStatusReducer } from "./reducers/uploadStatusReducer";
 
 function AppProvider({ children }: { children: JSX.Element }) {
   const [appState, dispatchAppState] = useReducer(appReducer, appInitialState);
-  const [uploadState, dispatchUploadState] = useReducer(
-    uploadStatusReducer,
-    [],
-  );
   const { user } = useAuth();
 
   useEffect(() => {
@@ -28,8 +23,6 @@ function AppProvider({ children }: { children: JSX.Element }) {
       value={{
         appState,
         dispatchAppState,
-        uploadState,
-        dispatchUploadState,
       }}
     >
       {children}

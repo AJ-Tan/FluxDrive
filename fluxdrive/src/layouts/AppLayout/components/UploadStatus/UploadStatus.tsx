@@ -2,13 +2,13 @@ import MyFileIcon from "../../../../components/MyFileIcon/MyFileIcon";
 import "./uploadStatus.css";
 import loadingIcon from "../../../../assets/icons/loading.gif";
 import checkIcon from "../../../../assets/icons/check.png";
-import useApp from "../../../../context/AppContext/useApp";
 import { useState } from "react";
 import ButtonClose from "../../../../components/Buttons/ButtonClose/ButtonClose";
+import useUpload from "../../../../context/UploadContext/useUpload";
 
 function UploadStatus() {
   const [hide, setHide] = useState(false);
-  const { uploadState, dispatchUploadState } = useApp();
+  const { uploadState, dispatchUploadState } = useUpload();
 
   const pendingFile = uploadState.filter((i) => !i.isComplete).length;
 
