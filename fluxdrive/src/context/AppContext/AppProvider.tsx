@@ -31,7 +31,6 @@ function AppProvider({ children }: { children: JSX.Element }) {
       const isFolderExists = res.data.allFolders.find(
         (i) => i.id === activeFolderId,
       );
-      console.log(isFolderExists);
       if (!isFolderExists) {
         setError({
           status: 404,

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./testimonial.css";
-import LeftArrowIcon from "../../assets/icons/arrow-left.svg?react";
-import RightArrowIcon from "../../assets/icons/arrow-right.svg?react";
+import LeftArrowIcon from "../../../../../../assets/icons/arrow-left.svg?react";
+import RightArrowIcon from "../../../../../../assets/icons/arrow-right.svg?react";
 
 type TestimonialProps = {
   testimonialData: Record<string, string>[];

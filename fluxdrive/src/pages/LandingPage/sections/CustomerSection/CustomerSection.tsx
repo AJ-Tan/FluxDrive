@@ -1,7 +1,7 @@
 import customer1Image from "../../../../assets/landing-page/customer-section/customer-1.png";
 import customer2Image from "../../../../assets/landing-page/customer-section/customer-2.png";
 import customer3Image from "../../../../assets/landing-page/customer-section/customer-3.png";
-import Testimonial from "../../../../components/Testimonial/Testimonial";
+import Testimonial from "./components/Testimonial/Testimonial";
 import "./customerSection.css";
 
 function CustomerSection() {
