@@ -1,23 +1,19 @@
 .app-page {
-  background-color: var(--bg);
-  margin-block-end: var(--spacing-3);
-  margin-inline-start: var(--spacing-2);
-  border-radius: 1rem;
+  height: calc(100vh - 3rem);
+  padding-block-end: var(--spacing-3);
+  padding-inline-start: var(--spacing-2);
 
-  .app-content {
-    height: 88vh;
+  .app-page-container {
+    display: flex;
+    flex-direction: column;
+    border-radius: 1rem;
+    height: 100%;
+    background-color: var(--bg);
   }
 
-  .tbl-folder-contents {
-    display: block;
-    height: 100%;
-    overflow: auto;
-    position: relative;
+  .app-content {
+    height: calc(100% - var(--spacing-3));
 
-    thead {
-      position: sticky;
-      top: 0;
-      background-color: var(--bg);
-    }
+    overflow: hidden;
   }
 }

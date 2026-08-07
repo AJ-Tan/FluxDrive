@@ -4,7 +4,8 @@ import ItemDetails from "./sections/ItemDetails/ItemDetails";
 import type { FolderType } from "../../types/folder-types";
 import { useParams } from "react-router";
 import useAuth from "../../context/AuthContext/useAuth";
-import { fileSizeText } from "../../utils/common-functions";
+import AppPageHeader from "./components/AppPageHeader/AppPageHeader";
+import FolderTable from "./components/FolderTable/FolderTable";
 
 type GetFolderNavType = (folder: FolderType) => FolderType[];
 
@@ -31,95 +32,11 @@ function AppPage() {
   return (
     <>
       <main className="app-page">
-        <nav className="app-folder-nav">
-          <ul>
-            {folderNav?.map((folder) => (
-              <li key={folder.id}>{folder.name}</li>
-            ))}
-          </ul>
-        </nav>
-        <div className="app-content">
-          <table className="tbl-folder-contents">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Date Modified</th>
-                <th>File Size</th>
-                <th>Control</th>
-              </tr>
-            </thead>
-            <tbody>
-              {folder?.children.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.name}</td>
-                  <td>{item.createdAt}</td>
-                  <td>--</td>
-                  <td>X</td>
-                </tr>
-              ))}
-              {folder?.files.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.name}</td>
-                  <td>{item.createdAt}</td>
-                  <td>{fileSizeText(item.size)}</td>
-                  <td>X</td>
-                </tr>
-              ))}
-              {folder?.files.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.name}</td>
-                  <td>{item.createdAt}</td>
-                  <td>{fileSizeText(item.size)}</td>
-                  <td>X</td>
-                </tr>
-              ))}
-
-              {folder?.files.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.name}</td>
-                  <td>{item.createdAt}</td>
-                  <td>{fileSizeText(item.size)}</td>
-                  <td>X</td>
-                </tr>
-              ))}
-
-              {folder?.files.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.name}</td>
-                  <td>{item.createdAt}</td>
-                  <td>{fileSizeText(item.size)}</td>
-                  <td>X</td>
-                </tr>
-              ))}
-
-              {folder?.files.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.name}</td>
-                  <td>{item.createdAt}</td>
-                  <td>{fileSizeText(item.size)}</td>
-                  <td>X</td>
-                </tr>
-              ))}
-
-              {folder?.files.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.name}</td>
-                  <td>{item.createdAt}</td>
-                  <td>{fileSizeText(item.size)}</td>
-                  <td>X</td>
-                </tr>
-              ))}
-
-              {folder?.files.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.name}</td>
-                  <td>{item.createdAt}</td>
-                  <td>{fileSizeText(item.size)}</td>
-                  <td>X</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="app-page-container">
+          <AppPageHeader folderNav={folderNav} />
+          <div className="app-content">
+            <FolderTable folder={folder} />
+          </div>
         </div>
       </main>
       <ItemDetails />

@@ -1,0 +1,66 @@
+.tbl-folder-content {
+  display: block;
+  height: 100%;
+  position: relative;
+  font-size: 0.7rem;
+  padding-inline: var(--spacing-3);
+  overflow: auto;
+
+  thead,
+  tbody {
+    display: block;
+  }
+
+  thead {
+    position: sticky;
+    top: 0;
+    background-color: var(--bg);
+  }
+
+  th {
+    text-align: start;
+  }
+
+  tr {
+    display: flex;
+    padding-block: 0.75rem;
+    border-block-end: 1px solid var(--border-1);
+
+    & > *:nth-child(1) {
+      flex: 1 1;
+    }
+    & > *:nth-child(2) {
+      width: 10rem;
+    }
+    & > *:nth-child(3) {
+      width: 6rem;
+    }
+    & > *:nth-child(4) {
+      width: 7rem;
+      text-align: end;
+      padding-inline-end: var(--spacing-2);
+    }
+  }
+
+  tbody tr td:first-child {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-3);
+    padding-inline-start: var(--spacing-2);
+    color: var(--text-h);
+    font-weight: 500;
+
+    .icon-item {
+      width: 0.8rem;
+    }
+  }
+
+  tbody tr td:last-child {
+    padding-inline-end: var(--spacing-2);
+  }
+
+  .tbl-controls {
+    width: max-content;
+    margin-inline-start: auto;
+  }
+}

@@ -1,0 +1,32 @@
+.app-page-header {
+  display: flex;
+  align-items: center;
+  height: 4rem;
+  padding-inline: var(--spacing-3);
+
+  .app-folder-nav {
+    ul {
+      display: flex;
+      gap: var(--spacing-3);
+      list-style-type: none;
+      font-size: 1.1rem;
+      color: var(--text-h);
+    }
+
+    ul li {
+      display: flex;
+      gap: var(--spacing-3);
+      align-items: center;
+    }
+
+    ul li:not(:last-child)::after {
+      content: "";
+      display: block;
+      height: 0.5rem;
+      aspect-ratio: 1 / 1;
+      border-block-end: 2px solid var(--text-1);
+      border-inline-end: 2px solid var(--text-1);
+      transform: rotate(-45deg);
+    }
+  }
+}
