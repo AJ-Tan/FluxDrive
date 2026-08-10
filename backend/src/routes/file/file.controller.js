@@ -79,12 +79,23 @@ const updateFileController = async (req, res, next) => {
       where: { id: fileId },
     });
 
+    const allFolders = await prisma.folder.findMany({
+      where: { ownerId: user.id },
+      include: { children: true, files: true },
+    });
+
+    const allFiles = await prisma.file.findMany({
+      where: { ownerId: user.id },
+    });
+
     res.status(200).json({
       ok: true,
       name: "FileUpdated",
       message: "User has successfully updated the file.",
       data: {
         updatedFile,
+        allFolders,
+        allFiles,
       },
     });
   } catch (err) {
@@ -122,11 +133,20 @@ const deleteFileController = async (req, res, next) => {
     const deletedFile = await prisma.file.delete({ where: { id: file.id } });
     await cloudinary.uploader.destroy(deletedFile.publicId); //deleted to file in cloudinary storage.
 
+    const allFolders = await prisma.folder.findMany({
+      where: { ownerId: user.id },
+      include: { children: true, files: true },
+    });
+
+    const allFiles = await prisma.file.findMany({
+      where: { ownerId: user.id },
+    });
+
     res.status(200).json({
       ok: true,
       name: "FileDeleted",
       message: "User has successfully deleted the file.",
-      data: { deletedFile },
+      data: { deletedFile, allFolders, allFiles },
     });
   } catch (err) {
     next(err);

@@ -101,12 +101,19 @@ const updateFolderController = async (req, res, next) => {
     // Check if folderId and parentId folders exists, and user has access to that folder.
     const checkFolderId = await checkFolderAccessAuthorized(user.id, folderId);
     if (!checkFolderId.ok) return next(checkFolderId.err);
-    const checkParentId = await checkFolderAccessAuthorized(user.id, parentId);
-    if (!checkParentId.ok) return next(checkParentId.err);
 
     const updatedFolder = await prisma.folder.update({
       data: { name, parentId },
       where: { id: folderId },
+    });
+
+    const allFolders = await prisma.folder.findMany({
+      where: { ownerId: user.id },
+      include: { children: true, files: true },
+    });
+
+    const allFiles = await prisma.file.findMany({
+      where: { ownerId: user.id },
     });
 
     res.status(200).json({
@@ -115,6 +122,8 @@ const updateFolderController = async (req, res, next) => {
       message: "User has successfully updated the folder.",
       data: {
         updatedFolder,
+        allFolders,
+        allFiles,
       },
     });
   } catch (err) {
@@ -135,12 +144,23 @@ const deleteFolderController = async (req, res, next) => {
       where: { id: folderId },
     });
 
+    const allFolders = await prisma.folder.findMany({
+      where: { ownerId: user.id },
+      include: { children: true, files: true },
+    });
+
+    const allFiles = await prisma.file.findMany({
+      where: { ownerId: user.id },
+    });
+
     res.status(200).json({
       ok: true,
       name: "FolderDeleted",
       message: "User has successfully deleted the folder.",
       data: {
         deletedFolder,
+        allFolders,
+        allFiles,
       },
     });
   } catch (err) {
