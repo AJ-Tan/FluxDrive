@@ -80,7 +80,7 @@
 
   li {
     font-size: 0.75rem;
-    color: var(--text-1);
+    color: var(--text);
     transition: color var(--transition-fast);
 
     a {
@@ -101,7 +101,7 @@
 
     &.selected,
     &:hover {
-      color: var(--text-1--hover);
+      color: var(--text--hover);
     }
   }
 

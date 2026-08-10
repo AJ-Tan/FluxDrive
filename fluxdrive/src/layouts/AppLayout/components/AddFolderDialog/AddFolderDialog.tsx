@@ -17,7 +17,7 @@ const initialState = {
   },
 };
 
-function FolderDialog({
+function AddFolderDialog({
   ref,
 }: {
   ref: React.RefObject<HTMLDialogElement | null>;
@@ -96,4 +96,4 @@ function AddFolderForm({
   );
 }
 
-export default FolderDialog;
+export default AddFolderDialog;

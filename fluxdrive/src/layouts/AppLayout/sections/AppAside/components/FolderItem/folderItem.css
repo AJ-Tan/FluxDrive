@@ -19,7 +19,7 @@
     }
 
     .btn-arrow,
-    .img-container {
+    .icon-container {
       flex-shrink: 0;
     }
 
@@ -36,16 +36,16 @@
       border: none;
       background-color: transparent;
       width: 0.9rem;
-      padding: 0.2rem;
+      padding: 0.1rem;
       aspect-ratio: 1/1;
       transform: rotate(-90deg);
       transition: transform var(--transition-normal-1);
     }
+    .icon-container.arrow {
+      width: 100%;
+    }
 
-    .img-container {
-      display: flex;
-      align-items: center;
-      width: 0.8rem;
+    .icon-container.folder {
       margin-inline-end: var(--spacing-1);
     }
   }
@@ -78,33 +78,33 @@
   --inset-spacing: 1.05rem;
 
   .-inset-2 > .folder-nav-control {
-    padding-inline-start: calc(var(--inset-spacing) * 1);
+    padding-inline-start: calc(var(--inset-spacing) * 1.1);
   }
   .-inset-3 > .folder-nav-control {
-    padding-inline-start: calc(var(--inset-spacing) * 1.8);
+    padding-inline-start: calc(var(--inset-spacing) * 2);
   }
   .-inset-4 > .folder-nav-control {
-    padding-inline-start: calc(var(--inset-spacing) * 2.6);
+    padding-inline-start: calc(var(--inset-spacing) * 3);
   }
   .-inset-5 > .folder-nav-control {
-    padding-inline-start: calc(var(--inset-spacing) * 3.4);
+    padding-inline-start: calc(var(--inset-spacing) * 4);
   }
   .-inset-6 > .folder-nav-control {
-    padding-inline-start: calc(var(--inset-spacing) * 4.2);
-  }
-  .-inset-7 > .folder-nav-control {
     padding-inline-start: calc(var(--inset-spacing) * 5);
   }
+  .-inset-7 > .folder-nav-control {
+    padding-inline-start: calc(var(--inset-spacing) * 6);
+  }
   .-inset-8 > .folder-nav-control {
-    padding-inline-start: calc(var(--inset-spacing) * 5.8);
+    padding-inline-start: calc(var(--inset-spacing) * 7);
   }
   .-inset-9 > .folder-nav-control {
-    padding-inline-start: calc(var(--inset-spacing) * 6.6);
+    padding-inline-start: calc(var(--inset-spacing) * 8);
   }
   .-inset-10 > .folder-nav-control {
-    padding-inline-start: calc(var(--inset-spacing) * 7.4);
+    padding-inline-start: calc(var(--inset-spacing) * 9);
   }
   .-inset-11 > .folder-nav-control {
-    padding-inline-start: calc(var(--inset-spacing) * 8.2);
+    padding-inline-start: calc(var(--inset-spacing) * 10);
   }
 }

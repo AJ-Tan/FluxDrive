@@ -1,8 +1,8 @@
 import "./buttonNew.css";
-import folderAddIcon from "../../../../../../assets/icons/folder-add.png";
-import fileAddIcon from "../../../../../../assets/icons/file-add.png";
+import FolderAddIcon from "../../../../../../assets/icons/add-folder.svg?react";
+import FileAddIcon from "../../../../../../assets/icons/add-file.svg?react";
 import { useEffect, memo, useRef, useState } from "react";
-import FolderDialog from "../../../../components/FolderDialog/FolderDialog";
+import AddFolderDialog from "../../../../components/AddFolderDialog/AddFolderDialog";
 import { fileAdd } from "../../../../../../services/file-service";
 import { useParams } from "react-router";
 import useAuth from "../../../../../../context/AuthContext/useAuth";
@@ -86,20 +86,38 @@ function ButtonNew() {
 
   return (
     <div ref={containerRef} className="btn-new-container">
-      <FolderDialog ref={folderDialogRef} />
-      <button className="btn-new" onClick={() => setDisplayPopup(true)}>
+      <AddFolderDialog ref={folderDialogRef} />
+      <button
+        className="btn-new"
+        onClick={() => setDisplayPopup(true)}
+        aria-haspopup="menu"
+        aria-expanded={displayPopup}
+      >
         <div className="icon">+</div>New
       </button>
-      <div className={`popup${displayPopup ? " show" : ""}`}>
-        <button type="button" onClick={openFolderDialog}>
+      <div
+        role="menu"
+        className={`popup-controls${displayPopup ? " show" : ""}`}
+      >
+        <button
+          className="popup-control-item"
+          type="button"
+          onClick={openFolderDialog}
+          role="menuitem"
+        >
           <div className="icon-container">
-            <img src={folderAddIcon} alt="" />
+            <FolderAddIcon />
           </div>
           New Folder
         </button>
-        <button type="button" onClick={addFile}>
+        <button
+          className="popup-control-item"
+          type="button"
+          onClick={addFile}
+          role="menuitem"
+        >
           <div className="icon-container">
-            <img src={fileAddIcon} alt="" />
+            <FileAddIcon />
           </div>
           File Upload
         </button>

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import "./folderItem.css";
-import arrowIcon from "../../../../../../assets/aside-nav/down-arrow.png";
-import folderIcon from "../../../../../../assets/aside-nav/folder.png";
+import DownwardTriangle from "../../../../../../assets/icons/arrow-down-filled-triangle.svg?react";
+// import folderIcon from "../../../../../../assets/aside-nav/folder.png";
+import FolderIcon from "../../../../../../assets/icons/folder.svg?react";
 import type { FolderType } from "../../../../../../types/folder-types";
 import { useNavigate, useParams } from "react-router";
 import useAuth from "../../../../../../context/AuthContext/useAuth";
@@ -21,7 +22,12 @@ function FolderItem({ folder, index }: { folder: FolderType; index: number }) {
   };
 
   const clickEvent = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    if (!(e.target instanceof HTMLImageElement)) {
+    if (
+      !(
+        e.target instanceof HTMLDivElement &&
+        e.target.className === "icon-container arrow"
+      )
+    ) {
       handleClick();
     }
   };
@@ -47,14 +53,21 @@ function FolderItem({ folder, index }: { folder: FolderType; index: number }) {
         onKeyDown={handleKeyDown}
       >
         <button
+          type="button"
           className="btn-arrow"
           onClick={() => setExpand((prev) => !prev)}
           tabIndex={-1}
+          aria-label={`Expand ${folder.name}.`}
+          aria-expanded={expand}
         >
-          <img src={arrowIcon} alt="" />
+          {/* <img src={arrowIcon} alt="" /> */}
+          <div className="icon-container arrow">
+            <DownwardTriangle />
+          </div>
         </button>
-        <div className="img-container" onClick={handleClick}>
-          <img src={folderIcon} alt="" />
+        <div className="icon-container folder">
+          {/* <img src={folderIcon} alt="" /> */}
+          <FolderIcon />
         </div>
         <span className="folder-name">{folder.name}</span>
       </div>

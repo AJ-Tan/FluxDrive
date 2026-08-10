@@ -1,12 +1,12 @@
 .app-layout {
   display: grid;
-  grid-template-rows: 3rem 1fr;
   grid-template-columns: 12rem 1fr auto;
-  height: 100vh;
+  grid-template-rows: 3rem 1fr;
   padding-inline: var(--spacing-3);
+  padding-block-end: var(--spacing-3);
+  height: 100svh;
   background-color: var(--bg-app);
-  transition: grid-template-columns 1s;
-
+  overflow-y: hidden;
   .app-header {
     grid-area: 1 / 1 / 2 / 4;
   }

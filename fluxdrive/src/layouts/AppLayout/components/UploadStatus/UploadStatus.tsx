@@ -42,7 +42,10 @@ function UploadStatus() {
               className="btn-toggle-visibility"
               aria-label="Toggle upload status visibility"
             ></button>
-            <ButtonClose handleClose={handleClose} />
+            <ButtonClose
+              handleClose={handleClose}
+              aria-label="Close upload status."
+            />
           </div>
         </header>
         <ul className="upload-list">
