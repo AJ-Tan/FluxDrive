@@ -12,10 +12,10 @@ html {
 
 :root {
   /* Text */
-  --text: #6b6375;
   --text-h: #08060dd8;
-  --text-1: gray;
-  --text-1--hover: black;
+  --text-h-2: #444746;
+  --text: #6b6375;
+  --text--hover: black;
   --text-2: #3b3641;
 
   --border-1: rgb(218, 218, 218);
@@ -24,8 +24,8 @@ html {
   /* BG */
   --bg: #fff;
   --bg-app: rgb(248, 250, 253);
-  --bg--hover: rgb(241, 241, 241);
-  --bg--active: rgb(230, 230, 230);
+  --bg--hover: rgba(5, 5, 5, 0.034);
+  --bg--active: rgba(5, 5, 5, 0.055);
   --bg-secondary: rgb(246, 246, 246);
   --bg-modal: #00000080;
   --bg-loading: rgba(255, 255, 255, 0.377);
@@ -35,7 +35,7 @@ html {
   --icon-disabled: rgb(154, 160, 166);
 
   --primary-color: #aa3bff;
-  --primary-color--light: #aa3bff5d;
+  --primary-color--light: #aa3bff2c;
   --primary-color--hover: #9334db;
   --primary-color-bg: #aa3bff17;
   --primary-color-bg--hover: #9334db10;
@@ -101,53 +101,61 @@ html {
 @media (prefers-color-scheme: dark) {
   :root {
     /* Text */
-    --text: #b8b2c2;
-    --text-h: #f5f3fa;
-    --text-1: #9ca3af;
-    --text-1--hover: #ffffff;
+    --text-h: #f1edf5;
+    --text-h-2: #c8c4ca;
+    --text: #aaa5af;
+    --text--hover: #ffffff;
+    --text-2: #d0cbd3;
 
-    /* Borders */
-    --border-1: #35363a;
-    --border-2: #4a4b50;
+    /* Border */
+    --border-1: rgb(58, 58, 62);
+    --border-2: rgb(88, 88, 94);
 
-    /* Backgrounds */
-    --bg: #121212;
-    --bg--hover: #1d1d1f;
-    --bg--active: #2a2a2d;
-    --bg-secondary: #0e0e0f;
-    --bg-modal: rgba(0, 0, 0, 0.7);
+    /* BG */
+    --bg: #1a181d;
+    --bg-app: rgb(25, 27, 30);
+    --bg--hover: rgba(255, 255, 255, 0.045);
+    --bg--active: rgba(255, 255, 255, 0.075);
+    --bg-secondary: rgb(32, 32, 36);
+    --bg-modal: rgba(0, 0, 0, 0.65);
+    --bg-loading: rgba(40, 40, 44, 0.75);
 
     /* Button Icon */
-    --icon-base: #d1d5db;
-    --icon-disabled: #6b7280;
+    --icon-base: rgb(174, 174, 181);
+    --icon-disabled: rgb(105, 105, 112);
 
     /* Primary */
-    --primary-color: #bb6bff;
-    --primary-color--light: #bb6bff66;
-    --primary-color--hover: #ca8cff;
-    --primary-color-bg: #bb6bff22;
-    --primary-color-bg--hover: #bb6bff33;
-    --primary-color--shadow: #bb6bff66;
-    --primary-text: #ffffff;
+    --primary-color: #b44dff;
+    --primary-color--light: #b44dff2c;
+    --primary-color--hover: #c06aff;
+    --primary-color-bg: #b44dff18;
+    --primary-color-bg--hover: #b44dff25;
+    --primary-color--shadow: #b44dff59;
+    --primary-text: white;
 
     /* Secondary */
-    --secondary-color: #1f1f23;
-    --secondary-color--hover: #2a2a2f;
-    --secondary-text: #d4b4ff;
+    --secondary-color: #29272c;
+    --secondary-color--hover: rgb(48, 46, 52);
+    --secondary-text: #c06aff;
 
     /* Warning */
-    --warning-color: #ff5f5f;
+    --warning-color: #ff5c5c;
 
-    /* Shadows */
+    /* Shadow */
     --shadow:
-      rgba(0, 0, 0, 0.5) 0 10px 15px -3px, rgba(0, 0, 0, 0.35) 0 4px 6px -2px;
+      rgba(0, 0, 0, 0.35) 0 10px 15px -3px, rgba(0, 0, 0, 0.2) 0 4px 6px -2px;
 
-    --shadow-logo: 0 0 12px var(--primary-color--shadow);
-    --shadow-page-header: 0 2px 8px rgba(0, 0, 0, 0.55);
+    --shadow-logo: 1px 1px 4px var(--primary-color--shadow);
+
+    --shadow-page-header: 0px 1px 5px rgba(0, 0, 0, 0.45);
+
+    --shadow-elevation:
+      0px 3px 1px -2px rgba(0, 0, 0, 0.45), 0px 2px 2px 0px rgba(0, 0, 0, 0.35),
+      0px 1px 5px 0px rgba(0, 0, 0, 0.3);
 
     /* Pagination dot */
-    --dot-color: #6b7280;
-    --dot-color-active: #e5e7eb;
+    --dot-color: rgb(105, 105, 112);
+    --dot-color-active: rgb(174, 174, 181);
   }
 
   #social .button-icon {

@@ -77,3 +77,85 @@
     transform: translateX(200%);
   }
 }
+
+.icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 100%;
+  width: 1.1rem;
+  aspect-ratio: 1/1;
+  padding-inline: 0.15rem;
+
+  svg {
+    width: 100%;
+    pointer-events: none;
+    path {
+      fill: var(--text-h);
+    }
+  }
+}
+
+.popup-controls {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 12.5rem;
+  border-radius: 0.3rem;
+  background-color: var(--bg);
+  font-size: 0.9rem;
+  box-shadow: var(--shadow-elevation);
+  opacity: 0;
+  padding-block: var(--spacing-1);
+  transform: scale(0.6);
+  transform-origin: top left;
+  visibility: hidden;
+  content-visibility: hidden;
+  transition:
+    opacity var(--transition-normal-1),
+    transform var(--transition-normal-1),
+    content-visibility var(--transition-normal-1) allow-discrete,
+    visibility var(--transition-normal-1) allow-discrete;
+  z-index: 4;
+
+  &.show {
+    content-visibility: visible;
+    visibility: visible;
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  :where(.popup-control-item) {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    border: none;
+    height: 1.5rem;
+    width: 100%;
+    padding-inline: var(--spacing-2);
+    background-color: var(--bg);
+    color: var(--text-h);
+    text-align: start;
+    transition: background-color var(--transition-fast);
+    z-index: 3;
+  }
+  :where(.popup-control-item .icon-container) {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    width: 1.2rem;
+
+    path {
+      fill: var(--text-h);
+    }
+  }
+  .popup-control-item span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .popup-control-item:hover {
+    background-color: var(--bg--active);
+  }
+}
