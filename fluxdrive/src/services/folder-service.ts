@@ -2,7 +2,9 @@ import { backendApi } from "../configs/backend-api";
 import type {
   FolderAddType,
   FolderAllType,
+  FolderDeleteType,
   FolderOpenType,
+  FolderUpdateType,
 } from "../types/folder-types";
 
 const folderAll: FolderAllType = async () => {
@@ -36,4 +38,26 @@ const folderAdd: FolderAddType = async (name, parentId) => {
   }
 };
 
-export { folderAll, folderOpen, folderAdd };
+const folderUpdate: FolderUpdateType = async ({ id, name, parentId }) => {
+  try {
+    const data = await backendApi(
+      `/folder/${id}`,
+      "PUT",
+      JSON.stringify({ ...(name && { name }), ...(parentId && { parentId }) }),
+    );
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const folderDelete: FolderDeleteType = async (id) => {
+  try {
+    const data = await backendApi(`/folder/${id}`, "DELETE");
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export { folderAll, folderOpen, folderAdd, folderUpdate, folderDelete };

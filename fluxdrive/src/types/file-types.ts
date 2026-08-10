@@ -23,3 +23,31 @@ export type FileAddType = (
     data: { files: FileType[]; allFolders: FolderType[]; allFiles: FileType[] };
   }
 >;
+
+export type FileUpdateType = ({
+  id,
+  name,
+  folderId,
+}: {
+  id: string;
+  name?: string;
+  folderId?: string;
+}) => Promise<
+  ResponseType & {
+    data: {
+      updatedFile: FileType;
+      allFolders: FolderType[];
+      allFiles: FileType[];
+    };
+  }
+>;
+
+export type FileDeleteType = (id: string) => Promise<
+  ResponseType & {
+    data: {
+      deletedFile: FileType;
+      allFolders: FolderType[];
+      allFiles: FileType[];
+    };
+  }
+>;

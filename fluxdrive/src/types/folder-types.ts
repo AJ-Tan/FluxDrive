@@ -34,3 +34,31 @@ export type FolderAddType = (
     };
   }
 >;
+
+export type FolderUpdateType = ({
+  id,
+  name,
+  parentId,
+}: {
+  id: string;
+  name?: string;
+  parentId?: string;
+}) => Promise<
+  ResponseType & {
+    data: {
+      updatedFolder: FolderType;
+      allFolders: FolderType[];
+      allFiles: FileType[];
+    };
+  }
+>;
+
+export type FolderDeleteType = (id: string) => Promise<
+  ResponseType & {
+    data: {
+      deletedFolder: FolderType;
+      allFolders: FolderType[];
+      allFiles: FileType[];
+    };
+  }
+>;

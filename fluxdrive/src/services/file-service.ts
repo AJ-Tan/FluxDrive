@@ -1,5 +1,9 @@
 import { backendApi } from "../configs/backend-api";
-import type { FileAddType } from "../types/file-types";
+import type {
+  FileAddType,
+  FileDeleteType,
+  FileUpdateType,
+} from "../types/file-types";
 
 const fileAdd: FileAddType = async (file, folderId) => {
   try {
@@ -13,4 +17,26 @@ const fileAdd: FileAddType = async (file, folderId) => {
   }
 };
 
-export { fileAdd };
+const fileUpdate: FileUpdateType = async ({ id, name, folderId }) => {
+  try {
+    const data = await backendApi(
+      `/file/${id}`,
+      "PUT",
+      JSON.stringify({ ...(name && { name }), ...(folderId && { folderId }) }),
+    );
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const fileDelete: FileDeleteType = async (id) => {
+  try {
+    const data = await backendApi(`/file/${id}`, "DELETE");
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export { fileAdd, fileUpdate, fileDelete };
