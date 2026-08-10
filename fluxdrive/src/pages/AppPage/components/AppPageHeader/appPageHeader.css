@@ -2,12 +2,20 @@
   display: flex;
   align-items: center;
   height: 4rem;
-  padding-inline: var(--spacing-3);
+  padding-inline: var(--spacing-1);
 
   .app-folder-nav {
+    display: flex;
+    align-items: center;
+
+    .dot-container {
+      background-color: transparent;
+      border: none;
+    }
+
     ul {
       display: flex;
-      gap: var(--spacing-3);
+      gap: var(--spacing-1);
       list-style-type: none;
       font-size: 1.1rem;
       color: var(--text-h);
@@ -15,8 +23,44 @@
 
     ul li {
       display: flex;
-      gap: var(--spacing-3);
+      gap: var(--spacing-1);
       align-items: center;
+      position: relative;
+
+      .dot-container {
+        display: flex;
+        align-items: center;
+        aspect-ratio: 1 / 1;
+        width: 1.75rem;
+        padding-inline: 0.4rem;
+        margin-inline-start: var(--spacing-1);
+        border-radius: 100%;
+        cursor: pointer;
+
+        svg {
+          width: 100%;
+
+          path {
+            fill: var(--text-h);
+          }
+        }
+
+        &:hover {
+          background-color: var(--bg--hover);
+        }
+      }
+
+      .link-folder-nav {
+        padding: 0.2rem var(--spacing-2);
+        border-radius: 2rem;
+        white-space: nowrap;
+        max-width: 12rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .link-folder-nav:hover {
+        background-color: var(--bg--hover);
+      }
     }
 
     ul li:not(:last-child)::after {
@@ -24,8 +68,8 @@
       display: block;
       height: 0.5rem;
       aspect-ratio: 1 / 1;
-      border-block-end: 2px solid var(--text-1);
-      border-inline-end: 2px solid var(--text-1);
+      border-block-end: 2px solid var(--text-h-2);
+      border-inline-end: 2px solid var(--text-h-2);
       transform: rotate(-45deg);
     }
   }

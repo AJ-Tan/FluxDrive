@@ -1,68 +1,176 @@
-import MyFileIcon from "../../../../components/MyFileIcon/MyFileIcon";
+import { memo, useRef, useState } from "react";
+import DownArrow from "../../../../assets/icons/down-arrow.svg?react";
+import UpArrow from "../../../../assets/icons/up-arrow.svg?react";
 import type { FolderType } from "../../../../types/folder-types";
-import {
-  fileSizeText,
-  formattedDate,
-} from "../../../../utils/common-functions";
+import type { FileType } from "../../../../types/file-types";
 import "./folderTable.css";
-import folderIcon from "../../../../assets/aside-nav/folder.png";
-import { useNavigate } from "react-router";
+import TableItem from "./components/TableItem/TableItem";
+import RenameItemDialog from "./components/RenameItemDialog/RenameItemDialog";
+import DeleteItemDialog from "./components/DeleteItemDialog/DeleteItemDialog";
+
+type SortType = {
+  column: "default" | "name" | "date" | "size";
+  type: "asc" | "desc";
+};
+
+export type AllContentItemType =
+  | (FileType & { type: "file" })
+  | (FolderType & { type: "folder" });
+
+export type RenameDialogDataType = {
+  id: string;
+  type: "folder" | "file";
+  values: {
+    name: string;
+  };
+};
+
+export type DeleteDialogDataType = {
+  id: string;
+  type: "folder" | "file";
+};
 
 function FolderTable({ folder }: { folder: FolderType | undefined }) {
-  const navigate = useNavigate();
+  const [sort, setSort] = useState<SortType>({
+    column: "date",
+    type: "desc",
+  });
+  const renameDialogRef = useRef<HTMLDialogElement | null>(null);
+  const [renameDialogData, setRenameDialogData] =
+    useState<RenameDialogDataType>({
+      id: "",
+      type: "folder",
+      values: { name: "" },
+    });
+  const deleteDialogRef = useRef<HTMLDialogElement | null>(null);
+  const [deleteDialogData, setDeleteDialogData] =
+    useState<DeleteDialogDataType>({
+      id: "",
+      type: "folder",
+    });
 
-  const openFolder = (id: string) => {
-    navigate(`/app/folders/${id}`);
+  const toggleSort = (column: "default" | "name" | "date" | "size") => {
+    setSort((prev) => ({
+      column,
+      type:
+        prev.column !== column ? "desc" : prev.type === "asc" ? "desc" : "asc",
+    }));
   };
 
-  const openFile = (url: string) => {
-    window.open(url, "_blank", "noopener,noreferrer");
-  };
+  const folderChildren = folder?.children;
+  const folderFiles = folder?.files;
+
+  const allContent: AllContentItemType[] = folderChildren
+    ? [...folderChildren.map((i) => ({ ...i, type: "folder" as const }))]
+    : [];
+  if (folderFiles && folderFiles.length > 0) {
+    allContent.push(
+      ...folderFiles.map((i) => ({ ...i, type: "file" as const })),
+    );
+  }
+
+  switch (sort.column) {
+    case "name":
+      allContent.sort((a, b) => {
+        const compare = a.name.localeCompare(b.name);
+        return sort.type === "asc" ? compare : -compare;
+      });
+      break;
+    case "date":
+      allContent.sort((a, b) => {
+        const dateA = new Date(a.createdAt).getTime();
+        const dateB = new Date(b.createdAt).getTime();
+        const diff = dateA - dateB;
+        return sort.type === "asc" ? diff : -diff;
+      });
+      break;
+    case "size":
+      allContent.sort((a, b) => {
+        const sizeA = "size" in a ? a.size || 0 : 0;
+        const sizeB = "size" in b ? b.size || 0 : 0;
+        const diff = sizeA - sizeB;
+        return sort.type === "asc" ? diff : -diff;
+      });
+      break;
+  }
+
+  allContent.sort((a, b) => {
+    const typeA = a.type;
+    const typeB = b.type;
+    const compare = typeA.localeCompare(typeB);
+    return sort.type === "asc" ? -compare : -compare;
+  });
 
   return (
-    <table className="tbl-folder-content">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Date Modified</th>
-          <th>File Size</th>
-          <th>Control</th>
-        </tr>
-      </thead>
-      <tbody>
-        {folder?.children.map((item) => (
-          <tr key={item.id} onDoubleClick={() => openFolder(item.id)}>
-            <td>
-              <div className="icon-item">
-                <img src={folderIcon} alt="" />
-              </div>
-              {item.name}
-            </td>
-            <td>{formattedDate(item.createdAt)}</td>
-            <td>--</td>
-            <td>
-              <div className="tbl-controls">X</div>
-            </td>
+    <>
+      <table className="tbl-folder-content">
+        <thead>
+          <tr>
+            <th>
+              <button type="button" onClick={() => toggleSort("name")}>
+                Name
+                {sort.column === "name" && (
+                  <div className="icon-container">
+                    {sort.type === "asc" ? <UpArrow /> : <DownArrow />}
+                  </div>
+                )}
+              </button>
+            </th>
+            <th>
+              <button type="button" onClick={() => toggleSort("date")}>
+                Date Modified
+                {sort.column === "date" && (
+                  <div className="icon-container">
+                    {sort.type === "asc" ? <UpArrow /> : <DownArrow />}
+                  </div>
+                )}
+              </button>
+            </th>
+            <th>
+              <button type="button" onClick={() => toggleSort("size")}>
+                File Size
+                {sort.column === "size" && (
+                  <div className="icon-container">
+                    {sort.type === "asc" ? <UpArrow /> : <DownArrow />}
+                  </div>
+                )}
+              </button>
+            </th>
+            <th>
+              <span>Action</span>
+            </th>
           </tr>
-        ))}
-        {folder?.files.map((item) => (
-          <tr key={item.id} onDoubleClick={() => openFile(item.fileUrl)}>
-            <td>
-              <div className="icon-item">
-                <MyFileIcon fileName={item.name} />
-              </div>
-              {item.name}
-            </td>
-            <td>{formattedDate(item.createdAt)}</td>
-            <td>{fileSizeText(item.size)}</td>
-            <td>
-              <div className="tbl-controls">X</div>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {allContent.map((item) => (
+            <TableItem
+              key={item.id}
+              item={item}
+              renameDialog={{
+                ref: renameDialogRef,
+                data: renameDialogData,
+                setData: setRenameDialogData,
+              }}
+              deleteDialog={{
+                ref: deleteDialogRef,
+                data: deleteDialogData,
+                setData: setDeleteDialogData,
+              }}
+            />
+          ))}
+        </tbody>
+      </table>
+      <RenameItemDialog
+        renameDialogRef={renameDialogRef}
+        renameDialogData={renameDialogData}
+        setRenameDialogData={setRenameDialogData}
+      />
+      <DeleteItemDialog
+        deleteDialogRef={deleteDialogRef}
+        deleteDialogData={deleteDialogData}
+      />
+    </>
   );
 }
 
-export default FolderTable;
+export default memo(FolderTable);

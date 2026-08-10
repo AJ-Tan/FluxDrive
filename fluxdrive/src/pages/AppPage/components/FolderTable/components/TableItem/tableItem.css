@@ -1,0 +1,57 @@
+tbody tr {
+  .item-details {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-2);
+    overflow: hidden;
+  }
+  .item-icon {
+    flex-shrink: 0;
+    width: 0.9rem;
+  }
+  .item-name {
+    flex: 1 1;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding-inline-end: var(--spacing-4);
+  }
+
+  .tbl-controls {
+    width: max-content;
+    margin-inline-start: auto;
+  }
+
+  .action-list-container {
+    position: relative;
+  }
+
+  .popup-controls {
+    left: unset;
+    right: 115%;
+
+    .icon-container {
+      width: 1.4rem;
+    }
+
+    svg {
+      pointer-events: none;
+
+      path {
+        fill: var(--bg);
+        stroke: var(--text-h);
+      }
+    }
+  }
+
+  .btn-action-list {
+    background-color: transparent;
+    border: none;
+    width: 1.75rem;
+    padding-inline: 0.4rem;
+
+    &:hover {
+      background-color: var(--bg--active);
+    }
+  }
+}
