@@ -15,7 +15,7 @@
   left: 50%;
   width: 45%;
   height: 2px;
-  background: black;
+  background: var(--text-h);
   transform-origin: center;
 }
 
