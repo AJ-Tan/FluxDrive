@@ -1,7 +1,7 @@
 .app-page {
-  height: calc(100vh - 3rem);
-  padding-block-end: var(--spacing-3);
+  min-width: 32rem;
   padding-inline-start: var(--spacing-2);
+  overflow: hidden;
 
   .app-page-container {
     display: flex;
