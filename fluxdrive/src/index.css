@@ -24,8 +24,9 @@ html {
   /* BG */
   --bg: #fff;
   --bg-app: rgb(248, 250, 253);
-  --bg--hover: rgba(5, 5, 5, 0.034);
-  --bg--active: rgba(5, 5, 5, 0.055);
+  --bg-app--inactive: #e9eef6;
+  --bg--hover: rgba(5, 5, 5, 0.055);
+  --bg--active: rgba(5, 5, 5, 0.085);
   --bg-secondary: rgb(246, 246, 246);
   --bg-modal: #00000080;
   --bg-loading: rgba(255, 255, 255, 0.377);
@@ -62,6 +63,10 @@ html {
   --dot-color: rgb(154, 160, 166);
   --dot-color-active: rgb(95, 99, 104);
 
+  /* Dialog */
+  --dialog-backdrop: rgb(0 0 0 / 45%);
+
+  /* Font */
   --sans: "Roboto", system-ui, "Segoe UI", Roboto, sans-serif;
   --heading: "Roboto", system-ui, "Segoe UI", sans-serif;
   --mono: ui-monospace, Consolas, monospace;
@@ -80,6 +85,7 @@ html {
   --spacing-6: 3rem;
   --spacing-7: 4rem;
 
+  /* Max width for certain container */
   --page-mw: 63.5rem;
 
   font-family: var(--sans);
@@ -114,6 +120,7 @@ html {
     /* BG */
     --bg: #1a181d;
     --bg-app: rgb(25, 27, 30);
+    --bg-app--inactive: rgb(39, 41, 48);
     --bg--hover: rgba(255, 255, 255, 0.045);
     --bg--active: rgba(255, 255, 255, 0.075);
     --bg-secondary: rgb(32, 32, 36);
@@ -156,6 +163,9 @@ html {
     /* Pagination dot */
     --dot-color: rgb(105, 105, 112);
     --dot-color-active: rgb(174, 174, 181);
+
+    /* Dialog */
+    --dialog-backdrop: rgb(0 0 0 / 65%);
   }
 
   #social .button-icon {
@@ -279,4 +289,8 @@ details::details-content {
 details[open]::details-content {
   height: auto;
   opacity: 1;
+}
+
+dialog::backdrop {
+  background-color: var(--dialog-backdrop);
 }
