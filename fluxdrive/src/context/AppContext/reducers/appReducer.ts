@@ -19,6 +19,7 @@ const appInitialState = {
   allFolders: allFoldersInitialState,
   allFiles: [],
   focusedItem: null,
+  searchText: "",
 };
 
 const appReducer: AppReducerType = (state, action) => {
@@ -28,15 +29,6 @@ const appReducer: AppReducerType = (state, action) => {
         ...state,
         allFolders: action.payload.allFolders,
         allFiles: action.payload.allFiles,
-      };
-    case "activeFolder":
-      return {
-        ...state,
-        activeFolder: action.payload,
-        focusedItem: {
-          id: action.payload,
-          itemType: "folder",
-        },
       };
     case "focusedItem":
       return {
@@ -48,6 +40,8 @@ const appReducer: AppReducerType = (state, action) => {
       };
     case "clearFocusedItem":
       return { ...state, focusedItem: null };
+    case "setSearch":
+      return { ...state, searchText: action.payload };
     default:
       return { ...state };
   }

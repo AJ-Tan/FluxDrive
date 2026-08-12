@@ -5,12 +5,18 @@ import useAuth from "../AuthContext/useAuth";
 import { appInitialState, appReducer } from "./reducers/appReducer";
 import { useParams } from "react-router";
 import ErrorPage from "../../pages/ErrorPage/ErrorPage";
+import type { FileType } from "../../types/file-types";
+import type { FolderType } from "../../types/folder-types";
 
 type ErrorType = {
   status: number;
   title: string;
   description: string;
 } | null;
+
+export type AllContentItemType =
+  | (FileType & { type: "file" })
+  | (FolderType & { type: "folder" });
 
 function AppProvider({ children }: { children: JSX.Element }) {
   const [appState, dispatchAppState] = useReducer(appReducer, appInitialState);
@@ -43,11 +49,23 @@ function AppProvider({ children }: { children: JSX.Element }) {
     });
   }, [user, dispatchAppState, setError, folderid]);
 
+  const allContentItem = (): AllContentItemType[] => {
+    const output: AllContentItemType[] = appState.allFolders.map((i) => ({
+      ...i,
+      type: "folder" as const,
+    }));
+    output.push(
+      ...appState.allFiles.map((i) => ({ ...i, type: "file" as const })),
+    );
+    return output;
+  };
+
   return (
     <AppContext
       value={{
         appState,
         dispatchAppState,
+        allContentItem,
       }}
     >
       {!error ? children : <ErrorPage {...error} />}

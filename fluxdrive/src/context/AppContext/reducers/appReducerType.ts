@@ -8,6 +8,7 @@ export type AppStateType = {
     id: string;
     itemType: "folder" | "file";
   } | null;
+  searchText: string;
 };
 
 export type AppActionType =
@@ -20,10 +21,6 @@ export type AppActionType =
       };
     }
   | {
-      type: "activeFolder";
-      payload: string;
-    }
-  | {
       type: "focusedItem";
       payload: {
         id: string;
@@ -32,6 +29,10 @@ export type AppActionType =
     }
   | {
       type: "clearFocusedItem";
+    }
+  | {
+      type: "setSearch";
+      payload: string;
     };
 
 export type AppReducerType = (
