@@ -1,0 +1,104 @@
+.search-bar {
+  padding-block: var(--spacing-1);
+  max-width: 41rem;
+  font-size: 0.85rem;
+  position: relative;
+  z-index: 4;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-app--inactive);
+    border-radius: 1.5rem;
+    padding: 0.3rem 0.4rem;
+    transition: background-color var(--transition-fast);
+
+    &:focus-within {
+      background-color: var(--bg);
+      box-shadow: var(--shadow-elevation);
+
+      .search-content {
+        display: block;
+      }
+    }
+
+    &:has(.search-content):focus-within {
+      border-radius: 1.25rem;
+    }
+
+    .search-controls {
+      display: flex;
+      align-items: center;
+      max-height: 2rem;
+
+      .icon-container {
+        width: 100%;
+      }
+
+      button {
+        background-color: transparent;
+        border: none;
+        width: 1.85rem;
+        height: 1.85rem;
+        border-radius: 100%;
+        &:hover {
+          background-color: var(--bg--hover);
+        }
+      }
+
+      input {
+        padding-inline: var(--spacing-1);
+      }
+      button[type="submit"] {
+        padding-inline: 0.2rem;
+      }
+      .btn-close::before,
+      .btn-close::after {
+        background-color: var(--text-h);
+      }
+    }
+
+    .search-content {
+      display: none;
+      margin-block-start: var(--spacing-1);
+      font-size: 0.75rem;
+    }
+
+    .search-content ul {
+      list-style: none;
+    }
+
+    .search-content li {
+      height: calc(3rem - var(--spacing-1));
+    }
+
+    .search-content .item-icon {
+      width: 0.9rem;
+      margin-inline-end: var(--spacing-2);
+    }
+
+    .search-content button {
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      border: none;
+      height: 100%;
+      width: 100%;
+      border-radius: 0.6rem;
+      padding-inline: var(--spacing-1);
+      background-color: transparent;
+      &:hover {
+        background-color: var(--bg--active);
+      }
+    }
+
+    input {
+      flex: 1;
+      border: none;
+      height: 100%;
+      background-color: transparent;
+      outline: none;
+      color: var(--text);
+    }
+  }
+}

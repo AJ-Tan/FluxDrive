@@ -3,6 +3,7 @@ import PageLogo from "../../../../components/PageLogo/PageLogo";
 import useAuth from "../../../../context/AuthContext/useAuth";
 import { auth_signOut } from "../../../../services/auth-service";
 import "./appHeader.css";
+import Searchbar from "./components/Searchbar/Searchbar";
 
 function AppHeader() {
   const auth = useAuth();
@@ -14,16 +15,19 @@ function AppHeader() {
   };
 
   return (
-    <header className="app-header">
+    <>
       <PageLogo />
+      <Searchbar />
       <div className="app-header-controls">
         <div className="user-details">
-          <div className="user-icon">{auth.user?.firstName[0]}</div>
-          <span>{`${auth.user?.firstName} ${auth.user?.lastName}`}</span>
+          <span>{`${auth.user?.firstName} ${auth.user?.lastName}`}!</span>
         </div>
-        <Button onClick={handleLogout}>Logout</Button>
+
+        <Button onClick={handleLogout} scale={1}>
+          Logout
+        </Button>
       </div>
-    </header>
+    </>
   );
 }
 

@@ -1,17 +1,17 @@
-.app-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
 .app-header-controls,
 .user-details {
   display: flex;
   align-items: center;
+  height: 100%;
 }
 
 .app-header-controls {
-  gap: var(--spacing-4);
+  gap: var(--spacing-2);
+  padding-block: var(--spacing-1);
+  margin-inline-start: auto;
+  .btn {
+    height: 100%;
+  }
 }
 
 .user-icon {
@@ -20,7 +20,8 @@
   justify-content: center;
   border-radius: 100%;
   aspect-ratio: 1 / 1;
-  height: 1.75rem;
+  height: 100%;
+  font-size: 1.3rem;
   background-color: var(--primary-color);
   color: var(--bg);
   text-transform: uppercase;
