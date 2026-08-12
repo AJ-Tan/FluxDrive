@@ -1,6 +1,5 @@
 .app-page {
   min-width: 32rem;
-  padding-inline-start: var(--spacing-2);
   overflow: hidden;
 
   .app-page-container {

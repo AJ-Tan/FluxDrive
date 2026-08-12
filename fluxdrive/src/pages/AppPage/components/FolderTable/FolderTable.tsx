@@ -1,21 +1,16 @@
 import { memo, useRef, useState } from "react";
 import DownArrow from "../../../../assets/icons/down-arrow.svg?react";
 import UpArrow from "../../../../assets/icons/up-arrow.svg?react";
-import type { FolderType } from "../../../../types/folder-types";
-import type { FileType } from "../../../../types/file-types";
 import "./folderTable.css";
 import TableItem from "./components/TableItem/TableItem";
 import RenameItemDialog from "./components/RenameItemDialog/RenameItemDialog";
 import DeleteItemDialog from "./components/DeleteItemDialog/DeleteItemDialog";
+import type { AllContentItemType } from "../../../../context/AppContext/AppProvider";
 
 type SortType = {
   column: "default" | "name" | "date" | "size";
   type: "asc" | "desc";
 };
-
-export type AllContentItemType =
-  | (FileType & { type: "file" })
-  | (FolderType & { type: "folder" });
 
 export type RenameDialogDataType = {
   id: string;
@@ -30,7 +25,7 @@ export type DeleteDialogDataType = {
   type: "folder" | "file";
 };
 
-function FolderTable({ folder }: { folder: FolderType | undefined }) {
+function FolderTable({ tableData }: { tableData: AllContentItemType[] }) {
   const [sort, setSort] = useState<SortType>({
     column: "date",
     type: "desc",
@@ -57,27 +52,15 @@ function FolderTable({ folder }: { folder: FolderType | undefined }) {
     }));
   };
 
-  const folderChildren = folder?.children;
-  const folderFiles = folder?.files;
-
-  const allContent: AllContentItemType[] = folderChildren
-    ? [...folderChildren.map((i) => ({ ...i, type: "folder" as const }))]
-    : [];
-  if (folderFiles && folderFiles.length > 0) {
-    allContent.push(
-      ...folderFiles.map((i) => ({ ...i, type: "file" as const })),
-    );
-  }
-
   switch (sort.column) {
     case "name":
-      allContent.sort((a, b) => {
+      tableData.sort((a, b) => {
         const compare = a.name.localeCompare(b.name);
         return sort.type === "asc" ? compare : -compare;
       });
       break;
     case "date":
-      allContent.sort((a, b) => {
+      tableData.sort((a, b) => {
         const dateA = new Date(a.createdAt).getTime();
         const dateB = new Date(b.createdAt).getTime();
         const diff = dateA - dateB;
@@ -85,7 +68,7 @@ function FolderTable({ folder }: { folder: FolderType | undefined }) {
       });
       break;
     case "size":
-      allContent.sort((a, b) => {
+      tableData.sort((a, b) => {
         const sizeA = "size" in a ? a.size || 0 : 0;
         const sizeB = "size" in b ? b.size || 0 : 0;
         const diff = sizeA - sizeB;
@@ -94,7 +77,7 @@ function FolderTable({ folder }: { folder: FolderType | undefined }) {
       break;
   }
 
-  allContent.sort((a, b) => {
+  tableData.sort((a, b) => {
     const typeA = a.type;
     const typeB = b.type;
     const compare = typeA.localeCompare(typeB);
@@ -142,7 +125,7 @@ function FolderTable({ folder }: { folder: FolderType | undefined }) {
           </tr>
         </thead>
         <tbody>
-          {allContent.map((item) => (
+          {tableData.map((item) => (
             <TableItem
               key={item.id}
               item={item}

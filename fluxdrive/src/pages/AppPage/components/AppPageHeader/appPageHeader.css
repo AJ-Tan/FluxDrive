@@ -3,6 +3,12 @@
   align-items: center;
   height: 4rem;
   padding-inline: var(--spacing-1);
+  font-size: 1.1rem;
+  color: var(--text-h);
+
+  span {
+    margin-inline-start: var(--spacing-2);
+  }
 
   .app-folder-nav {
     display: flex;
@@ -17,8 +23,6 @@
       display: flex;
       gap: var(--spacing-1);
       list-style-type: none;
-      font-size: 1.1rem;
-      color: var(--text-h);
     }
 
     ul li {

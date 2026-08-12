@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router";
 import useApp from "../../../../../../context/AppContext/useApp";
 import type {
-  AllContentItemType,
   DeleteDialogDataType,
   RenameDialogDataType,
 } from "../../FolderTable";
@@ -16,6 +15,7 @@ import DeleteIcon from "../../../../../../assets/icons/delete.svg?react";
 import ThreeDotsVertical from "../../../../../../assets/icons/three-dots-vertical.svg?react";
 import "./tableItem.css";
 import { useEffect, useRef, useState } from "react";
+import type { AllContentItemType } from "../../../../../../context/AppContext/AppProvider";
 
 type TableItemProps = {
   item: AllContentItemType;
@@ -89,7 +89,6 @@ function TableItem({ item, renameDialog, deleteDialog }: TableItemProps) {
     const elementTop = e.target.getBoundingClientRect().top;
     const windowHeightHalf = window.innerHeight / 2;
 
-    console.log(elementTop, windowHeightHalf);
     if (elementTop > windowHeightHalf) {
       setPopupStyle({ top: "-250%", transformOrigin: "bottom right" });
     } else {
