@@ -65,6 +65,12 @@ function ButtonNew() {
 
       files.forEach(async (item) => {
         const res = await fileAdd(item.file, item.folderId);
+
+        if (!res.ok && res.name === "ValidationError") {
+          alert(`File to be uploaded must not exceed 10MB.`);
+          dispatchUploadState({ type: "remove", payload: item.id });
+          return;
+        }
         if (!res.ok) return console.log(res);
         dispatchAppState({
           type: "updateData",

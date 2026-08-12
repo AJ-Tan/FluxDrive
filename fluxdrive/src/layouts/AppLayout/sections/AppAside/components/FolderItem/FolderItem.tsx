@@ -6,10 +6,12 @@ import FolderIcon from "../../../../../../assets/icons/folder.svg?react";
 import type { FolderType } from "../../../../../../types/folder-types";
 import { useNavigate, useParams } from "react-router";
 import useAuth from "../../../../../../context/AuthContext/useAuth";
+import useApp from "../../../../../../context/AppContext/useApp";
 
 function FolderItem({ folder, index }: { folder: FolderType; index: number }) {
   const [expand, setExpand] = useState(false);
   const { user } = useAuth();
+  const { dispatchAppState } = useApp();
   const { folderid } = useParams();
   const navigate = useNavigate();
 
@@ -17,6 +19,7 @@ function FolderItem({ folder, index }: { folder: FolderType; index: number }) {
 
   const handleClick = () => {
     if (!folder.id) return;
+    dispatchAppState({ type: "setSearch", payload: "" });
     const rootFolder = `${user?.id}-1`;
     navigate(`/app/folders/${folder.id !== rootFolder ? folder.id : ""}`);
   };
