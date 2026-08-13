@@ -1,0 +1,13 @@
+.dialog-form .item-details {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-2);
+  background-color: var(--bg--hover);
+  border-radius: 0.5rem;
+  font-size: 0.8rem;
+
+  .item-icon {
+    max-width: 0.9rem;
+    margin-inline-end: var(--spacing-2);
+  }
+}

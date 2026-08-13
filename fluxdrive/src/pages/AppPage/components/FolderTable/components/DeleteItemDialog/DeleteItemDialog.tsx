@@ -3,6 +3,9 @@ import useApp from "../../../../../../context/AppContext/useApp";
 import { fileDelete } from "../../../../../../services/file-service";
 import type { DeleteDialogDataType } from "../../FolderTable";
 import { folderDelete } from "../../../../../../services/folder-service";
+import "./deleteItemDialog.css";
+import MyFileIcon from "../../../../../../components/MyFileIcon/MyFileIcon";
+import FolderIcon from "../../../../../../assets/icons/folder.svg?react";
 
 function DeleteItemDialog({
   deleteDialogRef,
@@ -13,12 +16,16 @@ function DeleteItemDialog({
 }) {
   const [loading, setLoading] = useState(false);
   const { appState, dispatchAppState } = useApp();
-  const { id, type } = deleteDialogData;
 
-  const itemData =
-    deleteDialogData.type === "folder"
-      ? appState.allFolders.find((i) => i.id === deleteDialogData.id)
-      : appState.allFiles.find((i) => i.id === deleteDialogData.id);
+  const itemData = deleteDialogData.map((item) =>
+    item.type === "folder"
+      ? {
+          ...appState.allFolders.find((i) => i.id === item.id),
+          type: item.type,
+        }
+      : { ...appState.allFiles.find((i) => i.id === item.id), type: item.type },
+  );
+
   const closeDialog = () => {
     const folderDialog = deleteDialogRef.current;
     if (!folderDialog) return;
@@ -29,14 +36,21 @@ function DeleteItemDialog({
     e.preventDefault();
 
     setLoading(true);
-    const res =
-      type === "folder" ? await folderDelete(id) : await fileDelete(id);
-    setLoading(false);
-    if (!res.ok) return console.log(res);
-    closeDialog();
-    dispatchAppState({
-      type: "updateData",
-      payload: { allFolders: res.data.allFolders, allFiles: res.data.allFiles },
+    itemData.forEach(async ({ id, type }) => {
+      if (id) {
+        const res =
+          type === "folder" ? await folderDelete(id) : await fileDelete(id);
+        setLoading(false);
+        if (!res.ok) return console.log(res);
+        closeDialog();
+        dispatchAppState({
+          type: "updateData",
+          payload: {
+            allFolders: res.data.allFolders,
+            allFiles: res.data.allFiles,
+          },
+        });
+      }
     });
   };
 
@@ -46,14 +60,27 @@ function DeleteItemDialog({
       className={`dialog-form${loading ? " loading" : ""}`}
     >
       <form onSubmit={handleSubmit}>
-        <h2>Delete {type === "folder" ? "Folder" : "File"}</h2>
-        <div className="dialog-details">
-          {itemData && (
-            <>
-              <div className="icon-container">O</div>
-              <span>{itemData.name}</span>
-            </>
-          )}
+        <h2>Delete Items</h2>
+        <div className="item-details">
+          {itemData &&
+            itemData.length > 0 &&
+            itemData.map(
+              (item) =>
+                item && (
+                  <>
+                    <div className="item-icon">
+                      {item?.type === "file" ? (
+                        <MyFileIcon fileName={item.name || ""} />
+                      ) : (
+                        <div className="icon-container">
+                          <FolderIcon />
+                        </div>
+                      )}
+                    </div>
+                    <span>{item.name}</span>
+                  </>
+                ),
+            )}
         </div>
         <div className="form-controls">
           <button type="button" onClick={closeDialog}>

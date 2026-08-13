@@ -23,7 +23,7 @@ export type RenameDialogDataType = {
 export type DeleteDialogDataType = {
   id: string;
   type: "folder" | "file";
-};
+}[];
 
 function FolderTable({ tableData }: { tableData: AllContentItemType[] }) {
   const [sort, setSort] = useState<SortType>({
@@ -39,10 +39,7 @@ function FolderTable({ tableData }: { tableData: AllContentItemType[] }) {
     });
   const deleteDialogRef = useRef<HTMLDialogElement | null>(null);
   const [deleteDialogData, setDeleteDialogData] =
-    useState<DeleteDialogDataType>({
-      id: "",
-      type: "folder",
-    });
+    useState<DeleteDialogDataType>([]);
 
   const toggleSort = (column: "default" | "name" | "date" | "size") => {
     setSort((prev) => ({

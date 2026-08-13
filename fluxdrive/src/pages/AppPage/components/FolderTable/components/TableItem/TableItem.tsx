@@ -69,10 +69,12 @@ function TableItem({ item, renameDialog, deleteDialog }: TableItemProps) {
       type: item.type,
       values: { name: item.name },
     });
-    deleteDialog.setData({
-      id: item.id,
-      type: item.type,
-    });
+    deleteDialog.setData([
+      {
+        id: item.id,
+        type: item.type,
+      },
+    ]);
   };
 
   const openFolder = (id: string) => {
