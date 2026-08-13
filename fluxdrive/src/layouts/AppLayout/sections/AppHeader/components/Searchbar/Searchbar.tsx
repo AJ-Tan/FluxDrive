@@ -66,7 +66,7 @@ function Searchbar() {
           <div className="search-content">
             <ul>
               {searchResult?.map((i) => (
-                <li>
+                <li key={i.id}>
                   <button
                     type="button"
                     onClick={() =>
