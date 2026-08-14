@@ -25,10 +25,26 @@ export type FolderOpenType = (
 export type FolderAddType = (
   name: string,
   folderId: string,
+  id?: string,
 ) => Promise<
   ResponseType & {
     data: {
       folder: FolderType;
+      allFolders: FolderType[];
+      allFiles: FileType[];
+    };
+  }
+>;
+
+export type FolderItemsType = {
+  id: string;
+  name: string;
+  parentId: string;
+  files: File[];
+};
+export type FolderUploadType = (folderItems: FolderItemsType[]) => Promise<
+  ResponseType & {
+    data: {
       allFolders: FolderType[];
       allFiles: FileType[];
     };

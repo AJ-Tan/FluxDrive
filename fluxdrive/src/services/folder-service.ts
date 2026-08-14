@@ -5,6 +5,7 @@ import type {
   FolderDeleteType,
   FolderOpenType,
   FolderUpdateType,
+  FolderUploadType,
 } from "../types/folder-types";
 
 const folderAll: FolderAllType = async () => {
@@ -25,13 +26,37 @@ const folderOpen: FolderOpenType = async (folderId) => {
   }
 };
 
-const folderAdd: FolderAddType = async (name, parentId) => {
+const folderAdd: FolderAddType = async (name, parentId, id) => {
   try {
     const data = await backendApi(
       `/folder/`,
       "POST",
-      JSON.stringify({ name, parentId }),
+      JSON.stringify({ name, parentId, ...(id && { id }) }),
     );
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const folderUpload: FolderUploadType = async (folderItems) => {
+  try {
+    const maxSize = 10 * 1024 * 1024;
+
+    for (const item of folderItems) {
+      const formData = new FormData();
+      formData.append("folderId", item.id);
+      formData.append("name", item.name);
+      formData.append("parentId", item.parentId);
+
+      for (const file of item.files) {
+        if (file.size <= maxSize) formData.append("files", file);
+      }
+
+      await backendApi(`/folder/upload`, "POST", formData, {});
+    }
+
+    const data = await backendApi(`/folder/`, "GET");
     return data;
   } catch (err) {
     console.log(err);
@@ -60,4 +85,11 @@ const folderDelete: FolderDeleteType = async (id) => {
   }
 };
 
-export { folderAll, folderOpen, folderAdd, folderUpdate, folderDelete };
+export {
+  folderAll,
+  folderOpen,
+  folderUpload,
+  folderAdd,
+  folderUpdate,
+  folderDelete,
+};

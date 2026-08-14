@@ -16,8 +16,8 @@ export type FileType = {
 };
 
 export type FileAddType = (
-  file: File,
-  parentId: string,
+  files: File[],
+  folderId: string,
 ) => Promise<
   ResponseType & {
     data: { files: FileType[]; allFolders: FolderType[]; allFiles: FileType[] };

@@ -5,11 +5,16 @@ import type {
   FileUpdateType,
 } from "../types/file-types";
 
-const fileAdd: FileAddType = async (file, folderId) => {
+const fileAdd: FileAddType = async (files, folderId) => {
   try {
     const formData = new FormData();
+
     formData.append("folderId", folderId);
-    formData.append("files", file);
+
+    for (const file of files) {
+      formData.append("files", file);
+    }
+
     const data = await backendApi(`/file`, "POST", formData, {});
     return data;
   } catch (err) {
