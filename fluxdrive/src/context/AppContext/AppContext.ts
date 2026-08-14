@@ -8,6 +8,7 @@ export type UploadFileType = (file: File, folderId: string) => void;
 
 type AppContextType = {
   appState: AppStateType;
+  appLoading: boolean;
   dispatchAppState: React.ActionDispatch<[action: AppActionType]>;
   allContentItem: () => AllContentItemType[];
   uploadFolder: UploadFolderType;

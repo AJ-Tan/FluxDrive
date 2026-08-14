@@ -116,7 +116,7 @@ function TableItem({ item, renameDialog, deleteDialog }: TableItemProps) {
   return (
     <tr
       key={item.id}
-      className={focusedItem?.id === item.id ? "focused" : undefined}
+      className={`tbl-row${focusedItem?.id === item.id ? " focused" : ""}`}
       onClick={() => setFocusedItem(item.id, item.type)}
       onDoubleClick={() =>
         item.type === "file" ? openFile(item.fileUrl) : openFolder(item.id)
