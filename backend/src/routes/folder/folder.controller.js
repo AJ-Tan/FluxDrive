@@ -1,5 +1,6 @@
 import prisma from "../../config/database/database.config.js";
 import checkFolderAccessAuthorized from "./folder.utils.js";
+import { uploadToCloudinary } from "../file/file.utils.js";
 
 const allDataController = async (req, res, next) => {
   const user = req.user;
@@ -92,6 +93,65 @@ const createFolderController = async (req, res, next) => {
   }
 };
 
+const uploadFolderController = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const parentId = req.body.parentId || `${user.id}-1`;
+    const { folderId, name } = req.body;
+    console.log(
+      parentId,
+      "adoaisdjsaoidjasodjaso djaso djasodjasodjasdiada sod",
+    );
+    const createFolder = await prisma.folder.create({
+      data: {
+        id: folderId,
+        name,
+        parentId,
+        ownerId: user.id,
+      },
+    });
+
+    const files = req.files;
+
+    let filesUploaded = [];
+    for (let file of files) {
+      const fileResult = await uploadToCloudinary(file.buffer);
+      filesUploaded.push(
+        await prisma.file.create({
+          data: {
+            name: file.originalname,
+            mimeType: fileResult.resource_type,
+            fileType: fileResult.format,
+            size: fileResult.bytes,
+            fileUrl: fileResult.secure_url,
+            publicId: fileResult.public_id,
+            folderId: folderId,
+            ownerId: user.id,
+          },
+        }),
+      );
+    }
+
+    const allFolders = await prisma.folder.findMany({
+      where: { ownerId: user.id },
+      include: { children: true, files: true },
+    });
+
+    const allFiles = await prisma.file.findMany({
+      where: { ownerId: user.id },
+    });
+
+    res.status(200).json({
+      ok: true,
+      name: "UploadComplete",
+      message: "Folder upload complete.",
+      data: { allFolders, allFiles },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 const updateFolderController = async (req, res, next) => {
   try {
     const user = req.user;
@@ -172,6 +232,7 @@ export {
   allDataController,
   openFolderController,
   createFolderController,
+  uploadFolderController,
   updateFolderController,
   deleteFolderController,
 };
