@@ -62,7 +62,7 @@ function Searchbar() {
           />
           {search && <ButtonClose handleClose={() => setSearch("")} />}
         </div>
-        {searchResult && (
+        {searchResult && searchResult.length > 0 && (
           <div className="search-content">
             <ul>
               {searchResult?.map((i) => (
