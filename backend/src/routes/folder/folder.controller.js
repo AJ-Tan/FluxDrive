@@ -1,6 +1,7 @@
 import prisma from "../../config/database/database.config.js";
 import checkFolderAccessAuthorized from "./folder.utils.js";
 import { uploadToCloudinary } from "../file/file.utils.js";
+import cloudinary from "../../config/cloudinary/cloudinary.config.js";
 
 const allDataController = async (req, res, next) => {
   const user = req.user;
@@ -200,6 +201,24 @@ const deleteFolderController = async (req, res, next) => {
     const checkFolderId = await checkFolderAccessAuthorized(user.id, folderId);
     if (!checkFolderId.ok) return next(checkFolderId.err);
 
+    const deleteCloudinaryFiles = async (currentFolderId) => {
+      const files = await prisma.file.findMany({
+        where: { folderId: currentFolderId },
+      });
+
+      for (const file of files) {
+        await cloudinary.uploader.destroy(file.publicId);
+      }
+
+      const childrenFolder = await prisma.folder.findMany({
+        where: { parentId: currentFolderId },
+      });
+      for (const folder of childrenFolder) {
+        deleteCloudinaryFiles(folder.id);
+      }
+    };
+
+    await deleteCloudinaryFiles(folderId);
     const deletedFolder = await prisma.folder.delete({
       where: { id: folderId },
     });
