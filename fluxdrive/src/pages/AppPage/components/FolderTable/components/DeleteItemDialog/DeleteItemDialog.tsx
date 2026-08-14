@@ -61,27 +61,27 @@ function DeleteItemDialog({
     >
       <form onSubmit={handleSubmit}>
         <h2>Delete Items</h2>
-        <div className="item-details">
-          {itemData &&
-            itemData.length > 0 &&
-            itemData.map(
-              (item) =>
-                item && (
-                  <>
-                    <div className="item-icon">
-                      {item?.type === "file" ? (
-                        <MyFileIcon fileName={item.name || ""} />
-                      ) : (
-                        <div className="icon-container">
-                          <FolderIcon />
-                        </div>
-                      )}
-                    </div>
-                    <span>{item.name}</span>
-                  </>
-                ),
-            )}
-        </div>
+
+        {itemData &&
+          itemData.length > 0 &&
+          itemData.map(
+            (item) =>
+              item && (
+                <div key={`delete-dialog-${item.id}`} className="item-details">
+                  <div className="item-icon">
+                    {item?.type === "file" ? (
+                      <MyFileIcon fileName={item.name || ""} />
+                    ) : (
+                      <div className="icon-container">
+                        <FolderIcon />
+                      </div>
+                    )}
+                  </div>
+                  <span>{item.name}</span>
+                </div>
+              ),
+          )}
+
         <div className="form-controls">
           <button type="button" onClick={closeDialog}>
             Cancel
