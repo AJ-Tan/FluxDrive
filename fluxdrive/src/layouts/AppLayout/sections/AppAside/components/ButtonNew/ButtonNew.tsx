@@ -1,13 +1,13 @@
 import "./buttonNew.css";
-import FolderAddIcon from "../../../../../../assets/icons/add-folder.svg?react";
-import FileAddIcon from "../../../../../../assets/icons/add-file.svg?react";
+import FileAddIcon from "../../../../../../assets/icons/file-add.svg?react";
+import FolderAddIcon from "../../../../../../assets/icons/folder-add.svg?react";
+import FolderUploadIcon from "../../../../../../assets/icons/folder-upload.svg?react";
 import { useEffect, memo, useRef, useState } from "react";
 import AddFolderDialog from "../../../../components/AddFolderDialog/AddFolderDialog";
-import { fileAdd } from "../../../../../../services/file-service";
 import { useParams } from "react-router";
 import useAuth from "../../../../../../context/AuthContext/useAuth";
-import useUpload from "../../../../../../context/UploadContext/useUpload";
 import useApp from "../../../../../../context/AppContext/useApp";
+import type { FolderItemsType } from "../../../../../../types/folder-types";
 
 function ButtonNew() {
   const [displayPopup, setDisplayPopup] = useState(false);
@@ -15,8 +15,7 @@ function ButtonNew() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const { folderid } = useParams();
   const { user } = useAuth();
-  const { dispatchAppState } = useApp();
-  const { dispatchUploadState } = useUpload();
+  const { uploadFile, uploadFolder } = useApp();
 
   useEffect(() => {
     const handleEvent = (e: PointerEvent) => {
@@ -54,36 +53,69 @@ function ButtonNew() {
 
       const fileFolderId = folderid ? folderid : `${user?.id}-1`;
       const files = [...(target.files || [])].map((file) => ({
-        id: crypto.randomUUID(),
         folderId: fileFolderId,
         file,
       }));
 
       if (files.length <= 0) return;
 
-      dispatchUploadState({ type: "add", payload: files });
-
       files.forEach(async (item) => {
-        const res = await fileAdd(item.file, item.folderId);
-
-        if (!res.ok && res.name === "ValidationError") {
-          alert(`File to be uploaded must not exceed 10MB.`);
-          dispatchUploadState({ type: "remove", payload: item.id });
-          return;
-        }
-        if (!res.ok) return console.log(res);
-        dispatchAppState({
-          type: "updateData",
-          payload: {
-            allFolders: res.data.allFolders,
-            allFiles: res.data.allFiles,
-          },
-        });
-        dispatchUploadState({
-          type: "setComplete",
-          payload: { id: item.id, url: res.data.files[0].fileUrl },
-        });
+        uploadFile(item.file, item.folderId);
       });
+    };
+
+    setDisplayPopup(false);
+    input.click();
+  };
+
+  const addFolder = () => {
+    const input = document.createElement("input");
+
+    input.type = "file";
+    input.setAttribute("webkitdirectory", "");
+    input.setAttribute("directory", "");
+    input.multiple = true;
+
+    input.onchange = async (e) => {
+      const target = e.target as HTMLInputElement;
+
+      if (!target.files) return;
+
+      const folderItems = [...target.files].reduce<FolderItemsType[]>(
+        (prev, i) => {
+          const folderName = i.webkitRelativePath.split("/").at(-2) || "";
+          const folder = prev.find((i) => i.name === folderName);
+
+          if (folder) {
+            folder.files.push(i);
+          } else {
+            const parentName = i.webkitRelativePath.split("/").at(-3);
+            if (!parentName) {
+              prev.push({
+                id: crypto.randomUUID(),
+                name: folderName,
+                parentId: folderid || "",
+                files: [i],
+              });
+            } else {
+              const parentFolder = prev.find((i) => i.name === parentName);
+              if (parentFolder)
+                prev.push({
+                  id: crypto.randomUUID(),
+                  name: folderName,
+                  parentId: parentFolder.id,
+                  files: [i],
+                });
+            }
+          }
+
+          return prev;
+        },
+        [],
+      );
+      if (folderItems.length <= 0) return;
+
+      uploadFolder(folderItems);
     };
 
     setDisplayPopup(false);
@@ -119,10 +151,21 @@ function ButtonNew() {
         <button
           className="popup-control-item"
           type="button"
+          onClick={addFolder}
+          role="menuitem"
+        >
+          <div className="icon-container icon-folder-upload">
+            <FolderUploadIcon />
+          </div>
+          Folder Upload
+        </button>
+        <button
+          className="popup-control-item"
+          type="button"
           onClick={addFile}
           role="menuitem"
         >
-          <div className="icon-container">
+          <div className="icon-container icon-file-add">
             <FileAddIcon />
           </div>
           File Upload

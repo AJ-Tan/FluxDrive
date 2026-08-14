@@ -9,22 +9,6 @@
   box-shadow: var(--shadow-elevation);
   font-size: 0.8rem;
 
-  button {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: transparent;
-    border: none;
-    aspect-ratio: 1/1;
-    width: 1.5rem;
-    border-radius: 100%;
-    transition: background-color var(--transition-fast);
-
-    &:hover {
-      background-color: var(--bg--active);
-    }
-  }
-
   .btn-toggle-visibility {
     display: flex;
     align-items: center;
@@ -62,6 +46,22 @@
     padding: var(--spacing-2) var(--spacing-3);
     color: var(--text-h);
     font-weight: 500;
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: transparent;
+      border: none;
+      aspect-ratio: 1/1;
+      width: 1.5rem;
+      border-radius: 100%;
+      transition: background-color var(--transition-fast);
+
+      &:hover {
+        background-color: var(--bg--active);
+      }
+    }
   }
 
   .controls {
@@ -83,6 +83,9 @@
     font-size: 0.8rem;
     padding-inline: var(--spacing-3);
     color: var(--text-h);
+    border: none;
+    background-color: transparent;
+    width: 100%;
     position: relative;
 
     &:hover {

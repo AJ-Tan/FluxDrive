@@ -23,4 +23,12 @@
       background-color: var(--primary-color-bg--hover);
     }
   }
+
+  .icon-folder-upload {
+    padding-inline: 0.2rem;
+  }
+
+  .icon-file-add path {
+    fill: transparent;
+  }
 }

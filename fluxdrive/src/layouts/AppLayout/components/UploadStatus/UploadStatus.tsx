@@ -5,10 +5,14 @@ import checkIcon from "../../../../assets/icons/check.png";
 import { useState } from "react";
 import ButtonClose from "../../../../components/Buttons/ButtonClose/ButtonClose";
 import useUpload from "../../../../context/UploadContext/useUpload";
+import FolderIcon from "../../../../assets/icons/folder.svg?react";
+import type { UploadStatusListType } from "../../../../context/UploadContext/reducer/uploadStatusReducerType";
+import { useNavigate } from "react-router";
 
 function UploadStatus() {
   const [hide, setHide] = useState(false);
   const { uploadState, dispatchUploadState } = useUpload();
+  const navigate = useNavigate();
 
   const pendingFile = uploadState.filter((i) => !i.isComplete).length;
 
@@ -21,9 +25,13 @@ function UploadStatus() {
     setHide((prev) => !prev);
   };
 
-  const navigateUrl = (url: string | null) => {
-    if (!url) return;
-    window.open(url, "_blank", "noopener,noreferrer");
+  const handleOnClick = (item: UploadStatusListType) => {
+    if (!item.url) return;
+    if (item.type === "file") {
+      window.open(item.url, "_blank", "noopener,noreferrer");
+    } else {
+      navigate(`/app/folders/${item.url}`);
+    }
   };
 
   return (
@@ -50,20 +58,29 @@ function UploadStatus() {
         </header>
         <ul className="upload-list">
           {uploadState.map((item) => (
-            <li
-              key={item.id}
-              className={`upload-item ${item.isComplete ? "complete" : "uploading"}`}
-              onClick={() => navigateUrl(item.url)}
-            >
-              <div className="file-item-details">
-                <div className="icon-file">
-                  <MyFileIcon fileName={item.name} />
+            <li key={item.id}>
+              <button
+                key={item.id}
+                type="button"
+                className={`upload-item ${item.isComplete ? "complete" : "uploading"}`}
+                onClick={() => handleOnClick(item)}
+              >
+                <div className="file-item-details">
+                  <div className="icon-file">
+                    {item.type === "file" ? (
+                      <MyFileIcon fileName={item.name} />
+                    ) : (
+                      <div className="icon-container">
+                        <FolderIcon />
+                      </div>
+                    )}
+                  </div>
+                  <span>{item.name}</span>
+                </div>{" "}
+                <div className="icon-status">
+                  <img src={item.isComplete ? checkIcon : loadingIcon} alt="" />
                 </div>
-                <span>{item.name}</span>
-              </div>{" "}
-              <div className="icon-status">
-                <img src={item.isComplete ? checkIcon : loadingIcon} alt="" />
-              </div>
+              </button>
             </li>
           ))}
         </ul>
