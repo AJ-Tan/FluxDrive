@@ -1,11 +1,11 @@
 .landing-page-layout {
   --main-padding-block-start: 3rem;
   @media screen and (max-width: 1024px) {
-    --main-padding-block-start: 6rem;
+    --main-padding-block-start: 6.8rem;
   }
 
   @media screen and (max-width: 500px) {
-    --main-padding-block-start: 3rem;
+    --main-padding-block-start: 3.4rem;
   }
 
   display: flex;

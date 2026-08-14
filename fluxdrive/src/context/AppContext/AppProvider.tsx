@@ -1,4 +1,4 @@
-import { useEffect, useReducer, type JSX } from "react";
+import { useEffect, useReducer, useState, type JSX } from "react";
 import {
   AppContext,
   type UploadFileType,
@@ -20,6 +20,7 @@ export type AllContentItemType =
 
 function AppProvider({ children }: { children: JSX.Element }) {
   const [appState, dispatchAppState] = useReducer(appReducer, appInitialState);
+  const [appLoading, setAppLoading] = useState(true);
   const { user } = useAuth();
   const { folderid } = useParams();
   const { dispatchUploadState } = useUpload();
@@ -31,8 +32,9 @@ function AppProvider({ children }: { children: JSX.Element }) {
         type: "updateData",
         payload: { folderId: `${user?.id}-1`, ...res.data },
       });
+      setAppLoading(false);
     });
-  }, [user, dispatchAppState]);
+  }, [user, setAppLoading]);
 
   const allContentItem = (): AllContentItemType[] => {
     const output: AllContentItemType[] = appState.allFolders.map((i) => ({
@@ -113,6 +115,7 @@ function AppProvider({ children }: { children: JSX.Element }) {
     <AppContext
       value={{
         appState,
+        appLoading,
         dispatchAppState,
         allContentItem,
         uploadFile,

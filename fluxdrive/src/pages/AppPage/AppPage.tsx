@@ -1,6 +1,5 @@
 import useApp from "../../context/AppContext/useApp";
 import "./appPage.css";
-import ItemDetails from "./sections/ItemDetails/ItemDetails";
 import type { FolderType } from "../../types/folder-types";
 import { useParams } from "react-router";
 import useAuth from "../../context/AuthContext/useAuth";
@@ -79,7 +78,6 @@ function AppPage() {
           </div>
         </div>
       </main>
-      <ItemDetails />
     </>
   );
 }

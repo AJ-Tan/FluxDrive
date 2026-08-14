@@ -1,4 +1,6 @@
 tbody tr {
+  position: relative;
+
   .item-details {
     display: flex;
     align-items: center;
