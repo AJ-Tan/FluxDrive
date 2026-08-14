@@ -1,11 +1,17 @@
 import { createContext } from "react";
 import type { AppActionType, AppStateType } from "./reducers/appReducerType";
 import type { AllContentItemType } from "./AppProvider";
+import type { FolderItemsType } from "../../types/folder-types";
+
+export type UploadFolderType = (folderItems: FolderItemsType[]) => void;
+export type UploadFileType = (file: File, folderId: string) => void;
 
 type AppContextType = {
   appState: AppStateType;
   dispatchAppState: React.ActionDispatch<[action: AppActionType]>;
   allContentItem: () => AllContentItemType[];
+  uploadFolder: UploadFolderType;
+  uploadFile: UploadFileType;
 } | null;
 
 export const AppContext = createContext<AppContextType>(null);

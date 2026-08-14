@@ -5,7 +5,7 @@ import type {
 } from "./reducer/uploadStatusReducerType";
 
 type UploadStatusContextType = {
-  uploadState: UploadStatusListType;
+  uploadState: UploadStatusListType[];
   dispatchUploadState: React.ActionDispatch<[action: UploadStatusActionType]>;
 };
 
