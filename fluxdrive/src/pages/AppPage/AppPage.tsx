@@ -70,7 +70,10 @@ function AppPage() {
     <>
       <main className="app-page">
         <div className="app-page-container">
-          <AppPageHeader folderNav={folderNav} />
+          <AppPageHeader
+            folderNav={folderNav}
+            headerText={appState.searchText ? "Search result" : ""}
+          />
           <div className="app-content">
             <FolderTable
               tableData={getSearchContent() || getFolderContent(folder)}

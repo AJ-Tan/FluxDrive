@@ -6,6 +6,8 @@ import SigninPage from "../pages/SigninPage/SigninPage";
 import SignupPage from "../pages/SignupPage/SignupPage";
 import LandingPage from "../pages/LandingPage/LandingPage";
 import AppLayout from "../layouts/AppLayout/AppLayout";
+import ShareLayout from "../layouts/ShareLayout/ShareLayout";
+import SharePage from "../pages/SharePage/SharePage";
 
 export const routes: RouteObject[] = [
   {
@@ -46,7 +48,20 @@ export const routes: RouteObject[] = [
       },
     ],
   },
-
+  {
+    path: "/shared",
+    element: <ShareLayout />,
+    children: [
+      {
+        path: "/shared/:shareid",
+        element: <SharePage />,
+      },
+      {
+        path: "/shared/:shareid/:folderid",
+        element: <SharePage />,
+      },
+    ],
+  },
   {
     path: "/signin",
     element: (

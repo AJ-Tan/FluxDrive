@@ -34,6 +34,70 @@ const openFolderShareController = async (req, res, next) => {
     const shareId = req.params?.folderShareId;
 
     const folderShare = await prisma.folderShare.findUnique({
+      where: { id: shareId || "", expiresAt: { gt: new Date() } },
+      include: {
+        folder: {
+          include: {
+            children: true,
+            files: true,
+          },
+        },
+      },
+    });
+
+    if (!folderShare)
+      return next({
+        status: 404,
+        name: "InvalidShareLink",
+        message:
+          "The shared id you have provided is either invalid, or expired.",
+        data: {
+          invalidShareId: shareId,
+        },
+      });
+
+    const folders = await prisma.folder.findMany({
+      where: { ownerId: folderShare.ownerId },
+      include: { children: true, files: true },
+    });
+
+    const fetchFolderData = async (folderId) => {
+      const folder = folders.find((f) => f.id === folderId);
+      if (!folder) return null;
+
+      const children = folder.children;
+      const allFolders = [folder];
+      const allFiles = folder.files;
+
+      for (const child of children) {
+        const childData = await fetchFolderData(child.id);
+        if (!childData) continue;
+
+        allFolders.push(...childData.allFolders);
+        allFiles.push(...childData.allFiles);
+      }
+
+      return { folderShare, allFolders, allFiles };
+    };
+
+    const folderData = await fetchFolderData(folderShare.folderId);
+
+    res.status(200).json({
+      ok: true,
+      name: "FetchedSharedFolder",
+      message: "Successfully fetched the shared folder",
+      data: { ...folderData },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+const x = async (req, res, next) => {
+  try {
+    const shareId = req.params?.folderShareId;
+
+    const folderShare = await prisma.folderShare.findUnique({
       where: { id: shareId || "" },
       include: {
         folder: {

@@ -14,6 +14,15 @@ export type FolderType = {
   folderPath: { id: string; name: string }[];
 };
 
+export type FolderPathType = {
+  id: string;
+  name: string;
+};
+
+export type FolderContentType =
+  | (FileType & { type: "file" })
+  | (FolderType & { type: "folder" });
+
 export type FolderAllType = () => Promise<
   ResponseType & { data: { allFolders: FolderType[]; allFiles: FileType[] } }
 >;

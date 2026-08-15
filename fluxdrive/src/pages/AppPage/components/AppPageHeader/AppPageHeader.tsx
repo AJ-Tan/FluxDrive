@@ -1,14 +1,20 @@
 import { Link } from "react-router";
-import type { FolderType } from "../../../../types/folder-types";
 import "./appPageHeader.css";
 import ThreeDotsIcon from "../../../../assets/icons/three-dots-horizontal.svg?react";
 import FolderIcon from "../../../../assets/icons/folder.svg?react";
 import { useEffect, useRef, useState } from "react";
-import useApp from "../../../../context/AppContext/useApp";
+import type { FolderPathType } from "../../../../types/folder-types";
 
-function AppPageHeader({ folderNav }: { folderNav: FolderType[] | undefined }) {
+function AppPageHeader({
+  folderNav,
+  headerText,
+  baseLink = "/app/folders",
+}: {
+  folderNav: FolderPathType[] | undefined;
+  headerText?: string;
+  baseLink?: string;
+}) {
   const [displayPopup, setDisplayPopup] = useState(false);
-  const { appState } = useApp();
   const containerRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
@@ -31,8 +37,8 @@ function AppPageHeader({ folderNav }: { folderNav: FolderType[] | undefined }) {
 
   return (
     <header className="app-page-header">
-      {appState.searchText ? (
-        <span>Search results</span>
+      {headerText ? (
+        <span>{headerText}</span>
       ) : (
         <nav className="app-folder-nav">
           <ul>
@@ -56,7 +62,7 @@ function AppPageHeader({ folderNav }: { folderNav: FolderType[] | undefined }) {
                     folderNav.slice(0, -2).map((item) => (
                       <Link
                         key={item.id}
-                        to={`/app/folders/${item.id}`}
+                        to={`${baseLink}/${item.id}`}
                         className="popup-control-item"
                         role="menuitem"
                       >
@@ -75,7 +81,7 @@ function AppPageHeader({ folderNav }: { folderNav: FolderType[] | undefined }) {
             )?.map((folder) => (
               <li key={folder.id}>
                 <Link
-                  to={`/app/folders/${folder.id}`}
+                  to={`${baseLink}/${folder.id}`}
                   className="link-folder-nav"
                 >
                   {folder.name}
