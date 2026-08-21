@@ -8,7 +8,7 @@ const allDataController = async (req, res, next) => {
 
   const allFolders = await prisma.folder.findMany({
     where: { ownerId: user.id },
-    include: { children: true, files: true },
+    include: { children: true, files: true, folderShare: true },
   });
 
   const allFiles = await prisma.file.findMany({
@@ -33,6 +33,7 @@ const openFolderController = async (req, res, next) => {
         parent: true,
         files: true,
         children: true,
+        folderShare: true,
       },
     });
 
@@ -72,7 +73,7 @@ const createFolderController = async (req, res, next) => {
 
     const allFolders = await prisma.folder.findMany({
       where: { ownerId: user.id },
-      include: { children: true, files: true },
+      include: { children: true, files: true, folderShare: true },
     });
 
     const allFiles = await prisma.file.findMany({
@@ -99,10 +100,6 @@ const uploadFolderController = async (req, res, next) => {
     const user = req.user;
     const parentId = req.body.parentId || `${user.id}-1`;
     const { folderId, name } = req.body;
-    console.log(
-      parentId,
-      "adoaisdjsaoidjasodjaso djaso djasodjasodjasdiada sod",
-    );
     const createFolder = await prisma.folder.create({
       data: {
         id: folderId,
@@ -135,7 +132,7 @@ const uploadFolderController = async (req, res, next) => {
 
     const allFolders = await prisma.folder.findMany({
       where: { ownerId: user.id },
-      include: { children: true, files: true },
+      include: { children: true, files: true, folderShare: true },
     });
 
     const allFiles = await prisma.file.findMany({
@@ -170,7 +167,7 @@ const updateFolderController = async (req, res, next) => {
 
     const allFolders = await prisma.folder.findMany({
       where: { ownerId: user.id },
-      include: { children: true, files: true },
+      include: { children: true, files: true, folderShare: true },
     });
 
     const allFiles = await prisma.file.findMany({
@@ -225,7 +222,7 @@ const deleteFolderController = async (req, res, next) => {
 
     const allFolders = await prisma.folder.findMany({
       where: { ownerId: user.id },
-      include: { children: true, files: true },
+      include: { children: true, files: true, folderShare: true },
     });
 
     const allFiles = await prisma.file.findMany({

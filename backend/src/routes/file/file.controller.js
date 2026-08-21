@@ -36,7 +36,7 @@ const uploadFileController = async (req, res, next) => {
 
     const allFolders = await prisma.folder.findMany({
       where: { ownerId: user.id },
-      include: { children: true, files: true },
+      include: { children: true, files: true, folderShare: true },
     });
 
     const allFiles = await prisma.file.findMany({
@@ -81,7 +81,7 @@ const updateFileController = async (req, res, next) => {
 
     const allFolders = await prisma.folder.findMany({
       where: { ownerId: user.id },
-      include: { children: true, files: true },
+      include: { children: true, files: true, folderShare: true },
     });
 
     const allFiles = await prisma.file.findMany({
@@ -135,7 +135,7 @@ const deleteFileController = async (req, res, next) => {
 
     const allFolders = await prisma.folder.findMany({
       where: { ownerId: user.id },
-      include: { children: true, files: true },
+      include: { children: true, files: true, folderShare: true },
     });
 
     const allFiles = await prisma.file.findMany({
