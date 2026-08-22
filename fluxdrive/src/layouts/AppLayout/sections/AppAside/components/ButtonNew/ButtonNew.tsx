@@ -3,7 +3,7 @@ import FileAddIcon from "../../../../../../assets/icons/file-add.svg?react";
 import FolderAddIcon from "../../../../../../assets/icons/folder-add.svg?react";
 import FolderUploadIcon from "../../../../../../assets/icons/folder-upload.svg?react";
 import { useEffect, memo, useRef, useState } from "react";
-import AddFolderDialog from "../../../../components/AddFolderDialog/AddFolderDialog";
+import AddFolderDialog from "../AddFolderDialog/AddFolderDialog";
 import { useParams } from "react-router";
 import useAuth from "../../../../../../context/AuthContext/useAuth";
 import useApp from "../../../../../../context/AppContext/useApp";

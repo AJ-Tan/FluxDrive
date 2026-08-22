@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import TextField from "../../../../components/Inputs/Textfield/TextField";
-import { folderAdd } from "../../../../services/folder-service";
-import useApp from "../../../../context/AppContext/useApp";
+import TextField from "../../../../../../components/Inputs/Textfield/TextField";
+import { folderAdd } from "../../../../../../services/folder-service";
+import useApp from "../../../../../../context/AppContext/useApp";
 import { useParams } from "react-router";
-import useAuth from "../../../../context/AuthContext/useAuth";
+import useAuth from "../../../../../../context/AuthContext/useAuth";
 
 type InitialStateType = {
   values: {
@@ -50,7 +50,7 @@ function AddFolderForm({
   ref: React.RefObject<HTMLDialogElement | null>;
 }) {
   const [loading, setLoading] = useState(false);
-  const { dispatchAppState } = useApp();
+  const { dispatchAppState, setError } = useApp();
   const { folderid } = useParams();
   const { user } = useAuth();
 
@@ -71,7 +71,12 @@ function AddFolderForm({
     setLoading(true);
     const res = await folderAdd(input, activeFolder);
     setLoading(false);
-    if (!res.ok) return console.log(res);
+
+    if (!res.ok) {
+      setError({ status: res.status, message: res.message });
+      return console.log(res);
+    }
+
     closeDialog();
     setValue("input", "Untitled Folder");
     dispatchAppState({
