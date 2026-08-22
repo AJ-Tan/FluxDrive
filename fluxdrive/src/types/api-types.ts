@@ -1,4 +1,5 @@
 type BaseResponse = {
+  status: number;
   ok: boolean;
   name: string;
   message: string;

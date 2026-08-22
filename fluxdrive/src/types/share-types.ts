@@ -25,3 +25,16 @@ export type FetchSharedFolderType = (
     data: ShareDataType;
   }
 >;
+
+export type GenerateFolderShareType = (
+  id: string,
+  expire: number,
+) => Promise<
+  ResponseType & {
+    data: {
+      folderShare: FolderShareType;
+      allFolders: FolderType[];
+      allFiles: FileType[];
+    };
+  }
+>;

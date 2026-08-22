@@ -111,7 +111,6 @@
   transform: scale(0.6);
   transform-origin: top left;
   visibility: hidden;
-  content-visibility: hidden;
   transition:
     opacity var(--transition-normal-1),
     transform var(--transition-normal-1),
@@ -120,7 +119,6 @@
   z-index: 4;
 
   &.show {
-    content-visibility: visible;
     visibility: visible;
     transform: scale(1);
     opacity: 1;

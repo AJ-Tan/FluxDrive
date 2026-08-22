@@ -12,6 +12,15 @@ export type FolderType = {
   files: FileType[];
   children: FolderType[];
   folderPath: { id: string; name: string }[];
+  folderShare: FolderShareType[];
+};
+
+export type FolderShareType = {
+  id: string;
+  expiresAt: string;
+  folderId: string;
+  ownerId: string;
+  createdAt: string;
 };
 
 export type FolderPathType = {
