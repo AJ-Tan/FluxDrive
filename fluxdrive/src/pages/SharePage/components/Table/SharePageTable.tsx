@@ -31,7 +31,7 @@ function SharePageTable({ tableData }: { tableData: AllContentItemType[] }) {
     }));
   };
   const openFolder = (id: string) => {
-    navigate(`/shared/${shareid}/${id}`);
+    navigate(`/share/${shareid}/${id}`);
   };
   const openFile = (url: string) => {
     window.open(url, "_blank", "noopener,noreferrer");
