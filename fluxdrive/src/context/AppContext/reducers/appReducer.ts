@@ -12,6 +12,7 @@ const allFoldersInitialState = [
     children: [],
     files: [],
     folderPath: [],
+    folderShare: [],
   },
 ];
 

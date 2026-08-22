@@ -18,16 +18,42 @@ export type AllContentItemType =
   | (FileType & { type: "file" })
   | (FolderType & { type: "folder" });
 
+export type ErrorType = {
+  status: number;
+  message: string;
+} | null;
+
 function AppProvider({ children }: { children: JSX.Element }) {
   const [appState, dispatchAppState] = useReducer(appReducer, appInitialState);
   const [appLoading, setAppLoading] = useState(true);
+  const [error, setError] = useState<ErrorType>(null);
   const { user } = useAuth();
   const { folderid } = useParams();
   const { dispatchUploadState } = useUpload();
 
   useEffect(() => {
+    const activeFolderId = folderid ? folderid : `${user?.id}-1`;
+    const findFolder = appState.allFolders.find(
+      (i) => i.id === activeFolderId || i.id === "0",
+    );
+
+    if (!findFolder) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setError({
+        status: 404,
+        message: "The requested URL was not found on this server.",
+      });
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [folderid, setError]);
+
+  useEffect(() => {
     folderAll().then((res) => {
-      if (!res.ok) return console.log(res);
+      if (!res.ok) {
+        setError({ status: res.status, message: res.message });
+        return console.log(res);
+      }
       dispatchAppState({
         type: "updateData",
         payload: { folderId: `${user?.id}-1`, ...res.data },
@@ -59,7 +85,10 @@ function AppProvider({ children }: { children: JSX.Element }) {
     });
 
     const res = await folderUpload(folderItems);
-    if (!res.ok) return console.log(res);
+    if (!res.ok) {
+      setError({ status: res.status, message: res.message });
+      return console.log(res);
+    }
 
     dispatchAppState({
       type: "updateData",
@@ -68,7 +97,6 @@ function AppProvider({ children }: { children: JSX.Element }) {
         allFiles: res.data.allFiles,
       },
     });
-
     dispatchUploadState({
       type: "setComplete",
       payload: {
@@ -91,7 +119,12 @@ function AppProvider({ children }: { children: JSX.Element }) {
       dispatchUploadState({ type: "remove", payload: uploadId });
       return;
     }
-    if (!res.ok) return console.log(res);
+
+    if (!res.ok) {
+      setError({ status: res.status, message: res.message });
+      return console.log(res);
+    }
+
     dispatchAppState({
       type: "updateData",
       payload: {
@@ -105,12 +138,6 @@ function AppProvider({ children }: { children: JSX.Element }) {
     });
   };
 
-  const activeFolderId = folderid ? folderid : `${user?.id}-1`;
-  const findFolder = appState.allFolders.find(
-    (i) => i.id === activeFolderId || i.id === "0",
-  );
-  const isFolderExist = findFolder ? true : false;
-
   return (
     <AppContext
       value={{
@@ -120,16 +147,13 @@ function AppProvider({ children }: { children: JSX.Element }) {
         allContentItem,
         uploadFile,
         uploadFolder,
+        setError,
       }}
     >
-      {isFolderExist ? (
-        children
+      {error ? (
+        <ErrorPage defaultUrl="/app" {...error} setError={setError} />
       ) : (
-        <ErrorPage
-          status={404}
-          title="That’s an error"
-          description="The requested URL was not found on this server."
-        />
+        children
       )}
     </AppContext>
   );
