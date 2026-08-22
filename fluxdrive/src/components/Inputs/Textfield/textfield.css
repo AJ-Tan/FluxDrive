@@ -1,6 +1,4 @@
 .textfield {
-  --padding-x: var(--spacing-3);
-
   width: 100%;
   font-size: 0.8rem;
 

@@ -4,7 +4,7 @@ import "./textfield.css";
 type TextFieldProps = {
   id: string;
   value: string;
-  setValue: (id: string, value: string) => void;
+  setValue: ((id: string, value: string) => void) | ((value: string) => void);
   errors?: string[] | undefined;
   label?: string;
   placeholder?: string;
@@ -33,7 +33,11 @@ function TextField({
           type={type}
           value={value}
           onChange={(e) => {
-            setValue(id, e.target.value);
+            if (setValue.length >= 2) {
+              setValue(id, e.target.value);
+            } else {
+              (setValue as (value: string) => void)(e.target.value);
+            }
           }}
           placeholder={placeholder}
           autoComplete="chrome-off"
