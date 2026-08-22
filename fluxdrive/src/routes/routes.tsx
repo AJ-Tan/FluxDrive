@@ -8,11 +8,19 @@ import LandingPage from "../pages/LandingPage/LandingPage";
 import AppLayout from "../layouts/AppLayout/AppLayout";
 import ShareLayout from "../layouts/ShareLayout/ShareLayout";
 import SharePage from "../pages/SharePage/SharePage";
+import ErrorPage from "../pages/ErrorPage/ErrorPage";
 
 export const routes: RouteObject[] = [
   {
     path: "/",
     element: <LandingPage />,
+    errorElement: (
+      <ErrorPage
+        defaultUrl="/"
+        status={404}
+        message="The requested URL was not found on this server."
+      />
+    ),
   },
   {
     path: "/app",
@@ -49,15 +57,15 @@ export const routes: RouteObject[] = [
     ],
   },
   {
-    path: "/shared",
+    path: "/share",
     element: <ShareLayout />,
     children: [
       {
-        path: "/shared/:shareid",
+        path: "/share/:shareid",
         element: <SharePage />,
       },
       {
-        path: "/shared/:shareid/:folderid",
+        path: "/share/:shareid/:folderid",
         element: <SharePage />,
       },
     ],
