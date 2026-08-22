@@ -26,7 +26,7 @@ export const backendApi = async (
     }
   }
 
-  return data;
+  return { status: res.status, ...data };
 };
 
 const auth_refreshAccess = async (): Promise<
