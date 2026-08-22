@@ -9,6 +9,7 @@ import type { AllContentItemType } from "../../../../context/AppContext/AppProvi
 import useApp from "../../../../context/AppContext/useApp";
 import { useParams } from "react-router";
 import useAuth from "../../../../context/AuthContext/useAuth";
+import ShareLinkDialog from "./components/ShareLinkDialog/ShareLinkDialog";
 
 type SortType = {
   column: "default" | "name" | "date" | "size";
@@ -28,6 +29,11 @@ export type DeleteDialogDataType = {
   type: "folder" | "file";
 }[];
 
+export type SelectedItemType = {
+  id: string;
+  type: "folder" | "file";
+} | null;
+
 function FolderTable({ tableData }: { tableData: AllContentItemType[] }) {
   const [isDragging, setIsDragging] = useState(false);
   const [sort, setSort] = useState<SortType>({
@@ -36,15 +42,9 @@ function FolderTable({ tableData }: { tableData: AllContentItemType[] }) {
   });
   const { appLoading, uploadFile, uploadFolder } = useApp();
   const renameDialogRef = useRef<HTMLDialogElement | null>(null);
-  const [renameDialogData, setRenameDialogData] =
-    useState<RenameDialogDataType>({
-      id: "",
-      type: "folder",
-      values: { name: "" },
-    });
   const deleteDialogRef = useRef<HTMLDialogElement | null>(null);
-  const [deleteDialogData, setDeleteDialogData] =
-    useState<DeleteDialogDataType>([]);
+  const shareLinkDialogRef = useRef<HTMLDialogElement | null>(null);
+  const [selectedItem, setSelectedItem] = useState<SelectedItemType>(null);
   const { user } = useAuth();
   const { folderid } = useParams();
   const currentFolderId = folderid ? folderid : `${user?.id}-1`;
@@ -226,16 +226,10 @@ function FolderTable({ tableData }: { tableData: AllContentItemType[] }) {
                 <TableItem
                   key={item.id}
                   item={item}
-                  renameDialog={{
-                    ref: renameDialogRef,
-                    data: renameDialogData,
-                    setData: setRenameDialogData,
-                  }}
-                  deleteDialog={{
-                    ref: deleteDialogRef,
-                    data: deleteDialogData,
-                    setData: setDeleteDialogData,
-                  }}
+                  renameDialogRef={renameDialogRef}
+                  deleteDialogRef={deleteDialogRef}
+                  shareLinkDialogRef={shareLinkDialogRef}
+                  setSelectedItem={setSelectedItem}
                 />
               ))}
             </tbody>
@@ -252,12 +246,15 @@ function FolderTable({ tableData }: { tableData: AllContentItemType[] }) {
 
       <RenameItemDialog
         renameDialogRef={renameDialogRef}
-        renameDialogData={renameDialogData}
-        setRenameDialogData={setRenameDialogData}
+        selectedItem={selectedItem}
       />
       <DeleteItemDialog
         deleteDialogRef={deleteDialogRef}
-        deleteDialogData={deleteDialogData}
+        selectedItem={selectedItem}
+      />
+      <ShareLinkDialog
+        shareLinkDialogRef={shareLinkDialogRef}
+        selectedItem={selectedItem}
       />
     </>
   );

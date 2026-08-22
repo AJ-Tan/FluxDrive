@@ -1,15 +1,14 @@
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import useApp from "../../../../../../context/AppContext/useApp";
-import type {
-  DeleteDialogDataType,
-  RenameDialogDataType,
-} from "../../FolderTable";
+import type { SelectedItemType } from "../../FolderTable";
 import {
   fileSizeText,
   formattedDate,
 } from "../../../../../../utils/common-functions";
 import MyFileIcon from "../../../../../../components/MyFileIcon/MyFileIcon";
+import FileDownloadIcon from "../../../../../../assets/icons/file-download.svg?react";
 import FolderIcon from "../../../../../../assets/icons/folder.svg?react";
+import FolderShareIcon from "../../../../../../assets/icons/folder-share.svg?react";
 import RenameIcon from "../../../../../../assets/icons/pen-line.svg?react";
 import DeleteIcon from "../../../../../../assets/icons/delete.svg?react";
 import ThreeDotsVertical from "../../../../../../assets/icons/three-dots-vertical.svg?react";
@@ -19,19 +18,19 @@ import type { AllContentItemType } from "../../../../../../context/AppContext/Ap
 
 type TableItemProps = {
   item: AllContentItemType;
-  renameDialog: {
-    ref: React.RefObject<HTMLDialogElement | null>;
-    data: RenameDialogDataType;
-    setData: React.Dispatch<React.SetStateAction<RenameDialogDataType>>;
-  };
-  deleteDialog: {
-    ref: React.RefObject<HTMLDialogElement | null>;
-    data: DeleteDialogDataType;
-    setData: React.Dispatch<React.SetStateAction<DeleteDialogDataType>>;
-  };
+  renameDialogRef: React.RefObject<HTMLDialogElement | null>;
+  deleteDialogRef: React.RefObject<HTMLDialogElement | null>;
+  shareLinkDialogRef: React.RefObject<HTMLDialogElement | null>;
+  setSelectedItem: React.Dispatch<React.SetStateAction<SelectedItemType>>;
 };
 
-function TableItem({ item, renameDialog, deleteDialog }: TableItemProps) {
+function TableItem({
+  item,
+  renameDialogRef,
+  deleteDialogRef,
+  shareLinkDialogRef,
+  setSelectedItem,
+}: TableItemProps) {
   const {
     appState: { focusedItem },
     dispatchAppState,
@@ -64,17 +63,7 @@ function TableItem({ item, renameDialog, deleteDialog }: TableItemProps) {
 
   const setFocusedItem = (id: string, itemType: "folder" | "file") => {
     dispatchAppState({ type: "focusedItem", payload: { id, itemType } });
-    renameDialog.setData({
-      id: item.id,
-      type: item.type,
-      values: { name: item.name },
-    });
-    deleteDialog.setData([
-      {
-        id: item.id,
-        type: item.type,
-      },
-    ]);
+    setSelectedItem({ id, type: itemType });
   };
 
   const openFolder = (id: string) => {
@@ -102,13 +91,22 @@ function TableItem({ item, renameDialog, deleteDialog }: TableItemProps) {
 
     setActionPopup(true);
   };
-  const openRenameDialog = () => {
-    const dialog = renameDialog.ref.current;
-    if (!dialog) return;
-    dialog.showModal();
-  };
-  const openDeleteDialog = () => {
-    const dialog = deleteDialog.ref.current;
+
+  const openDialog = (type: "rename" | "delete" | "share") => {
+    let dialog = null;
+
+    switch (type) {
+      case "rename":
+        dialog = renameDialogRef.current;
+        break;
+      case "delete":
+        dialog = deleteDialogRef.current;
+        break;
+      case "share":
+        dialog = shareLinkDialogRef.current;
+        break;
+    }
+
     if (!dialog) return;
     dialog.showModal();
   };
@@ -164,7 +162,7 @@ function TableItem({ item, renameDialog, deleteDialog }: TableItemProps) {
               <button
                 className="popup-control-item"
                 role="menuitem"
-                onClick={openRenameDialog}
+                onClick={() => openDialog("rename")}
               >
                 <div className="icon-container">
                   <RenameIcon />
@@ -174,13 +172,40 @@ function TableItem({ item, renameDialog, deleteDialog }: TableItemProps) {
               <button
                 className="popup-control-item"
                 role="menuitem"
-                onClick={openDeleteDialog}
+                onClick={() => openDialog("delete")}
               >
                 <div className="icon-container">
                   <DeleteIcon />
                 </div>
                 Delete
               </button>
+              {item.type === "folder" ? (
+                <button
+                  className="popup-control-item"
+                  role="menuitem"
+                  onClick={() => openDialog("share")}
+                >
+                  <div className="icon-container folder-share-icon">
+                    <FolderShareIcon />
+                  </div>
+                  Share
+                </button>
+              ) : (
+                <Link
+                  className="popup-control-item"
+                  to={item.fileUrl.replace(
+                    "/upload/",
+                    `/upload/fl_attachment:${item.name ? item.name.replace(/,/g, "").replace("-", "_").split(".").slice(0, -1).join("") : "file"}/`,
+                  )}
+                  target="_blank"
+                  download={item.name}
+                >
+                  <div className="icon-container">
+                    <FileDownloadIcon />
+                  </div>
+                  Download
+                </Link>
+              )}
             </div>
           </div>
         </div>

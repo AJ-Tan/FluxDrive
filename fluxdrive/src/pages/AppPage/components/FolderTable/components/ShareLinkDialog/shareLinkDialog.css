@@ -1,0 +1,41 @@
+.share-link-details {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  margin-block-end: var(--spacing-1);
+
+  input {
+    border: 1px solid var(--primary-color);
+    border-radius: 0.5rem;
+    padding-inline: var(--spacing-2);
+    height: 2rem;
+    width: 100%;
+  }
+
+  .txt-expiration {
+    font-size: 0.6rem;
+    padding-block-start: 0.2rem;
+    padding-inline-start: 0.85rem;
+  }
+
+  label {
+    font-size: 0.8rem;
+  }
+
+  .txt-share {
+    font-size: 0.7rem;
+  }
+
+  .share-link-details-group {
+    display: flex;
+    gap: var(--spacing-1);
+  }
+
+  .input-group {
+    width: 100%;
+  }
+
+  select {
+    outline-color: var(--primary-color);
+  }
+}

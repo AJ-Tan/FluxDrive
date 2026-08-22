@@ -1,53 +1,53 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import useApp from "../../../../../../context/AppContext/useApp";
 import TextField from "../../../../../../components/Inputs/Textfield/TextField";
 import { folderUpdate } from "../../../../../../services/folder-service";
 import { fileUpdate } from "../../../../../../services/file-service";
-import type { RenameDialogDataType } from "../../FolderTable";
+import type { SelectedItemType } from "../../FolderTable";
 
 function RenameItemDialog({
   renameDialogRef,
-  renameDialogData,
-  setRenameDialogData,
+  selectedItem,
 }: {
   renameDialogRef: React.RefObject<HTMLDialogElement | null>;
-  renameDialogData: RenameDialogDataType;
-  setRenameDialogData: React.Dispatch<
-    React.SetStateAction<RenameDialogDataType>
-  >;
+  selectedItem: SelectedItemType;
 }) {
   const [loading, setLoading] = useState(false);
   const { dispatchAppState } = useApp();
-  const {
-    id,
-    type,
-    values: { name },
-  } = renameDialogData;
+  const [renameText, setRenameText] = useState("");
+  const { appState } = useApp();
+
+  const fetchedItem =
+    selectedItem?.type === "folder"
+      ? appState.allFolders.find((i) => i.id === selectedItem?.id)
+      : appState.allFiles.find((i) => i.id === selectedItem?.id);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setRenameText(fetchedItem?.name || "");
+  }, [selectedItem, appState, fetchedItem, setRenameText]);
 
   const setValue = useCallback(
-    (id: string, value: string) => {
-      setRenameDialogData((prev) => ({
-        ...prev,
-        values: { ...prev.values, [id]: value },
-      }));
+    (value: string) => {
+      setRenameText(value);
     },
-    [setRenameDialogData],
+    [setRenameText],
   );
 
   const closeDialog = () => {
-    const folderDialog = renameDialogRef.current;
-    if (!folderDialog) return;
-    folderDialog.close();
+    const renameDialog = renameDialogRef.current;
+    if (!renameDialog) return;
+    renameDialog.close();
   };
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    if (!selectedItem) return;
     setLoading(true);
     const res =
-      type === "folder"
-        ? await folderUpdate({ id, name })
-        : await fileUpdate({ id, name });
+      selectedItem.type === "folder"
+        ? await folderUpdate({ id: selectedItem.id, name: renameText })
+        : await fileUpdate({ id: selectedItem.id, name: renameText });
     setLoading(false);
     if (!res.ok) return console.log(res);
     closeDialog();
@@ -63,8 +63,8 @@ function RenameItemDialog({
       className={`dialog-form${loading ? " loading" : ""}`}
     >
       <form onSubmit={handleSubmit}>
-        <h2>Rename {type === "folder" ? "Folder" : "File"}</h2>
-        <TextField id="name" value={name} setValue={setValue} />
+        <h2>Rename {selectedItem?.type === "folder" ? "Folder" : "File"}</h2>
+        <TextField id="name" value={renameText} setValue={setValue} />
         <div className="form-controls">
           <button type="button" onClick={closeDialog}>
             Cancel
