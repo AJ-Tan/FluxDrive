@@ -55,6 +55,15 @@ function FolderTable({ tableData }: { tableData: AllContentItemType[] }) {
   };
   const handleDragLeave = (e: React.DragEvent<HTMLTableElement>) => {
     e.preventDefault();
+
+    const container = e.currentTarget;
+    if (
+      e.relatedTarget instanceof Node &&
+      container.contains(e.relatedTarget)
+    ) {
+      return;
+    }
+
     setIsDragging(false);
   };
   const handleDrop = async (e: React.DragEvent) => {
