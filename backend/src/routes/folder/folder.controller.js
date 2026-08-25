@@ -6,16 +6,20 @@ import cloudinary from "../../config/cloudinary/cloudinary.config.js";
 const allDataController = async (req, res, next) => {
   const user = req.user;
 
-  const allFolders = await prisma.folder.findMany({
-    where: { ownerId: user.id },
-    include: { children: true, files: true, folderShare: true },
-  });
+  try {
+    const allFolders = await prisma.folder.findMany({
+      where: { ownerId: user.id },
+      include: { children: true, files: true, folderShare: true },
+    });
 
-  const allFiles = await prisma.file.findMany({
-    where: { ownerId: user.id },
-  });
+    const allFiles = await prisma.file.findMany({
+      where: { ownerId: user.id },
+    });
 
-  res.status(200).json({ ok: true, data: { allFolders, allFiles } });
+    res.status(200).json({ ok: true, data: { allFolders, allFiles } });
+  } catch (err) {
+    next(err);
+  }
 };
 
 const openFolderController = async (req, res, next) => {
@@ -159,9 +163,9 @@ const updateFolderController = async (req, res, next) => {
     // Check if folderId and parentId folders exists, and user has access to that folder.
     const checkFolderId = await checkFolderAccessAuthorized(user.id, folderId);
     if (!checkFolderId.ok) return next(checkFolderId.err);
-
+    console.log("name: ", name);
     const updatedFolder = await prisma.folder.update({
-      data: { name, parentId },
+      data: { name: name, parentId },
       where: { id: folderId },
     });
 

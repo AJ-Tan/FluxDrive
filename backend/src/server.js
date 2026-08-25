@@ -43,7 +43,7 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  const status = err.status || err.statusCode || 500;
+  const status = err.status || err.statusCode || err.http_code || 500;
   const name = err.name || "UncaughtError";
   const message = err.message || "Internal server error.";
   const errorDetails = err.errorDetails || null;
