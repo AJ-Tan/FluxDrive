@@ -27,7 +27,7 @@ const fileUpdate: FileUpdateType = async ({ id, name, folderId }) => {
     const data = await backendApi(
       `/file/${id}`,
       "PUT",
-      JSON.stringify({ ...(name && { name }), ...(folderId && { folderId }) }),
+      JSON.stringify({ name, ...(folderId && { folderId }) }),
     );
     return data;
   } catch (err) {

@@ -68,7 +68,7 @@ const folderUpdate: FolderUpdateType = async ({ id, name, parentId }) => {
     const data = await backendApi(
       `/folder/${id}`,
       "PUT",
-      JSON.stringify({ ...(name && { name }), ...(parentId && { parentId }) }),
+      JSON.stringify({ name, ...(parentId && { parentId }) }),
     );
     return data;
   } catch (err) {
