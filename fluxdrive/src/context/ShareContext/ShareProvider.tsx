@@ -63,9 +63,9 @@ function ShareProvider({ children }: { children: JSX.Element }) {
     <>Loading</>
   ) : error ? (
     <ErrorPage
+      defaultUrl="/app"
       status={error.status}
-      title={error.name}
-      description={error.message}
+      message={error.message}
     />
   ) : (
     <ShareContext value={{ activeFolderContent, activeFolderNav }}>
