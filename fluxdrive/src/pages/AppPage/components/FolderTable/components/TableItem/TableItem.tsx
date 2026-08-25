@@ -111,6 +111,20 @@ function TableItem({
     dialog.showModal();
   };
 
+  const downloadUrl = (name: string, fileUrl: string) => {
+    let fileName = name;
+
+    if (name.split(".").slice(-1)[0] === "svg") return fileUrl;
+
+    if (fileName.includes("."))
+      fileName = name.replace(/,/g, "").replace("-", "_").split(".")[0];
+
+    return fileUrl.replace(
+      "/upload/",
+      `/upload/fl_attachment:${fileName ? fileName : "file"}/`,
+    );
+  };
+
   return (
     <tr
       key={item.id}
@@ -124,7 +138,7 @@ function TableItem({
         <div className="item-details">
           <div className="item-icon">
             {item.type === "file" ? (
-              <MyFileIcon fileName={item.name} />
+              <MyFileIcon fileName={item.fileType || "raw"} />
             ) : (
               <div className="icon-container">
                 <FolderIcon />
@@ -193,10 +207,7 @@ function TableItem({
               ) : (
                 <Link
                   className="popup-control-item"
-                  to={item.fileUrl.replace(
-                    "/upload/",
-                    `/upload/fl_attachment:${item.name ? item.name.replace(/,/g, "").replace("-", "_").split(".").slice(0, -1).join("") : "file"}/`,
-                  )}
+                  to={downloadUrl(item.name, item.fileUrl)}
                   target="_blank"
                   download={item.name}
                 >
