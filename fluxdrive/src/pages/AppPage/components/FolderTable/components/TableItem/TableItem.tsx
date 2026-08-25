@@ -114,8 +114,6 @@ function TableItem({
   const downloadUrl = (name: string, fileUrl: string) => {
     let fileName = name;
 
-    if (name.split(".").slice(-1)[0] === "svg") return fileUrl;
-
     if (fileName.includes("."))
       fileName = name.replace(/,/g, "").replace("-", "_").split(".")[0];
 
