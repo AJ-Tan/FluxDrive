@@ -13,15 +13,6 @@ const uploadStatusReducer: UploadStatusReducerType = (state, action) => {
         },
         ...state,
       ];
-    // return [
-    //   ...action.payload.map((item) => ({
-    //     id: item.id,
-    //     name: item.file.name,
-    //     url: null,
-    //     isComplete: false,
-    //   })),
-    //   ...state,
-    // ];
     case "remove":
       return [...state].filter((i) => i.id !== action.payload);
     case "setComplete":

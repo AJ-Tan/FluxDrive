@@ -86,7 +86,6 @@ function AppProvider({ children }: { children: JSX.Element }) {
 
     const res = await folderUpload(folderItems);
     if (!res.ok) {
-      setError({ status: res.status, message: res.message });
       return console.log(res);
     }
 
@@ -121,7 +120,8 @@ function AppProvider({ children }: { children: JSX.Element }) {
     }
 
     if (!res.ok) {
-      setError({ status: res.status, message: res.message });
+      alert(res.message);
+      dispatchUploadState({ type: "remove", payload: uploadId });
       return console.log(res);
     }
 
