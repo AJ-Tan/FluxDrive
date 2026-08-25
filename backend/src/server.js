@@ -10,13 +10,18 @@ import { folderShareRoutes } from "./routes/folder-share/folderShare.routes.js";
 import { ctaRoutes } from "./routes/cta/cta.routes.js";
 
 const app = express();
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:4173",
+  process.env.ORIGIN,
+];
 
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: process.env.ORIGIN,
+    origin: allowedOrigins,
     credentials: true,
   }),
 );
