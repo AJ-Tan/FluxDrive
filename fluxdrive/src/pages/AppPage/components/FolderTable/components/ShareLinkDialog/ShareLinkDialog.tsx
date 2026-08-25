@@ -41,7 +41,7 @@ function ShareLinkDialog({
     navigator.clipboard
       .writeText(folderLink)
       .then(() => alert("Link copied to clipboard."))
-      .catch(() => alert("Failed to copy link."));
+      .catch(() => alert("Something went wrong when copying the link."));
   };
 
   const handleOptionChange = (
