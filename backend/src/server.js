@@ -60,7 +60,7 @@ app.use((err, req, res, next) => {
 // Config
 const port = process.env.PORT || 1235;
 
-app.listen(port, (err) => {
+app.listen(port, "0.0.0.0", (err) => {
   if (err) throw err;
   console.log(`App is currently listening on http://localhost:${port}`);
 });
