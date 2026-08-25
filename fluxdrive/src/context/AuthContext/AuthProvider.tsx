@@ -9,11 +9,13 @@ function AuthProvider({ children }: { children: JSX.Element | JSX.Element[] }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!localStorage.getItem("accessToken")) return () => setLoading(false);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (!localStorage.getItem("accessToken")) return setLoading(false);
+
     auth_user()
-      .then(({ ok, data }) => {
-        if (ok) {
-          setUser(data.user);
+      .then((res) => {
+        if (res.ok) {
+          setUser(res.data.user);
         } else {
           setUser(null);
         }
