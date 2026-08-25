@@ -358,12 +358,7 @@ Potential improvements for FluxDrive include:
 - File previews
 - Trash / recycle bin
 - File versioning
-- More granular sharing permissions
-- Shared folder management
 - Storage usage indicators
-- Improved drag-and-drop interactions
-- Advanced search and filtering
-- File sorting
 - User profile management
 - Activity history
 
