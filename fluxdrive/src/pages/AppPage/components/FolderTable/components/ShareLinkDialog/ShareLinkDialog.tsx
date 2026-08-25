@@ -33,7 +33,7 @@ function ShareLinkDialog({
     if (new Date() > sharedFolderExpiration) return setFolderLink("");
     const shareId = folder?.folderShare.at(-1)?.id;
     setFolderLink(
-      `${window.location.protocol + window.location.host}/#/share/${shareId}`,
+      `${window.origin}${import.meta.env.BASE_URL}/#/share/${shareId}`,
     );
   }, [selectedItem, appState, folder, setFolderLink]);
 
