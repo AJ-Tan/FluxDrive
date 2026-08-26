@@ -32,11 +32,11 @@ function ShareLinkDialog({
     const sharedFolderExpiration = new Date(folder?.folderShare[0].expiresAt);
     if (new Date() > sharedFolderExpiration) return setFolderLink("");
     const shareId = folder?.folderShare.at(-1)?.id;
+
     setFolderLink(
-      `${window.origin}${import.meta.env.BASE_URL}/#/share/${shareId}`,
+      `${window.origin}${import.meta.env.BASE_URL}#/share/${shareId}`,
     );
   }, [selectedItem, appState, folder, setFolderLink]);
-
   const handleCopy = () => {
     navigator.clipboard
       .writeText(folderLink)
