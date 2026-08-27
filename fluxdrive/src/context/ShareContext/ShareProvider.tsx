@@ -1,7 +1,7 @@
 import type { JSX } from "react/jsx-runtime";
 import { ShareContext } from "./ShareContext";
 import { useEffect, useState } from "react";
-import { fetchSharedFolder } from "../../services/share-service";
+import { fetch_SharedFolder } from "../../services/share-service";
 import { useParams } from "react-router";
 import type { ShareDataType } from "../../types/share-types";
 import type { AllContentItemType } from "../AppContext/AppProvider";
@@ -19,7 +19,7 @@ function ShareProvider({ children }: { children: JSX.Element }) {
   const { shareid, folderid } = useParams();
   useEffect(() => {
     if (!shareid) return;
-    fetchSharedFolder(shareid).then((res) => {
+    fetch_SharedFolder(shareid).then((res) => {
       setLoading(false);
       if (!res.ok)
         return setError({ status: 404, name: res.name, message: res.message });

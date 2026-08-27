@@ -1,6 +1,6 @@
 import type { ResponseType } from "./api-types";
 
-export type CTALandingPageProps = (
+export type FetchCTALandingPageProps = (
   firstName: string,
   lastName: string,
   email: string,

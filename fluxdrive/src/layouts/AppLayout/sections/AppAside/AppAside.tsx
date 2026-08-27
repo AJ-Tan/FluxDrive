@@ -37,7 +37,7 @@ function AppAside() {
 
     return arrangeFolderData(baseFolder);
   };
-
+  console.log(structuredAllFolderData());
   return (
     <aside className="app-aside">
       <ButtonNew />

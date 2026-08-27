@@ -4,7 +4,10 @@ import {
   type UploadFileType,
   type UploadFolderType,
 } from "./AppContext";
-import { folderAll, folderUpload } from "../../services/folder-service";
+import {
+  fetch_folderAll,
+  fetch_folderUpload,
+} from "../../services/folder-service";
 import useAuth from "../AuthContext/useAuth";
 import { appInitialState, appReducer } from "./reducers/appReducer";
 import { useParams } from "react-router";
@@ -12,7 +15,7 @@ import ErrorPage from "../../pages/ErrorPage/ErrorPage";
 import type { FileType } from "../../types/file-types";
 import type { FolderType } from "../../types/folder-types";
 import useUpload from "../UploadContext/useUpload";
-import { fileAdd } from "../../services/file-service";
+import { fetch_fileAdd } from "../../services/file-service";
 
 export type AllContentItemType =
   | (FileType & { type: "file" })
@@ -49,7 +52,7 @@ function AppProvider({ children }: { children: JSX.Element }) {
   }, [folderid, setError]);
 
   useEffect(() => {
-    folderAll().then((res) => {
+    fetch_folderAll().then((res) => {
       if (!res.ok) {
         setError({ status: res.status, message: res.message });
         return console.log(res);
@@ -84,7 +87,7 @@ function AppProvider({ children }: { children: JSX.Element }) {
       },
     });
 
-    const res = await folderUpload(folderItems);
+    const res = await fetch_folderUpload(folderItems);
     if (!res.ok) {
       return console.log(res);
     }
@@ -112,7 +115,7 @@ function AppProvider({ children }: { children: JSX.Element }) {
       payload: { id: uploadId, name: file.name, type: "file" },
     });
 
-    const res = await fileAdd([file], folderId);
+    const res = await fetch_fileAdd([file], folderId);
     if (!res.ok && res.name === "ValidationError") {
       alert(`File to be uploaded must not exceed 10MB.`);
       dispatchUploadState({ type: "remove", payload: uploadId });

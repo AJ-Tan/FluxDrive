@@ -32,7 +32,7 @@ export type FolderContentType =
   | (FileType & { type: "file" })
   | (FolderType & { type: "folder" });
 
-export type FolderAllType = () => Promise<
+export type FetchFolderAllType = () => Promise<
   ResponseType & { data: { allFolders: FolderType[]; allFiles: FileType[] } }
 >;
 
@@ -40,7 +40,17 @@ export type FolderOpenType = (
   folderId: string,
 ) => Promise<ResponseType & { data: { folder: FolderType } }>;
 
-export type FolderAddType = (
+export type FolderStructureType = {
+  id: string;
+  name: string;
+  children: FolderStructureType[];
+};
+
+export type FetchFolderStructureType = () => Promise<
+  ResponseType & { data: { folderStructure: FolderStructureType } }
+>;
+
+export type FetchFolderAddType = (
   name: string,
   folderId: string,
   id?: string,
@@ -60,7 +70,7 @@ export type FolderItemsType = {
   parentId: string;
   files: File[];
 };
-export type FolderUploadType = (folderItems: FolderItemsType[]) => Promise<
+export type FetchFolderUploadType = (folderItems: FolderItemsType[]) => Promise<
   ResponseType & {
     data: {
       allFolders: FolderType[];
@@ -69,7 +79,7 @@ export type FolderUploadType = (folderItems: FolderItemsType[]) => Promise<
   }
 >;
 
-export type FolderUpdateType = ({
+export type FetchFolderUpdateType = ({
   id,
   name,
   parentId,
@@ -87,7 +97,7 @@ export type FolderUpdateType = ({
   }
 >;
 
-export type FolderDeleteType = (id: string) => Promise<
+export type FetchFolderDeleteType = (id: string) => Promise<
   ResponseType & {
     data: {
       deletedFolder: FolderType;

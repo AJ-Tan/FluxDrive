@@ -1,10 +1,10 @@
 import { backendApi } from "../configs/backend-api";
 import type {
   FetchSharedFolderType,
-  GenerateFolderShareType,
+  FetchGenerateFolderShareType,
 } from "../types/share-types";
 
-const fetchSharedFolder: FetchSharedFolderType = async (shareId) => {
+const fetch_SharedFolder: FetchSharedFolderType = async (shareId) => {
   try {
     const data = await backendApi(`/folderShare/${shareId}`, "GET");
     return data;
@@ -13,17 +13,19 @@ const fetchSharedFolder: FetchSharedFolderType = async (shareId) => {
   }
 };
 
-const generateFolderShare: GenerateFolderShareType = async (id, expire) => {
+const fetch_generateFolderShare: FetchGenerateFolderShareType = async (
+  id,
+  expire,
+) => {
   try {
     const data = await backendApi(
       `/folderShare/${id}?expire=${expire}`,
       "POST",
     );
     return data;
-    return data;
   } catch (err) {
     console.log(err);
   }
 };
 
-export { fetchSharedFolder, generateFolderShare };
+export { fetch_SharedFolder, fetch_generateFolderShare };

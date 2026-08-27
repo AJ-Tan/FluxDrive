@@ -1,7 +1,7 @@
 import { useEffect, useState, type JSX } from "react";
 import { AuthContext } from "./AuthContext";
 import type { UserType } from "../../types/auth.types";
-import { auth_user } from "../../services/auth-service";
+import { fetch_authUser } from "../../services/auth-service";
 import LoadingPage from "../../pages/LoadingPage/LoadingPage";
 
 function AuthProvider({ children }: { children: JSX.Element | JSX.Element[] }) {
@@ -12,7 +12,7 @@ function AuthProvider({ children }: { children: JSX.Element | JSX.Element[] }) {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     if (!localStorage.getItem("accessToken")) return setLoading(false);
 
-    auth_user()
+    fetch_authUser()
       .then((res) => {
         if (res.ok) {
           setUser(res.data.user);

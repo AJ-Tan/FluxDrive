@@ -8,7 +8,7 @@ export type UserType = {
   createdAt: string;
 };
 
-export type AuthSignUpType = (
+export type FetchAuthSignUpType = (
   firstName: string,
   lastName: string,
   email: string,
@@ -16,11 +16,11 @@ export type AuthSignUpType = (
   confirmPassword: string,
 ) => Promise<ResponseType & { data: { createdUser: UserType } }>;
 
-export type AuthSignInType = (
+export type FetchAuthSignInType = (
   email: string,
   password: string,
 ) => Promise<ResponseType & { data: { user: UserType; accessToken: string } }>;
 
-export type AuthUser = () => Promise<
+export type FetchAuthUserType = () => Promise<
   ResponseType & { data: { user: UserType } }
 >;

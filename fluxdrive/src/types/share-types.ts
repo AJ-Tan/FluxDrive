@@ -26,7 +26,7 @@ export type FetchSharedFolderType = (
   }
 >;
 
-export type GenerateFolderShareType = (
+export type FetchGenerateFolderShareType = (
   id: string,
   expire: number,
 ) => Promise<

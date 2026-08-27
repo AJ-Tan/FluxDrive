@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { ctaLandingPage } from "../../../../services/cta-service";
+import { fetch_ctaLandingPage } from "../../../../services/cta-service";
 import TextField from "../../../../components/Inputs/Textfield/TextField";
 import Button from "../../../../components/Buttons/Button";
 import type { FormDataType } from "../../../../types/form-types";
@@ -37,7 +37,7 @@ function CTASection() {
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const res = await ctaLandingPage(firstName, lastName, email, contact);
+    const res = await fetch_ctaLandingPage(firstName, lastName, email, contact);
 
     if (!res.ok) {
       setFormData((prev) => ({

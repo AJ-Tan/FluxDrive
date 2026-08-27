@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useApp from "../../../../../../context/AppContext/useApp";
-import { fileDelete } from "../../../../../../services/file-service";
-import { folderDelete } from "../../../../../../services/folder-service";
+import { fetch_fileDelete } from "../../../../../../services/file-service";
+import { fetch_folderDelete } from "../../../../../../services/folder-service";
 import "./deleteItemDialog.css";
 import MyFileIcon from "../../../../../../components/MyFileIcon/MyFileIcon";
 import FolderIcon from "../../../../../../assets/icons/folder.svg?react";
@@ -34,8 +34,8 @@ function DeleteItemDialog({
     setLoading(true);
     const res =
       selectedItem?.type === "folder"
-        ? await folderDelete(selectedItem?.id)
-        : await fileDelete(selectedItem?.id);
+        ? await fetch_folderDelete(selectedItem?.id)
+        : await fetch_fileDelete(selectedItem?.id);
     setLoading(false);
     if (!res.ok) return console.log(res);
     closeDialog();

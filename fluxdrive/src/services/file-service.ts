@@ -1,11 +1,11 @@
 import { backendApi } from "../configs/backend-api";
 import type {
-  FileAddType,
-  FileDeleteType,
-  FileUpdateType,
+  FetchFileAddType,
+  FetchFileDeleteType,
+  FetchFileUpdateType,
 } from "../types/file-types";
 
-const fileAdd: FileAddType = async (files, folderId) => {
+const fetch_fileAdd: FetchFileAddType = async (files, folderId) => {
   try {
     const formData = new FormData();
 
@@ -22,7 +22,11 @@ const fileAdd: FileAddType = async (files, folderId) => {
   }
 };
 
-const fileUpdate: FileUpdateType = async ({ id, name, folderId }) => {
+const fetch_fileUpdate: FetchFileUpdateType = async ({
+  id,
+  name,
+  folderId,
+}) => {
   try {
     const data = await backendApi(
       `/file/${id}`,
@@ -35,7 +39,7 @@ const fileUpdate: FileUpdateType = async ({ id, name, folderId }) => {
   }
 };
 
-const fileDelete: FileDeleteType = async (id) => {
+const fetch_fileDelete: FetchFileDeleteType = async (id) => {
   try {
     const data = await backendApi(`/file/${id}`, "DELETE");
     return data;
@@ -44,4 +48,4 @@ const fileDelete: FileDeleteType = async (id) => {
   }
 };
 
-export { fileAdd, fileUpdate, fileDelete };
+export { fetch_fileAdd, fetch_fileUpdate, fetch_fileDelete };

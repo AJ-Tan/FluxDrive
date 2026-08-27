@@ -15,7 +15,7 @@ export type FileType = {
   updatedAt: string;
 };
 
-export type FileAddType = (
+export type FetchFileAddType = (
   files: File[],
   folderId: string,
 ) => Promise<
@@ -24,7 +24,7 @@ export type FileAddType = (
   }
 >;
 
-export type FileUpdateType = ({
+export type FetchFileUpdateType = ({
   id,
   name,
   folderId,
@@ -42,7 +42,7 @@ export type FileUpdateType = ({
   }
 >;
 
-export type FileDeleteType = (id: string) => Promise<
+export type FetchFileDeleteType = (id: string) => Promise<
   ResponseType & {
     data: {
       deletedFile: FileType;

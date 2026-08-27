@@ -1,12 +1,12 @@
 import { backendApi } from "../configs/backend-api";
 import type { ResponseType } from "../types/api-types";
 import type {
-  AuthSignInType,
-  AuthSignUpType,
-  AuthUser,
+  FetchAuthSignInType,
+  FetchAuthSignUpType,
+  FetchAuthUserType,
 } from "../types/auth.types";
 
-const auth_signUp: AuthSignUpType = async (
+const fetch_authSignUp: FetchAuthSignUpType = async (
   firstName,
   lastName,
   email,
@@ -25,7 +25,7 @@ const auth_signUp: AuthSignUpType = async (
   }
 };
 
-const auth_signIn: AuthSignInType = async (email, password) => {
+const fetch_authSignIn: FetchAuthSignInType = async (email, password) => {
   try {
     const data = await backendApi(
       "/auth/signin",
@@ -38,15 +38,20 @@ const auth_signIn: AuthSignInType = async (email, password) => {
   }
 };
 
-const auth_signOut = async (): Promise<ResponseType> => {
+const fetch_authSignOut = async (): Promise<ResponseType> => {
   const data = await backendApi("/auth/signout", "POST");
   if (data.ok) localStorage.removeItem("accessToken");
   return data;
 };
 
-const auth_user: AuthUser = async () => {
+const fetch_authUser: FetchAuthUserType = async () => {
   const data = await backendApi("/protected", "GET");
   return data;
 };
 
-export { auth_signUp, auth_signIn, auth_signOut, auth_user };
+export {
+  fetch_authSignUp,
+  fetch_authSignIn,
+  fetch_authSignOut,
+  fetch_authUser,
+};

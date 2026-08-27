@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import type { SelectedItemType } from "../../FolderTable";
 import "./shareLinkDialog.css";
 import useApp from "../../../../../../context/AppContext/useApp";
-import { generateFolderShare } from "../../../../../../services/share-service";
+import { fetch_generateFolderShare } from "../../../../../../services/share-service";
 
 function ShareLinkDialog({
   shareLinkDialogRef,
@@ -69,7 +69,10 @@ function ShareLinkDialog({
     }
 
     setLoading(true);
-    const res = await generateFolderShare(selectedItem.id, linkExpiration);
+    const res = await fetch_generateFolderShare(
+      selectedItem.id,
+      linkExpiration,
+    );
     setLoading(false);
     if (!res.ok) return console.log(res);
 

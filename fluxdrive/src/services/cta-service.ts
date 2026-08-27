@@ -1,7 +1,7 @@
 import { backendApi } from "../configs/backend-api";
-import type { CTALandingPageProps } from "../types/cta-types";
+import type { FetchCTALandingPageProps } from "../types/cta-types";
 
-export const ctaLandingPage: CTALandingPageProps = async (
+export const fetch_ctaLandingPage: FetchCTALandingPageProps = async (
   firstName,
   lastName,
   email,

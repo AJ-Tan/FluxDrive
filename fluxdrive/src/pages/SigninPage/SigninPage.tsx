@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { auth_signIn } from "../../services/auth-service";
+import { fetch_authSignIn } from "../../services/auth-service";
 import useAuth from "../../context/AuthContext/useAuth";
 import AuthLayout from "../../layouts/AuthLayout/AuthLayout";
 import TextField from "../../components/Inputs/Textfield/TextField";
@@ -41,7 +41,7 @@ function SigninPage() {
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    const result = await auth_signIn(email, password);
+    const result = await fetch_authSignIn(email, password);
     if (!result.ok) {
       setFormData((prev) => ({
         ...prev,

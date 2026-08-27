@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { auth_signUp } from "../../services/auth-service";
+import { fetch_authSignUp } from "../../services/auth-service";
 import AuthLayout from "../../layouts/AuthLayout/AuthLayout";
 import TextField from "../../components/Inputs/Textfield/TextField";
 import type { FormDataType } from "../../types/form-types";
@@ -44,7 +44,7 @@ function SignupPage() {
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    const result = await auth_signUp(
+    const result = await fetch_authSignUp(
       firstName,
       lastName,
       email,

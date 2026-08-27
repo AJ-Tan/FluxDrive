@@ -1,14 +1,15 @@
 import { backendApi } from "../configs/backend-api";
 import type {
-  FolderAddType,
-  FolderAllType,
-  FolderDeleteType,
+  FetchFolderAddType,
+  FetchFolderAllType,
+  FetchFolderDeleteType,
   FolderOpenType,
-  FolderUpdateType,
-  FolderUploadType,
+  FetchFolderUpdateType,
+  FetchFolderUploadType,
+  FetchFolderStructureType,
 } from "../types/folder-types";
 
-const folderAll: FolderAllType = async () => {
+const fetch_folderAll: FetchFolderAllType = async () => {
   try {
     const data = await backendApi(`/folder/`, "GET");
     return data;
@@ -17,7 +18,7 @@ const folderAll: FolderAllType = async () => {
   }
 };
 
-const folderOpen: FolderOpenType = async (folderId) => {
+const fetch_folderOpen: FolderOpenType = async (folderId) => {
   try {
     const data = await backendApi(`/folder/${folderId}`, "GET");
     return data;
@@ -26,7 +27,16 @@ const folderOpen: FolderOpenType = async (folderId) => {
   }
 };
 
-const folderAdd: FolderAddType = async (name, parentId, id) => {
+const fetch_folderStructure: FetchFolderStructureType = async () => {
+  try {
+    const data = await backendApi(`/folder/folderStructure`, "GET");
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const fetch_folderAdd: FetchFolderAddType = async (name, parentId, id) => {
   try {
     const data = await backendApi(
       `/folder/`,
@@ -39,7 +49,7 @@ const folderAdd: FolderAddType = async (name, parentId, id) => {
   }
 };
 
-const folderUpload: FolderUploadType = async (folderItems) => {
+const fetch_folderUpload: FetchFolderUploadType = async (folderItems) => {
   try {
     const maxSize = 10 * 1024 * 1024;
 
@@ -63,7 +73,11 @@ const folderUpload: FolderUploadType = async (folderItems) => {
   }
 };
 
-const folderUpdate: FolderUpdateType = async ({ id, name, parentId }) => {
+const fetch_folderUpdate: FetchFolderUpdateType = async ({
+  id,
+  name,
+  parentId,
+}) => {
   try {
     const data = await backendApi(
       `/folder/${id}`,
@@ -76,7 +90,7 @@ const folderUpdate: FolderUpdateType = async ({ id, name, parentId }) => {
   }
 };
 
-const folderDelete: FolderDeleteType = async (id) => {
+const fetch_folderDelete: FetchFolderDeleteType = async (id) => {
   try {
     const data = await backendApi(`/folder/${id}`, "DELETE");
     return data;
@@ -86,10 +100,11 @@ const folderDelete: FolderDeleteType = async (id) => {
 };
 
 export {
-  folderAll,
-  folderOpen,
-  folderUpload,
-  folderAdd,
-  folderUpdate,
-  folderDelete,
+  fetch_folderAll,
+  fetch_folderOpen,
+  fetch_folderStructure,
+  fetch_folderUpload,
+  fetch_folderAdd,
+  fetch_folderUpdate,
+  fetch_folderDelete,
 };

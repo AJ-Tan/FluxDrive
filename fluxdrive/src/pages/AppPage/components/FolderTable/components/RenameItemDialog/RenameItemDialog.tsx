@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import useApp from "../../../../../../context/AppContext/useApp";
 import TextField from "../../../../../../components/Inputs/Textfield/TextField";
-import { folderUpdate } from "../../../../../../services/folder-service";
-import { fileUpdate } from "../../../../../../services/file-service";
+import { fetch_folderUpdate } from "../../../../../../services/folder-service";
+import { fetch_fileUpdate } from "../../../../../../services/file-service";
 import type { SelectedItemType } from "../../FolderTable";
 
 function RenameItemDialog({
@@ -46,8 +46,8 @@ function RenameItemDialog({
     setLoading(true);
     const res =
       selectedItem.type === "folder"
-        ? await folderUpdate({ id: selectedItem.id, name: renameText })
-        : await fileUpdate({ id: selectedItem.id, name: renameText });
+        ? await fetch_folderUpdate({ id: selectedItem.id, name: renameText })
+        : await fetch_fileUpdate({ id: selectedItem.id, name: renameText });
     setLoading(false);
     if (!res.ok) return console.log(res);
     closeDialog();

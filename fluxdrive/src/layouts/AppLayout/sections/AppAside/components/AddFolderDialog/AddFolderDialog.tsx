@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import TextField from "../../../../../../components/Inputs/Textfield/TextField";
-import { folderAdd } from "../../../../../../services/folder-service";
+import { fetch_folderAdd } from "../../../../../../services/folder-service";
 import useApp from "../../../../../../context/AppContext/useApp";
 import { useParams } from "react-router";
 import useAuth from "../../../../../../context/AuthContext/useAuth";
@@ -69,7 +69,7 @@ function AddFolderForm({
     const activeFolder = folderid || `${user?.id}-1`;
     if (!activeFolder) return;
     setLoading(true);
-    const res = await folderAdd(input, activeFolder);
+    const res = await fetch_folderAdd(input, activeFolder);
     setLoading(false);
 
     if (!res.ok) {
