@@ -22,6 +22,35 @@ const allDataController = async (req, res, next) => {
   }
 };
 
+const folderStructureController = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const allFolders = await prisma.folder.findMany({
+      where: { ownerId: user.id },
+      include: { children: true },
+    });
+
+    const folderHierarchy = (folderId) => {
+      const currFolder = allFolders.find((i) => i.id === folderId);
+
+      const children = currFolder.children.map(
+        (child) => folderHierarchy(child.id) || [],
+      );
+
+      return { id: folderId, name: currFolder.name, children };
+    };
+
+    res.status(200).json({
+      name: "Success",
+      data: {
+        folderStructure: folderHierarchy(`${user.id}-1`),
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 const openFolderController = async (req, res, next) => {
   try {
     const user = req.user;
@@ -41,14 +70,21 @@ const openFolderController = async (req, res, next) => {
       },
     });
 
-    let iterateFolder = folder;
-    const folderPath = [{ id: iterateFolder.id, name: iterateFolder.name }];
-    while (iterateFolder.parentId) {
-      iterateFolder = await prisma.folder.findUnique({
-        where: { id: iterateFolder.parentId },
-      });
-      folderPath.unshift({ id: iterateFolder.id, name: iterateFolder.name });
-    }
+    const allFolders = await prisma.folder.findMany({
+      where: { ownerId: user.id },
+      include: { parent: true },
+    });
+
+    const generateFolderPath = (folderId) => {
+      const currFolder = allFolders.find((i) => i.id === folderId);
+      if (!currFolder) return [];
+      return [
+        ...generateFolderPath(currFolder?.parent?.id || ""),
+        { id: currFolder.id, name: currFolder.name },
+      ];
+    };
+
+    const folderPath = generateFolderPath(folder.id);
 
     res.status(200).json({
       ok: true,
@@ -251,6 +287,7 @@ const deleteFolderController = async (req, res, next) => {
 export {
   allDataController,
   openFolderController,
+  folderStructureController,
   createFolderController,
   uploadFolderController,
   updateFolderController,

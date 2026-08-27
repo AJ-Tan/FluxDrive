@@ -55,11 +55,12 @@ app.use((err, req, res, next) => {
 
   res
     .status(status)
-    .json(
-      errorDetails
-        ? { ok: false, name, message, errorDetails }
-        : { ok: false, name, message },
-    );
+    .json({
+      ok: false,
+      ...(name && { name }),
+      ...(message && { message }),
+      ...(errorDetails && { errorDetails }),
+    });
 });
 
 // Config

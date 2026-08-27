@@ -5,6 +5,7 @@ import {
   allDataController,
   createFolderController,
   deleteFolderController,
+  folderStructureController,
   openFolderController,
   updateFolderController,
   uploadFolderController,
@@ -29,6 +30,7 @@ router.delete("/:folderId", deleteFolderController);
 router.use(folderBaseMiddleware);
 
 router.get("/", allDataController);
+router.get("/folderStructure", folderStructureController);
 router.get("/:folderId", openFolderController);
 router.post("/", createFolderController);
 router.post("/upload", upload.array("files"), uploadFolderController);
