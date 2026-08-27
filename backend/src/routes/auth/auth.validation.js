@@ -16,6 +16,7 @@ const signupSchema = [
   body("password")
     .notEmpty()
     .withMessage("Password is required.")
+    .bail()
     .isLength({ min: 8 })
     .withMessage("Password must be atleast 8 characters long.")
     .matches(/[a-z]/)
