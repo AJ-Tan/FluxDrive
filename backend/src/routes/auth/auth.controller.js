@@ -3,6 +3,8 @@ import prisma from "../../config/database/database.config.js";
 import { generateToken } from "../../utils/jwt.js";
 import "dotenv/config";
 
+const isProd = process.env.NODE_ENV === "production";
+
 const signupController = async (req, res, next) => {
   try {
     const { email, password, firstName, lastName } = req.body;
@@ -74,8 +76,8 @@ const signinController = async (req, res, next) => {
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "prod",
-      sameSite: process.env.NODE_ENV === "prod" ? "none" : "lax",
+      secure: isProd,
+      sameSite: isProd ? "none" : "lax",
       maxAge: 1000 * 60 * 60 * 24 * 3,
     });
 
@@ -100,7 +102,11 @@ const signinController = async (req, res, next) => {
 };
 
 const signoutController = (req, res) => {
-  res.clearCookie("refreshToken");
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    secure: isProd,
+    sameSite: isProd ? "none" : "lax",
+  });
   res.status(200).json({
     ok: true,
     name: "SignedOut",
