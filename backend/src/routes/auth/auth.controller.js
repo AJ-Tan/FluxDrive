@@ -3,7 +3,7 @@ import prisma from "../../config/database/database.config.js";
 import { generateToken } from "../../utils/jwt.js";
 import "dotenv/config";
 
-const isProd = process.env.NODE_ENV === "production";
+const isProd = process.env.NODE_ENV === "prod";
 
 const signupController = async (req, res, next) => {
   try {
