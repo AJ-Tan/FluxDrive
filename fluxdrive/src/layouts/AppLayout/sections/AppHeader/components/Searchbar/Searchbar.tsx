@@ -1,16 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MagnifyingGlassIcon from "../../../../../../assets/icons/magnifying-glass.svg?react";
 import FolderIcon from "../../../../../../assets/icons/folder.svg?react";
-import useApp from "../../../../../../context/AppContext/useApp";
 import "./searchbar.css";
 import MyFileIcon from "../../../../../../components/MyFileIcon/MyFileIcon";
 import ButtonClose from "../../../../../../components/Buttons/ButtonClose/ButtonClose";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
+import { fetch_searchContent } from "../../../../../../services/search-service";
+import type { AllContentItemType } from "../../../../../../context/AppContext/AppProvider";
 
 function Searchbar() {
   const [search, setSearch] = useState("");
-  const { dispatchAppState, allContentItem } = useApp();
+  const [searchContent, setSearchContent] = useState<AllContentItemType[]>([]);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    const clearSearch = () => {
+      const searchQuery = searchParams.get("search");
+      if (!searchQuery) setSearch("");
+    };
+
+    clearSearch();
+  }, [searchParams]);
 
   const handleChangeSearch = (
     e: React.ChangeEvent<HTMLInputElement, HTMLInputElement>,
@@ -18,16 +29,32 @@ function Searchbar() {
     setSearch(e.target.value);
   };
 
+  useEffect(() => {
+    fetch_searchContent(search).then((res) => {
+      if (!res.ok) return res;
+      setSearchContent([
+        ...res.data.searchFolder.map((folder) => ({
+          ...folder,
+          type: "folder" as const,
+        })),
+        ...res.data.searchFile.map((file) => ({
+          ...file,
+          type: "file" as const,
+        })),
+      ]);
+    });
+  }, [search]);
+
   const searchResult = search
-    ? allContentItem()
+    ? searchContent
         .filter((i) => i.name.toLowerCase().includes(search.toLowerCase()))
         .slice(-4)
     : null;
 
   const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatchAppState({ type: "setSearch", payload: search });
-
+    // dispatchAppState({ type: "setSearch", payload: search });
+    if (search) navigate(`/app?search=${search}`);
     const activeElement = document.activeElement;
     if (activeElement instanceof HTMLElement) activeElement.blur();
   };
@@ -45,6 +72,11 @@ function Searchbar() {
     if (activeElement instanceof HTMLElement) activeElement.blur();
   };
 
+  const handleClose = () => {
+    setSearch("");
+    navigate("/app");
+  };
+
   return (
     <div className="search-bar">
       <form onSubmit={handleSubmit}>
@@ -60,7 +92,7 @@ function Searchbar() {
             value={search}
             onChange={handleChangeSearch}
           />
-          {search && <ButtonClose handleClose={() => setSearch("")} />}
+          {search && <ButtonClose handleClose={handleClose} />}
         </div>
         {searchResult && searchResult.length > 0 && (
           <div className="search-content">
