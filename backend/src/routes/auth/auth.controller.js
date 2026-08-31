@@ -75,7 +75,7 @@ const signinController = async (req, res, next) => {
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "prod",
-      sameSite: "strict",
+      sameSite: process.env.NODE_ENV === "prod" ? "none" : "lax",
       maxAge: 1000 * 60 * 60 * 24 * 3,
     });
 
