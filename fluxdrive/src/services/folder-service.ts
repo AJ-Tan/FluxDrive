@@ -1,7 +1,7 @@
 import { backendApi } from "../configs/backend-api";
 import type {
   FetchFolderAddType,
-  FetchFolderAllType,
+  FetchFolderAllDataType,
   FetchFolderDeleteType,
   FolderOpenType,
   FetchFolderUpdateType,
@@ -9,9 +9,9 @@ import type {
   FetchFolderStructureType,
 } from "../types/folder-types";
 
-const fetch_folderAll: FetchFolderAllType = async () => {
+const fetch_folderAllData: FetchFolderAllDataType = async (folderId) => {
   try {
-    const data = await backendApi(`/folder/`, "GET");
+    const data = await backendApi(`/folder/allData/${folderId || ""}`, "GET");
     return data;
   } catch (err) {
     console.log(err);
@@ -20,7 +20,7 @@ const fetch_folderAll: FetchFolderAllType = async () => {
 
 const fetch_folderOpen: FolderOpenType = async (folderId) => {
   try {
-    const data = await backendApi(`/folder/${folderId}`, "GET");
+    const data = await backendApi(`/folder/${folderId || ""}`, "GET");
     return data;
   } catch (err) {
     console.log(err);
@@ -100,7 +100,7 @@ const fetch_folderDelete: FetchFolderDeleteType = async (id) => {
 };
 
 export {
-  fetch_folderAll,
+  fetch_folderAllData,
   fetch_folderOpen,
   fetch_folderStructure,
   fetch_folderUpload,

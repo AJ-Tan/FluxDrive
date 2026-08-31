@@ -32,12 +32,19 @@ export type FolderContentType =
   | (FileType & { type: "file" })
   | (FolderType & { type: "folder" });
 
-export type FetchFolderAllType = () => Promise<
-  ResponseType & { data: { allFolders: FolderType[]; allFiles: FileType[] } }
+export type FetchFolderAllDataType = (folderId: string | undefined) => Promise<
+  ResponseType & {
+    data: {
+      allFolders: FolderType[];
+      allFiles: FileType[];
+      folderPath: FolderPathType[];
+      folderStructure: FolderStructureType;
+    };
+  }
 >;
 
 export type FolderOpenType = (
-  folderId: string,
+  folderId: string | undefined,
 ) => Promise<ResponseType & { data: { folder: FolderType } }>;
 
 export type FolderStructureType = {
