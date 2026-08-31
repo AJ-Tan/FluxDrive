@@ -8,6 +8,7 @@ import { folderRoutes } from "./routes/folder/folder.routes.js";
 import { fileRoutes } from "./routes/file/file.routes.js";
 import { folderShareRoutes } from "./routes/folder-share/folderShare.routes.js";
 import { ctaRoutes } from "./routes/cta/cta.routes.js";
+import { searchRoutes } from "./routes/search/search.routes.js";
 
 const app = express();
 const allowedOrigins = [
@@ -33,6 +34,7 @@ app.use("/folder", folderRoutes);
 app.use("/file", fileRoutes);
 app.use("/folderShare", folderShareRoutes);
 app.use("/cta", ctaRoutes);
+app.use("/search", searchRoutes);
 
 // Error Handling
 app.use((req, res, next) => {
@@ -53,14 +55,12 @@ app.use((err, req, res, next) => {
   const message = err.message || "Internal server error.";
   const errorDetails = err.errorDetails || null;
 
-  res
-    .status(status)
-    .json({
-      ok: false,
-      ...(name && { name }),
-      ...(message && { message }),
-      ...(errorDetails && { errorDetails }),
-    });
+  res.status(status).json({
+    ok: false,
+    ...(name && { name }),
+    ...(message && { message }),
+    ...(errorDetails && { errorDetails }),
+  });
 });
 
 // Config
