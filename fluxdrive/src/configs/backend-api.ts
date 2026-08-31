@@ -6,7 +6,10 @@ export const backendApi = async (
   body?: string | FormData,
   headers: Record<string, string> = { "Content-Type": "application/json" },
 ) => {
-  const accessToken = localStorage.getItem("accessToken");
+  let accessToken = localStorage.getItem("accessToken");
+  const refreshAccess = await auth_refreshAccess();
+
+  if (!accessToken && refreshAccess.ok) accessToken = refreshAccess.data.token;
   if (accessToken) headers.authorization = `Bearer ${accessToken}`;
 
   const res = await fetch(`${import.meta.env.VITE_BACKEND_API}${parameter}`, {
@@ -18,8 +21,6 @@ export const backendApi = async (
   let data = await res.json();
 
   if (!data.ok && data.name === "TokenExpiredError") {
-    const refreshAccess = await auth_refreshAccess();
-
     if (refreshAccess.ok) {
       localStorage.setItem("accessToken", refreshAccess.data.token);
       data = await backendApi(parameter, method, body, headers);
@@ -32,6 +33,14 @@ export const backendApi = async (
 const auth_refreshAccess = async (): Promise<
   ResponseType & { data: { token: string } }
 > => {
-  const data = await backendApi("/protected/refresh", "GET");
+  const res = await fetch(
+    `${import.meta.env.VITE_BACKEND_API}/protected/refresh`,
+    {
+      method: "GET",
+      credentials: "include",
+    },
+  );
+
+  const data = await res.json();
   return data;
 };
