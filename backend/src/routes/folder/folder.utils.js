@@ -2,8 +2,9 @@ import prisma from "../../config/database/database.config.js";
 
 const checkFolderAccessAuthorized = async (userId, folderID) => {
   try {
+    console.log(userId, folderID);
     const folder = await prisma.folder.findUnique({
-      where: { id: folderID || "" },
+      where: { id: folderID || `${userId}-1` },
     });
     if (!folder)
       return {

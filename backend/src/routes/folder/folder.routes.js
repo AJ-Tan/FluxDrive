@@ -2,9 +2,9 @@ import express from "express";
 import folderBaseMiddleware from "./folder.middleware.js";
 import passportAuth from "../../config/passport/passport.auth.js";
 import {
-  allDataController,
   createFolderController,
   deleteFolderController,
+  folderAllDataController,
   folderStructureController,
   openFolderController,
   updateFolderController,
@@ -29,8 +29,10 @@ router.delete("/:folderId", deleteFolderController);
 // Base Folder Middleware
 router.use(folderBaseMiddleware);
 
-router.get("/", allDataController);
 router.get("/folderStructure", folderStructureController);
+router.get("/allData/:folderId", folderAllDataController);
+router.get("/allData/", folderAllDataController);
+router.get("/", openFolderController);
 router.get("/:folderId", openFolderController);
 router.post("/", createFolderController);
 router.post("/upload", upload.array("files"), uploadFolderController);

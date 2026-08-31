@@ -3,20 +3,63 @@ import checkFolderAccessAuthorized from "./folder.utils.js";
 import { uploadToCloudinary } from "../file/file.utils.js";
 import cloudinary from "../../config/cloudinary/cloudinary.config.js";
 
-const allDataController = async (req, res, next) => {
-  const user = req.user;
-
+const folderAllDataController = async (req, res, next) => {
   try {
+    const user = req.user;
+    const folderid = req.params.folderId || `${req.user.id}-1`;
+
+    const selectedFolder = await prisma.folder.findUnique({
+      where: { id: folderid },
+      include: {
+        children: {
+          include: { folderShare: true },
+        },
+        files: true,
+        folderShare: true,
+      },
+    });
     const allFolders = await prisma.folder.findMany({
       where: { ownerId: user.id },
-      include: { children: true, files: true, folderShare: true },
+      include: { children: true, parent: true },
     });
 
-    const allFiles = await prisma.file.findMany({
-      where: { ownerId: user.id },
-    });
+    if (!selectedFolder)
+      return next({
+        status: 404,
+        name: "SelectedFolderNotFound",
+        errorDetails: {
+          selectedid: folderid,
+        },
+      });
 
-    res.status(200).json({ ok: true, data: { allFolders, allFiles } });
+    const folderHierarchy = (folderId) => {
+      const currFolder = allFolders.find((i) => i.id === folderId);
+
+      const children = currFolder.children.map(
+        (child) => folderHierarchy(child.id) || [],
+      );
+
+      return { id: folderId, name: currFolder.name, children };
+    };
+
+    const generateFolderPath = (folderId) => {
+      const currFolder = allFolders.find((i) => i.id === folderId);
+      if (!currFolder) return [];
+      return [
+        ...generateFolderPath(currFolder?.parent?.id || ""),
+        { id: currFolder.id, name: currFolder.name },
+      ];
+    };
+
+    res.status(200).json({
+      ok: true,
+      data: {
+        allFolders: selectedFolder.children,
+        allFiles: selectedFolder.files,
+        folderStructure: folderHierarchy(folderid),
+        folderPath: generateFolderPath(folderid),
+      },
+    });
   } catch (err) {
     next(err);
   }
@@ -40,7 +83,17 @@ const folderStructureController = async (req, res, next) => {
       return { id: folderId, name: currFolder.name, children };
     };
 
+    const generateFolderPath = (folderId) => {
+      const currFolder = allFolders.find((i) => i.id === folderId);
+      if (!currFolder) return [];
+      return [
+        ...generateFolderPath(currFolder?.parent?.id || ""),
+        { id: currFolder.id, name: currFolder.name },
+      ];
+    };
+
     res.status(200).json({
+      ok: true,
       name: "Success",
       data: {
         folderStructure: folderHierarchy(`${user.id}-1`),
@@ -54,7 +107,7 @@ const folderStructureController = async (req, res, next) => {
 const openFolderController = async (req, res, next) => {
   try {
     const user = req.user;
-    const folderId = req.params.folderId;
+    const folderId = req.params.folderId || `${user.id}-1`;
 
     // Check if folderId folder exists, and user has access to that folder.
     const checkFolderId = await checkFolderAccessAuthorized(user.id, folderId);
@@ -65,7 +118,11 @@ const openFolderController = async (req, res, next) => {
       include: {
         parent: true,
         files: true,
-        children: true,
+        children: {
+          include: {
+            folderShare: true,
+          },
+        },
         folderShare: true,
       },
     });
@@ -90,7 +147,7 @@ const openFolderController = async (req, res, next) => {
       ok: true,
       name: "AuthorizedAccessFolder",
       message: "User has successfully retrieve the folder.",
-      data: { folder, folderPath },
+      data: { folder: { ...folder, folderPath } },
     });
   } catch (err) {
     next(err);
@@ -285,7 +342,7 @@ const deleteFolderController = async (req, res, next) => {
 };
 
 export {
-  allDataController,
+  folderAllDataController,
   openFolderController,
   folderStructureController,
   createFolderController,
