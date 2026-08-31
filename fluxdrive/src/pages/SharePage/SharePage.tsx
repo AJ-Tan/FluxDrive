@@ -12,8 +12,8 @@ function SharePage() {
       <div className="share-page-container">
         <div>
           <AppPageHeader
-            folderNav={activeFolderNav}
-            baseLink={`/shared/${shareid}`}
+            folderPath={activeFolderNav}
+            baseLink={`/share/${shareid}`}
           />
         </div>
         <div className="share-content">
