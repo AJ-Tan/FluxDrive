@@ -82,8 +82,8 @@ function AppProvider({ children }: { children: JSX.Element }) {
     openFolder();
   }, [folderid, searchParams]);
 
-  const updateAppUI = async () => {
-    setAppLoading(true);
+  const updateAppUI = async (initialLoading = true) => {
+    setAppLoading(initialLoading);
     const res = await fetch_folderAllData(folderid);
 
     if (!res.ok) return console.log(res);
