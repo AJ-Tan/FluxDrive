@@ -1,35 +1,32 @@
 import type { AppReducerType } from "./appReducerType";
 
-const allFoldersInitialState = [
-  {
-    id: "0",
-    name: "My Drive",
-    parentId: "",
-    ownerId: "0",
-    createdAt: "0",
-    updatedAt: "0",
-    parent: null,
-    children: [],
-    files: [],
-    folderPath: [],
-    folderShare: [],
-  },
-];
-
 const appInitialState = {
-  allFolders: allFoldersInitialState,
+  allFolders: [],
   allFiles: [],
+  folderPath: [],
+  folderStructure: { id: "", name: "My Drive", children: [] },
   focusedItem: null,
   searchText: "",
 };
 
 const appReducer: AppReducerType = (state, action) => {
   switch (action.type) {
-    case "updateData":
+    case "updateContent":
       return {
         ...state,
         allFolders: action.payload.allFolders,
         allFiles: action.payload.allFiles,
+        ...(action.payload.folderPath && {
+          folderPath: action.payload.folderPath,
+        }),
+        ...(action.payload.folderStructure && {
+          folderStructure: action.payload.folderStructure,
+        }),
+      };
+    case "updateFolderStructure":
+      return {
+        ...state,
+        folderStructure: action.payload,
       };
     case "focusedItem":
       return {

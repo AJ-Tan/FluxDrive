@@ -5,17 +5,19 @@ import {
   type UploadFolderType,
 } from "./AppContext";
 import {
-  fetch_folderAll,
+  fetch_folderAllData,
+  fetch_folderOpen,
+  fetch_folderStructure,
   fetch_folderUpload,
 } from "../../services/folder-service";
-import useAuth from "../AuthContext/useAuth";
 import { appInitialState, appReducer } from "./reducers/appReducer";
-import { useParams } from "react-router";
+import { useParams, useSearchParams } from "react-router";
 import ErrorPage from "../../pages/ErrorPage/ErrorPage";
 import type { FileType } from "../../types/file-types";
 import type { FolderType } from "../../types/folder-types";
 import useUpload from "../UploadContext/useUpload";
 import { fetch_fileAdd } from "../../services/file-service";
+import { fetch_searchContent } from "../../services/search-service";
 
 export type AllContentItemType =
   | (FileType & { type: "file" })
@@ -30,40 +32,73 @@ function AppProvider({ children }: { children: JSX.Element }) {
   const [appState, dispatchAppState] = useReducer(appReducer, appInitialState);
   const [appLoading, setAppLoading] = useState(true);
   const [error, setError] = useState<ErrorType>(null);
-  const { user } = useAuth();
   const { folderid } = useParams();
+  const [searchParams] = useSearchParams();
   const { dispatchUploadState } = useUpload();
 
   useEffect(() => {
-    const activeFolderId = folderid ? folderid : `${user?.id}-1`;
-    const findFolder = appState.allFolders.find(
-      (i) => i.id === activeFolderId || i.id === "0",
-    );
-
-    if (!findFolder) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setError({
-        status: 404,
-        message: "The requested URL was not found on this server.",
-      });
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [folderid, setError]);
+    fetch_folderStructure()
+      .then((res) => {
+        if (!res.ok) return console.log(res);
+        dispatchAppState({
+          type: "updateFolderStructure",
+          payload: res.data.folderStructure,
+        });
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   useEffect(() => {
-    fetch_folderAll().then((res) => {
-      if (!res.ok) {
-        setError({ status: res.status, message: res.message });
-        return console.log(res);
+    const searchQuery = searchParams.get("search");
+    const openFolder = async () => {
+      setAppLoading(true);
+      if (searchQuery) {
+        const res = await fetch_searchContent(searchQuery);
+        if (!res.ok) return console.log(res);
+        dispatchAppState({
+          type: "updateContent",
+          payload: {
+            allFolders: res.data.searchFolder,
+            allFiles: res.data.searchFile,
+            folderPath: [],
+          },
+        });
+      } else {
+        const res = await fetch_folderOpen(folderid);
+        if (!res.ok) return console.log(res);
+        dispatchAppState({
+          type: "updateContent",
+          payload: {
+            allFolders: res.data.folder.children,
+            allFiles: res.data.folder.files,
+            folderPath: res.data.folder.folderPath,
+          },
+        });
       }
-      dispatchAppState({
-        type: "updateData",
-        payload: { folderId: `${user?.id}-1`, ...res.data },
-      });
+
       setAppLoading(false);
+    };
+
+    openFolder();
+  }, [folderid, searchParams]);
+
+  const updateAppUI = async () => {
+    setAppLoading(true);
+    const res = await fetch_folderAllData(folderid);
+
+    if (!res.ok) return console.log(res);
+
+    dispatchAppState({
+      type: "updateContent",
+      payload: {
+        allFolders: res.data.allFolders,
+        allFiles: res.data.allFiles,
+        folderPath: res.data.folderPath,
+        folderStructure: res.data.folderStructure,
+      },
     });
-  }, [user, setAppLoading]);
+    setAppLoading(false);
+  };
 
   const allContentItem = (): AllContentItemType[] => {
     const output: AllContentItemType[] = appState.allFolders.map((i) => ({
@@ -92,13 +127,7 @@ function AppProvider({ children }: { children: JSX.Element }) {
       return console.log(res);
     }
 
-    dispatchAppState({
-      type: "updateData",
-      payload: {
-        allFolders: res.data.allFolders,
-        allFiles: res.data.allFiles,
-      },
-    });
+    await updateAppUI();
     dispatchUploadState({
       type: "setComplete",
       payload: {
@@ -128,13 +157,7 @@ function AppProvider({ children }: { children: JSX.Element }) {
       return console.log(res);
     }
 
-    dispatchAppState({
-      type: "updateData",
-      payload: {
-        allFolders: res.data.allFolders,
-        allFiles: res.data.allFiles,
-      },
-    });
+    await updateAppUI();
     dispatchUploadState({
       type: "setComplete",
       payload: { id: uploadId, url: res.data.files[0].fileUrl },
@@ -147,6 +170,7 @@ function AppProvider({ children }: { children: JSX.Element }) {
         appState,
         appLoading,
         dispatchAppState,
+        updateAppUI,
         allContentItem,
         uploadFile,
         uploadFolder,

@@ -10,6 +10,7 @@ type AppContextType = {
   appState: AppStateType;
   appLoading: boolean;
   dispatchAppState: React.ActionDispatch<[action: AppActionType]>;
+  updateAppUI: () => Promise<void>;
   allContentItem: () => AllContentItemType[];
   uploadFolder: UploadFolderType;
   uploadFile: UploadFileType;

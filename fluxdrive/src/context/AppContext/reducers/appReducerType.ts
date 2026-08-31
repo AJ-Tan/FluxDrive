@@ -1,9 +1,15 @@
 import type { FileType } from "../../../types/file-types";
-import type { FolderType } from "../../../types/folder-types";
+import type {
+  FolderPathType,
+  FolderStructureType,
+  FolderType,
+} from "../../../types/folder-types";
 
 export type AppStateType = {
   allFolders: FolderType[];
   allFiles: FileType[];
+  folderPath: FolderPathType[];
+  folderStructure: FolderStructureType;
   focusedItem: {
     id: string;
     itemType: "folder" | "file";
@@ -13,11 +19,12 @@ export type AppStateType = {
 
 export type AppActionType =
   | {
-      type: "updateData";
+      type: "updateContent";
       payload: {
-        folderId?: string;
         allFolders: FolderType[];
         allFiles: FileType[];
+        folderPath?: FolderPathType[];
+        folderStructure?: FolderStructureType;
       };
     }
   | {
@@ -33,6 +40,10 @@ export type AppActionType =
   | {
       type: "setSearch";
       payload: string;
+    }
+  | {
+      type: "updateFolderStructure";
+      payload: FolderStructureType;
     };
 
 export type AppReducerType = (
