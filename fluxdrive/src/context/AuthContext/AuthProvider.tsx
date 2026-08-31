@@ -9,9 +9,6 @@ function AuthProvider({ children }: { children: JSX.Element | JSX.Element[] }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    if (!localStorage.getItem("accessToken")) return setLoading(false);
-
     fetch_authUser()
       .then((res) => {
         if (res.ok) {
@@ -26,7 +23,7 @@ function AuthProvider({ children }: { children: JSX.Element | JSX.Element[] }) {
       .finally(() => {
         setLoading(false);
       });
-  }, [setUser, setLoading]);
+  }, []);
 
   if (loading) return <LoadingPage loadingText="Preparing backend..." />;
   return <AuthContext value={{ user, setUser }}>{children}</AuthContext>;
