@@ -17,6 +17,10 @@
   }
 }
 
+.tbl-loading {
+  max-width: 3rem;
+}
+
 .tbl-empty {
   display: flex;
   flex-direction: column;

@@ -14,12 +14,12 @@ function ShareLinkDialog({
   const [loading, setLoading] = useState(false);
   const [folderLink, setFolderLink] = useState("");
   const [expireOption, setExpireOptions] = useState("1");
-  const { appState, dispatchAppState } = useApp();
+  const { appState, updateAppUI } = useApp();
 
   const folder = appState.allFolders.find((i) => i.id === selectedItem?.id);
   const folderShareExpiration =
     folder &&
-    folder.folderShare.length > 0 &&
+    folder.folderShare?.length > 0 &&
     new Date(folder.folderShare[0].expiresAt).toLocaleDateString("en-US", {
       month: "short",
       day: "2-digit",
@@ -28,7 +28,7 @@ function ShareLinkDialog({
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    if (!folder || folder?.folderShare.length <= 0) return setFolderLink("");
+    if (!folder || folder?.folderShare?.length <= 0) return setFolderLink("");
     const sharedFolderExpiration = new Date(folder?.folderShare[0].expiresAt);
     if (new Date() > sharedFolderExpiration) return setFolderLink("");
     const shareId = folder?.folderShare.at(-1)?.id;
@@ -75,11 +75,7 @@ function ShareLinkDialog({
     );
     setLoading(false);
     if (!res.ok) return console.log(res);
-
-    dispatchAppState({
-      type: "updateData",
-      payload: { allFolders: res.data.allFolders, allFiles: res.data.allFiles },
-    });
+    await updateAppUI();
   };
 
   const closeDialog = () => {
@@ -107,7 +103,7 @@ function ShareLinkDialog({
                 value={folderLink}
                 placeholder="Click generate to proceed."
               />
-              {folder && folder.folderShare.length > 0 && (
+              {folder && folder.folderShare?.length > 0 && (
                 <p className="txt-expiration">
                   Expiration Date: {folderShareExpiration}
                 </p>

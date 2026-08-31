@@ -15,7 +15,7 @@ function DeleteItemDialog({
   selectedItem: SelectedItemType;
 }) {
   const [loading, setLoading] = useState(false);
-  const { appState, dispatchAppState } = useApp();
+  const { appState, updateAppUI } = useApp();
 
   const fetchedItem =
     selectedItem?.type === "folder"
@@ -38,14 +38,9 @@ function DeleteItemDialog({
         : await fetch_fileDelete(selectedItem?.id);
     setLoading(false);
     if (!res.ok) return console.log(res);
+
+    await updateAppUI();
     closeDialog();
-    dispatchAppState({
-      type: "updateData",
-      payload: {
-        allFolders: res.data.allFolders,
-        allFiles: res.data.allFiles,
-      },
-    });
   };
 
   return (

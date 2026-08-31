@@ -1,21 +1,24 @@
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import "./appPageHeader.css";
 import ThreeDotsIcon from "../../../../assets/icons/three-dots-horizontal.svg?react";
 import FolderIcon from "../../../../assets/icons/folder.svg?react";
 import { useEffect, useRef, useState } from "react";
 import type { FolderPathType } from "../../../../types/folder-types";
+import useAuth from "../../../../context/AuthContext/useAuth";
 
 function AppPageHeader({
-  folderNav,
-  headerText,
+  folderPath,
   baseLink = "/app/folders",
 }: {
-  folderNav: FolderPathType[] | undefined;
-  headerText?: string;
+  folderPath: FolderPathType[];
   baseLink?: string;
 }) {
   const [displayPopup, setDisplayPopup] = useState(false);
   const containerRef = useRef<HTMLButtonElement | null>(null);
+  const [searchParams] = useSearchParams();
+  const { user } = useAuth();
+
+  const baseFolderId = user && `${user.id}-1`;
 
   useEffect(() => {
     const handleEvent = (e: PointerEvent) => {
@@ -35,14 +38,16 @@ function AppPageHeader({
     };
   }, []);
 
+  const searchValue = searchParams.get("search");
+
   return (
     <header className="app-page-header">
-      {headerText ? (
-        <span>{headerText}</span>
+      {searchValue ? (
+        <span>Search Result:</span>
       ) : (
         <nav className="app-folder-nav">
           <ul>
-            {folderNav && folderNav?.length > 3 && (
+            {folderPath && folderPath?.length > 3 && (
               <li>
                 <button
                   ref={containerRef}
@@ -58,11 +63,15 @@ function AppPageHeader({
                   role="menu"
                   className={`popup-controls${displayPopup ? " show" : ""}`}
                 >
-                  {folderNav &&
-                    folderNav.slice(0, -2).map((item) => (
+                  {folderPath &&
+                    folderPath.slice(0, -2).map((item) => (
                       <Link
                         key={item.id}
-                        to={`${baseLink}/${item.id}`}
+                        to={
+                          item.id === baseFolderId
+                            ? "/app"
+                            : `${baseLink}/${item.id}`
+                        }
                         className="popup-control-item"
                         role="menuitem"
                       >
@@ -75,16 +84,18 @@ function AppPageHeader({
                 </div>
               </li>
             )}
-            {(folderNav && folderNav.length < 4
-              ? folderNav
-              : folderNav?.slice(-2)
-            )?.map((folder) => (
-              <li key={folder.id}>
+            {(folderPath && folderPath.length < 4
+              ? folderPath
+              : folderPath?.slice(-2)
+            )?.map((item) => (
+              <li key={item.id}>
                 <Link
-                  to={`${baseLink}/${folder.id}`}
+                  to={
+                    item.id === baseFolderId ? "/app" : `${baseLink}/${item.id}`
+                  }
                   className="link-folder-nav"
                 >
-                  {folder.name}
+                  {item.name}
                 </Link>
               </li>
             ))}

@@ -13,7 +13,7 @@ function RenameItemDialog({
   selectedItem: SelectedItemType;
 }) {
   const [loading, setLoading] = useState(false);
-  const { dispatchAppState } = useApp();
+  const { updateAppUI } = useApp();
   const [renameText, setRenameText] = useState("");
   const { appState } = useApp();
 
@@ -50,11 +50,8 @@ function RenameItemDialog({
         : await fetch_fileUpdate({ id: selectedItem.id, name: renameText });
     setLoading(false);
     if (!res.ok) return console.log(res);
+    await updateAppUI();
     closeDialog();
-    dispatchAppState({
-      type: "updateData",
-      payload: { allFolders: res.data.allFolders, allFiles: res.data.allFiles },
-    });
   };
 
   return (

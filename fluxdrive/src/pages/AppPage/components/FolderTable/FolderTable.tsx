@@ -7,9 +7,10 @@ import RenameItemDialog from "./components/RenameItemDialog/RenameItemDialog";
 import DeleteItemDialog from "./components/DeleteItemDialog/DeleteItemDialog";
 import type { AllContentItemType } from "../../../../context/AppContext/AppProvider";
 import useApp from "../../../../context/AppContext/useApp";
-import { useParams } from "react-router";
+import { useParams, useSearchParams } from "react-router";
 import useAuth from "../../../../context/AuthContext/useAuth";
 import ShareLinkDialog from "./components/ShareLinkDialog/ShareLinkDialog";
+import loadingGIF from "../../../../assets/gifs/loading.gif";
 
 type SortType = {
   column: "default" | "name" | "date" | "size";
@@ -48,13 +49,18 @@ function FolderTable({ tableData }: { tableData: AllContentItemType[] }) {
   const { user } = useAuth();
   const { folderid } = useParams();
   const currentFolderId = folderid ? folderid : `${user?.id}-1`;
+  const [searchParams] = useSearchParams();
+  const searchQuery = searchParams.get("search");
 
   const handleDragOver = (e: React.DragEvent<HTMLTableElement>) => {
     e.preventDefault();
+    if (searchQuery) return;
+
     setIsDragging(true);
   };
   const handleDragLeave = (e: React.DragEvent<HTMLTableElement>) => {
     e.preventDefault();
+    if (searchQuery) return;
 
     const container = e.currentTarget;
     if (
@@ -68,6 +74,8 @@ function FolderTable({ tableData }: { tableData: AllContentItemType[] }) {
   };
   const handleDrop = async (e: React.DragEvent) => {
     e.preventDefault();
+    if (searchQuery) return;
+
     setIsDragging(false);
     const items = Array.from(e.dataTransfer.items);
 
@@ -97,7 +105,6 @@ function FolderTable({ tableData }: { tableData: AllContentItemType[] }) {
       const id = crypto.randomUUID();
       const files: File[] = [];
       const folderEntries: FolderEntriesType[] = [];
-      // console.log(entries);
 
       for (const itemEntry of entries) {
         if (isDirectoryEntry(itemEntry)) {
@@ -191,7 +198,9 @@ function FolderTable({ tableData }: { tableData: AllContentItemType[] }) {
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
       >
-        {tableData.length > 0 ? (
+        {appLoading ? (
+          <img className="tbl-loading" src={loadingGIF} alt="" />
+        ) : tableData.length > 0 ? (
           <table className={`tbl-folder-content`}>
             <thead>
               <tr>
@@ -243,13 +252,13 @@ function FolderTable({ tableData }: { tableData: AllContentItemType[] }) {
               ))}
             </tbody>
           </table>
+        ) : searchQuery ? (
+          <p>No search result.</p>
         ) : (
-          !appLoading && (
-            <div className="tbl-empty">
-              <b>Drop files here</b>
-              <span>or use the 'New' button.</span>
-            </div>
-          )
+          <div className="tbl-empty">
+            <b>Drop files here</b>
+            <span>or use the 'New' button.</span>
+          </div>
         )}
       </div>
 
