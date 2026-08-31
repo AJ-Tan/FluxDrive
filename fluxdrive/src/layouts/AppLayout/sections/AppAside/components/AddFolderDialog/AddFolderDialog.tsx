@@ -50,7 +50,7 @@ function AddFolderForm({
   ref: React.RefObject<HTMLDialogElement | null>;
 }) {
   const [loading, setLoading] = useState(false);
-  const { dispatchAppState, setError } = useApp();
+  const { updateAppUI } = useApp();
   const { folderid } = useParams();
   const { user } = useAuth();
 
@@ -72,17 +72,11 @@ function AddFolderForm({
     const res = await fetch_folderAdd(input, activeFolder);
     setLoading(false);
 
-    if (!res.ok) {
-      setError({ status: res.status, message: res.message });
-      return console.log(res);
-    }
+    if (!res.ok) return console.log(res);
 
+    await updateAppUI();
     closeDialog();
     setValue("input", "Untitled Folder");
-    dispatchAppState({
-      type: "updateData",
-      payload: { allFolders: res.data.allFolders, allFiles: res.data.allFiles },
-    });
   };
 
   return (

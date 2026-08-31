@@ -3,12 +3,18 @@ import "./folderItem.css";
 import DownwardTriangle from "../../../../../../assets/icons/arrow-down-filled-triangle.svg?react";
 // import folderIcon from "../../../../../../assets/aside-nav/folder.png";
 import FolderIcon from "../../../../../../assets/icons/folder.svg?react";
-import type { FolderType } from "../../../../../../types/folder-types";
+import type { FolderStructureType } from "../../../../../../types/folder-types";
 import { useNavigate, useParams } from "react-router";
 import useAuth from "../../../../../../context/AuthContext/useAuth";
 import useApp from "../../../../../../context/AppContext/useApp";
 
-function FolderItem({ folder, index }: { folder: FolderType; index: number }) {
+function FolderItem({
+  folder,
+  index,
+}: {
+  folder: FolderStructureType;
+  index: number;
+}) {
   const [expand, setExpand] = useState(false);
   const { user } = useAuth();
   const { dispatchAppState } = useApp();
@@ -20,8 +26,8 @@ function FolderItem({ folder, index }: { folder: FolderType; index: number }) {
   const handleClick = () => {
     if (!folder.id) return;
     dispatchAppState({ type: "setSearch", payload: "" });
-    const rootFolder = `${user?.id}-1`;
-    navigate(`/app/folders/${folder.id !== rootFolder ? folder.id : ""}`);
+    const baseFolderId = `${user?.id}-1`;
+    navigate(baseFolderId === folder.id ? "/app" : `/app/folders/${folder.id}`);
   };
 
   const clickEvent = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -76,7 +82,7 @@ function FolderItem({ folder, index }: { folder: FolderType; index: number }) {
       </div>
       {folder.children?.length > 0 && (
         <div className="folder-nav-children">
-          {folder.children.map((c: FolderType) => (
+          {folder.children.map((c: FolderStructureType) => (
             <FolderItem key={c.id} folder={c} index={index + 1} />
           ))}
         </div>
