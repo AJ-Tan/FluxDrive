@@ -56,7 +56,7 @@ const folderAllDataController = async (req, res, next) => {
       data: {
         allFolders: selectedFolder.children,
         allFiles: selectedFolder.files,
-        folderStructure: folderHierarchy(folderid),
+        folderStructure: folderHierarchy(`${user.id}-1`),
         folderPath: generateFolderPath(folderid),
       },
     });
