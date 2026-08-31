@@ -73,9 +73,14 @@ function ShareLinkDialog({
       selectedItem.id,
       linkExpiration,
     );
+
+    if (!res.ok) {
+      setLoading(false);
+      return console.log(res);
+    }
+
+    await updateAppUI(false);
     setLoading(false);
-    if (!res.ok) return console.log(res);
-    await updateAppUI();
   };
 
   const closeDialog = () => {
