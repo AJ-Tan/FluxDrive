@@ -102,11 +102,13 @@ const signinController = async (req, res, next) => {
 };
 
 const signoutController = (req, res) => {
-  res.clearCookie("refreshToken", {
+  res.cookie("refreshToken", "", {
     httpOnly: true,
     secure: isProd,
     sameSite: isProd ? "none" : "lax",
+    expires: new Date(0),
   });
+
   res.status(200).json({
     ok: true,
     name: "SignedOut",
