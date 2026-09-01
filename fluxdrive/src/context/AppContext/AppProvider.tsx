@@ -84,19 +84,33 @@ function AppProvider({ children }: { children: JSX.Element }) {
 
   const updateAppUI = async (initialLoading = true) => {
     setAppLoading(initialLoading);
-    const res = await fetch_folderAllData(folderid);
+    const searchQuery = searchParams.get("search");
+    if (searchQuery) {
+      const res = await fetch_searchContent(searchQuery);
+      if (!res.ok) return console.log(res);
+      dispatchAppState({
+        type: "updateContent",
+        payload: {
+          allFolders: res.data.searchFolder,
+          allFiles: res.data.searchFile,
+          folderPath: [],
+          folderStructure: res.data.folderStructure,
+        },
+      });
+    } else {
+      const res = await fetch_folderAllData(folderid);
+      if (!res.ok) return console.log(res);
 
-    if (!res.ok) return console.log(res);
-
-    dispatchAppState({
-      type: "updateContent",
-      payload: {
-        allFolders: res.data.allFolders,
-        allFiles: res.data.allFiles,
-        folderPath: res.data.folderPath,
-        folderStructure: res.data.folderStructure,
-      },
-    });
+      dispatchAppState({
+        type: "updateContent",
+        payload: {
+          allFolders: res.data.allFolders,
+          allFiles: res.data.allFiles,
+          folderPath: res.data.folderPath,
+          folderStructure: res.data.folderStructure,
+        },
+      });
+    }
     setAppLoading(false);
   };
 

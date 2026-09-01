@@ -26,11 +26,27 @@ export const searchAllController = async (req, res, next) => {
       },
     });
 
+    const allFolders = await prisma.folder.findMany({
+      where: { ownerId: user.id },
+      include: { children: true, parent: true },
+    });
+
+    const folderHierarchy = (folderId) => {
+      const currFolder = allFolders.find((i) => i.id === folderId);
+
+      const children = currFolder.children.map(
+        (child) => folderHierarchy(child.id) || [],
+      );
+
+      return { id: folderId, name: currFolder.name, children };
+    };
+
     res.status(200).json({
       ok: true,
       data: {
         searchFolder,
         searchFile,
+        folderStructure: folderHierarchy(`${user.id}-1`),
       },
     });
   } catch (err) {
