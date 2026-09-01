@@ -48,9 +48,10 @@ function RenameItemDialog({
       selectedItem.type === "folder"
         ? await fetch_folderUpdate({ id: selectedItem.id, name: renameText })
         : await fetch_fileUpdate({ id: selectedItem.id, name: renameText });
-    setLoading(false);
     if (!res.ok) return console.log(res);
-    await updateAppUI();
+
+    await updateAppUI(false);
+    setLoading(false);
     closeDialog();
   };
 

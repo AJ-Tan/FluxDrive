@@ -36,10 +36,10 @@ function DeleteItemDialog({
       selectedItem?.type === "folder"
         ? await fetch_folderDelete(selectedItem?.id)
         : await fetch_fileDelete(selectedItem?.id);
-    setLoading(false);
     if (!res.ok) return console.log(res);
 
-    await updateAppUI();
+    await updateAppUI(false);
+    setLoading(false);
     closeDialog();
   };
 

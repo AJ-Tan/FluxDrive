@@ -70,12 +70,13 @@ function AddFolderForm({
     if (!activeFolder) return;
     setLoading(true);
     const res = await fetch_folderAdd(input, activeFolder);
-    setLoading(false);
 
     if (!res.ok) return console.log(res);
 
-    await updateAppUI();
+    await updateAppUI(false);
+    setLoading(false);
     closeDialog();
+
     setValue("input", "Untitled Folder");
   };
 
