@@ -1,12 +1,11 @@
-import type { JSX } from "react/jsx-runtime";
 import useAuth from "../context/AuthContext/useAuth";
-import { Navigate } from "react-router";
+import { Navigate, Outlet } from "react-router";
 
-function PrivateRoute({ children }: { children: JSX.Element }) {
+function PrivateRoute() {
   const { user } = useAuth();
   if (!user) return <Navigate to="/signin" replace />;
 
-  return children;
+  return <Outlet />;
 }
 
 export default PrivateRoute;

@@ -1,12 +1,11 @@
-import type { JSX } from "react/jsx-runtime";
 import useAuth from "../context/AuthContext/useAuth";
-import { Navigate } from "react-router";
+import { Navigate, Outlet } from "react-router";
 
-function PublicRoute({ children }: { children: JSX.Element }) {
+function PublicRoute() {
   const { user } = useAuth();
   if (user) return <Navigate to="/app" replace />;
 
-  return children;
+  return <Outlet />;
 }
 
 export default PublicRoute;

@@ -23,40 +23,6 @@ export const routes: RouteObject[] = [
     ),
   },
   {
-    path: "/app",
-    element: (
-      <PrivateRoute>
-        <AppLayout />
-      </PrivateRoute>
-    ),
-    children: [
-      {
-        path: "/app",
-        element: (
-          <PrivateRoute>
-            <AppPage />
-          </PrivateRoute>
-        ),
-      },
-      {
-        path: "/app/folders/",
-        element: (
-          <PrivateRoute>
-            <AppPage />
-          </PrivateRoute>
-        ),
-      },
-      {
-        path: "/app/folders/:folderid",
-        element: (
-          <PrivateRoute>
-            <AppPage />
-          </PrivateRoute>
-        ),
-      },
-    ],
-  },
-  {
     path: "/share",
     element: <ShareLayout />,
     children: [
@@ -71,19 +37,39 @@ export const routes: RouteObject[] = [
     ],
   },
   {
-    path: "/signin",
-    element: (
-      <PublicRoute>
-        <SigninPage />
-      </PublicRoute>
-    ),
+    element: <PrivateRoute />,
+    children: [
+      {
+        path: "/app",
+        element: <AppLayout />,
+        children: [
+          {
+            path: "/app",
+            element: <AppPage />,
+          },
+          {
+            path: "/app/folders/",
+            element: <AppPage />,
+          },
+          {
+            path: "/app/folders/:folderid",
+            element: <AppPage />,
+          },
+        ],
+      },
+    ],
   },
   {
-    path: "/signup",
-    element: (
-      <PublicRoute>
-        <SignupPage />
-      </PublicRoute>
-    ),
+    element: <PublicRoute />,
+    children: [
+      {
+        path: "/signin",
+        element: <SigninPage />,
+      },
+      {
+        path: "/signup",
+        element: <SignupPage />,
+      },
+    ],
   },
 ];
