@@ -7,15 +7,16 @@ import "./appHeader.css";
 import Searchbar from "./components/Searchbar/Searchbar";
 
 function AppHeader() {
-  const { setUser } = useAuth();
+  const { setUser, setAuthLoading } = useAuth();
   const { setError } = useApp();
   const handleLogout = async () => {
+    setAuthLoading("Logging out...");
     const res = await fetch_authSignOut();
     if (!res.ok) {
       setError({ status: res.status, message: res.message });
       return console.log(res);
     }
-
+    setAuthLoading(null);
     setUser(null);
   };
 

@@ -1,5 +1,4 @@
 import type { ResponseType } from "./api-types";
-import type { FolderType } from "./folder-types";
 
 export type FileType = {
   id: string;
@@ -20,7 +19,7 @@ export type FetchFileAddType = (
   folderId: string,
 ) => Promise<
   ResponseType & {
-    data: { files: FileType[]; allFolders: FolderType[]; allFiles: FileType[] };
+    data: { files: FileType[] };
   }
 >;
 
@@ -36,8 +35,6 @@ export type FetchFileUpdateType = ({
   ResponseType & {
     data: {
       updatedFile: FileType;
-      allFolders: FolderType[];
-      allFiles: FileType[];
     };
   }
 >;
@@ -46,8 +43,6 @@ export type FetchFileDeleteType = (id: string) => Promise<
   ResponseType & {
     data: {
       deletedFile: FileType;
-      allFolders: FolderType[];
-      allFiles: FileType[];
     };
   }
 >;

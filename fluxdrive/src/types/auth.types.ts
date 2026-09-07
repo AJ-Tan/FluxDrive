@@ -6,6 +6,7 @@ export type UserType = {
   firstName: string;
   lastName: string;
   createdAt: string;
+  isGuest: boolean;
 };
 
 export type FetchAuthSignUpType = (
@@ -20,6 +21,10 @@ export type FetchAuthSignInType = (
   email: string,
   password: string,
 ) => Promise<ResponseType & { data: { user: UserType; accessToken: string } }>;
+
+export type FetchAuthSignInGuestType = () => Promise<
+  ResponseType & { data: { user: UserType; accessToken: string } }
+>;
 
 export type FetchAuthUserType = () => Promise<
   ResponseType & { data: { user: UserType } }

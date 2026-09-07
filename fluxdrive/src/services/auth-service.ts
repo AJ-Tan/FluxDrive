@@ -1,6 +1,7 @@
 import { backendApi } from "../configs/backend-api";
 import type { ResponseType } from "../types/api-types";
 import type {
+  FetchAuthSignInGuestType,
   FetchAuthSignInType,
   FetchAuthSignUpType,
   FetchAuthUserType,
@@ -38,6 +39,15 @@ const fetch_authSignIn: FetchAuthSignInType = async (email, password) => {
   }
 };
 
+const fetch_authSignInGuest: FetchAuthSignInGuestType = async () => {
+  try {
+    const data = await backendApi("/auth/signin/guest", "POST");
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const fetch_authSignOut = async (): Promise<ResponseType> => {
   const data = await backendApi("/auth/signout", "POST");
   if (data.ok) localStorage.removeItem("accessToken");
@@ -52,6 +62,7 @@ const fetch_authUser: FetchAuthUserType = async () => {
 export {
   fetch_authSignUp,
   fetch_authSignIn,
+  fetch_authSignInGuest,
   fetch_authSignOut,
   fetch_authUser,
 };

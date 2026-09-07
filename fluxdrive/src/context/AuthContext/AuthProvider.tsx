@@ -6,7 +6,9 @@ import LoadingPage from "../../pages/LoadingPage/LoadingPage";
 
 function AuthProvider({ children }: { children: JSX.Element | JSX.Element[] }) {
   const [user, setUser] = useState<UserType | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [authLoading, setAuthLoading] = useState<string | null>(
+    "Loading node...",
+  );
 
   useEffect(() => {
     fetch_authUser()
@@ -21,12 +23,16 @@ function AuthProvider({ children }: { children: JSX.Element | JSX.Element[] }) {
         console.log(err);
       })
       .finally(() => {
-        setLoading(false);
+        setAuthLoading(null);
       });
   }, []);
 
-  if (loading) return <LoadingPage loadingText="Preparing backend..." />;
-  return <AuthContext value={{ user, setUser }}>{children}</AuthContext>;
+  if (authLoading) return <LoadingPage loadingText={authLoading} />;
+  return (
+    <AuthContext value={{ user, setUser, setAuthLoading }}>
+      {children}
+    </AuthContext>
+  );
 }
 
 export default AuthProvider;

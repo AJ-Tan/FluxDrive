@@ -1,0 +1,16 @@
+.para-guest {
+  margin-block-start: var(--spacing-1);
+
+  button {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-weight: bold;
+    color: var(--primary-color);
+    transition: color var(--transition-fast);
+
+    &:hover {
+      color: var(--primary-color--hover);
+    }
+  }
+}

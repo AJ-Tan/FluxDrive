@@ -1,11 +1,15 @@
 import { useCallback, useState } from "react";
-import { fetch_authSignIn } from "../../services/auth-service";
+import {
+  fetch_authSignIn,
+  fetch_authSignInGuest,
+} from "../../services/auth-service";
 import useAuth from "../../context/AuthContext/useAuth";
 import AuthLayout from "../../layouts/AuthLayout/AuthLayout";
 import TextField from "../../components/Inputs/Textfield/TextField";
 import type { FormDataType } from "../../types/form-types";
 import Button from "../../components/Buttons/Button";
 import LinkButton from "../../components/Buttons/LinkButton";
+import "./signinPage.css";
 
 const initialFormState = {
   values: {
@@ -57,6 +61,21 @@ function SigninPage() {
     resetInputs();
   };
 
+  const handleGuest = async () => {
+    setLoading(true);
+    const result = await fetch_authSignInGuest();
+    if (!result.ok) {
+      console.log(result);
+      setLoading(false);
+      return;
+    }
+
+    localStorage.setItem("accessToken", result.data.accessToken);
+    auth.setUser(result.data.user);
+    setLoading(false);
+    resetInputs();
+  };
+
   return (
     <AuthLayout loading={loading}>
       <form onSubmit={handleSubmit}>
@@ -65,6 +84,9 @@ function SigninPage() {
           <p>
             with your Google Account. This account will be available to other
             apps in the browser.
+          </p>
+          <p className="para-guest">
+            Just browsing? <button type="button" onClick={handleGuest}>Continue as Guest</button>
           </p>
         </div>
         <div className="form-content">

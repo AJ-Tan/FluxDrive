@@ -6,8 +6,6 @@ import {
 } from "./AppContext";
 import {
   fetch_folderAllData,
-  fetch_folderOpen,
-  fetch_folderStructure,
   fetch_folderUpload,
 } from "../../services/folder-service";
 import { appInitialState, appReducer } from "./reducers/appReducer";
@@ -36,58 +34,17 @@ function AppProvider({ children }: { children: JSX.Element }) {
   const [searchParams] = useSearchParams();
   const { dispatchUploadState } = useUpload();
 
-  useEffect(() => {
-    fetch_folderStructure()
-      .then((res) => {
-        if (!res.ok) return console.log(res);
-        dispatchAppState({
-          type: "updateFolderStructure",
-          payload: res.data.folderStructure,
-        });
-      })
-      .catch((err) => console.log(err));
-  }, []);
-
-  useEffect(() => {
-    const searchQuery = searchParams.get("search");
-    const openFolder = async () => {
-      setAppLoading(true);
-      if (searchQuery) {
-        const res = await fetch_searchContent(searchQuery);
-        if (!res.ok) return console.log(res);
-        dispatchAppState({
-          type: "updateContent",
-          payload: {
-            allFolders: res.data.searchFolder,
-            allFiles: res.data.searchFile,
-            folderPath: [],
-          },
-        });
-      } else {
-        const res = await fetch_folderOpen(folderid);
-        if (!res.ok) return console.log(res);
-        dispatchAppState({
-          type: "updateContent",
-          payload: {
-            allFolders: res.data.folder.children,
-            allFiles: res.data.folder.files,
-            folderPath: res.data.folder.folderPath,
-          },
-        });
-      }
-
-      setAppLoading(false);
-    };
-
-    openFolder();
-  }, [folderid, searchParams]);
-
   const updateAppUI = async (initialLoading = true) => {
     setAppLoading(initialLoading);
     const searchQuery = searchParams.get("search");
+
     if (searchQuery) {
       const res = await fetch_searchContent(searchQuery);
-      if (!res.ok) return console.log(res);
+      if (!res.ok) {
+        setError({ status: res.status, message: res.message });
+        return console.log(res);
+      }
+      setError(null);
       dispatchAppState({
         type: "updateContent",
         payload: {
@@ -99,8 +56,11 @@ function AppProvider({ children }: { children: JSX.Element }) {
       });
     } else {
       const res = await fetch_folderAllData(folderid);
-      if (!res.ok) return console.log(res);
-
+      if (!res.ok) {
+        setError({ status: res.status, message: res.message });
+        return console.log(res);
+      }
+      setError(null);
       dispatchAppState({
         type: "updateContent",
         payload: {
@@ -113,6 +73,15 @@ function AppProvider({ children }: { children: JSX.Element }) {
     }
     setAppLoading(false);
   };
+
+  useEffect(() => {
+    const refreshUI = () => {
+      updateAppUI();
+    };
+    refreshUI();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [folderid, searchParams]);
 
   const allContentItem = (): AllContentItemType[] => {
     const output: AllContentItemType[] = appState.allFolders.map((i) => ({
@@ -166,7 +135,6 @@ function AppProvider({ children }: { children: JSX.Element }) {
     }
 
     if (!res.ok) {
-      alert(res.message);
       dispatchUploadState({ type: "remove", payload: uploadId });
       return console.log(res);
     }

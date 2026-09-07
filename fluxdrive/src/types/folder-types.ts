@@ -65,8 +65,6 @@ export type FetchFolderAddType = (
   ResponseType & {
     data: {
       folder: FolderType;
-      allFolders: FolderType[];
-      allFiles: FileType[];
     };
   }
 >;
@@ -80,8 +78,7 @@ export type FolderItemsType = {
 export type FetchFolderUploadType = (folderItems: FolderItemsType[]) => Promise<
   ResponseType & {
     data: {
-      allFolders: FolderType[];
-      allFiles: FileType[];
+      filesUploaded: FileType[];
     };
   }
 >;
@@ -98,8 +95,6 @@ export type FetchFolderUpdateType = ({
   ResponseType & {
     data: {
       updatedFolder: FolderType;
-      allFolders: FolderType[];
-      allFiles: FileType[];
     };
   }
 >;
@@ -108,8 +103,6 @@ export type FetchFolderDeleteType = (id: string) => Promise<
   ResponseType & {
     data: {
       deletedFolder: FolderType;
-      allFolders: FolderType[];
-      allFiles: FileType[];
     };
   }
 >;
