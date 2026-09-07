@@ -14,13 +14,14 @@ datasource db {
 model User {
   id String @id @default(uuid())
 
-  email String @unique
-  firstName String
-  lastName String
-
-  password String
-
+  email String? @unique
+  firstName String?
+  lastName String?
+  password String?
   createdAt DateTime @default(now())
+
+  isGuest Boolean @default(false)
+  expiresAt DateTime?
 
   folders Folder[]
   files File[]

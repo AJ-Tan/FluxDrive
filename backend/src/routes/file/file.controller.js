@@ -1,9 +1,10 @@
 import prisma from "../../config/database/database.config.js";
-import checkFolderAccessAuthorized from "../folder/folder.utils.js";
+import { checkFolderAccessAuthorized } from "../folder/folder.utils.js";
 import { uploadToCloudinary } from "./file.utils.js";
 import cloudinary from "../../config/cloudinary/cloudinary.config.js";
 
 const uploadFileController = async (req, res, next) => {
+  let fileResult;
   try {
     const user = req.user;
     const folderId = req.body.folderId || `${user.id}-1`;
@@ -17,7 +18,7 @@ const uploadFileController = async (req, res, next) => {
 
     let filesUploaded = [];
     for (let file of files) {
-      const fileResult = await uploadToCloudinary(file.buffer);
+      fileResult = await uploadToCloudinary(file.buffer);
       filesUploaded.push(
         await prisma.file.create({
           data: {
@@ -34,22 +35,14 @@ const uploadFileController = async (req, res, next) => {
       );
     }
 
-    const allFolders = await prisma.folder.findMany({
-      where: { ownerId: user.id },
-      include: { children: true, files: true, folderShare: true },
-    });
-
-    const allFiles = await prisma.file.findMany({
-      where: { ownerId: user.id },
-    });
-
     res.status(200).json({
       ok: true,
       name: "UploadComplete",
       message: "Files upload complete.",
-      data: { files: filesUploaded, allFolders, allFiles },
+      data: { files: filesUploaded },
     });
   } catch (err) {
+    if (fileResult) cloudinary.uploader.destroy(fileResult.public_id);
     next(err);
   }
 };
@@ -79,23 +72,12 @@ const updateFileController = async (req, res, next) => {
       where: { id: fileId },
     });
 
-    const allFolders = await prisma.folder.findMany({
-      where: { ownerId: user.id },
-      include: { children: true, files: true, folderShare: true },
-    });
-
-    const allFiles = await prisma.file.findMany({
-      where: { ownerId: user.id },
-    });
-
     res.status(200).json({
       ok: true,
       name: "FileUpdated",
       message: "User has successfully updated the file.",
       data: {
         updatedFile,
-        allFolders,
-        allFiles,
       },
     });
   } catch (err) {
@@ -133,20 +115,11 @@ const deleteFileController = async (req, res, next) => {
     const deletedFile = await prisma.file.delete({ where: { id: file.id } });
     await cloudinary.uploader.destroy(deletedFile.publicId); //deleted to file in cloudinary storage.
 
-    const allFolders = await prisma.folder.findMany({
-      where: { ownerId: user.id },
-      include: { children: true, files: true, folderShare: true },
-    });
-
-    const allFiles = await prisma.file.findMany({
-      where: { ownerId: user.id },
-    });
-
     res.status(200).json({
       ok: true,
       name: "FileDeleted",
       message: "User has successfully deleted the file.",
-      data: { deletedFile, allFolders, allFiles },
+      data: { deletedFile },
     });
   } catch (err) {
     next(err);

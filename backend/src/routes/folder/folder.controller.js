@@ -1,35 +1,37 @@
 import prisma from "../../config/database/database.config.js";
-import checkFolderAccessAuthorized from "./folder.utils.js";
 import { uploadToCloudinary } from "../file/file.utils.js";
 import cloudinary from "../../config/cloudinary/cloudinary.config.js";
+import {
+  checkFolderAccessAuthorized,
+  deleteCloudinaryFolderFiles,
+} from "./folder.utils.js";
 
 const folderAllDataController = async (req, res, next) => {
   try {
     const user = req.user;
     const folderid = req.params.folderId || `${req.user.id}-1`;
 
-    const selectedFolder = await prisma.folder.findUnique({
-      where: { id: folderid },
+    const allFolders = await prisma.folder.findMany({
+      where: { ownerId: user.id },
       include: {
         children: {
           include: { folderShare: true },
         },
         files: true,
+        parent: true,
         folderShare: true,
       },
     });
-    const allFolders = await prisma.folder.findMany({
-      where: { ownerId: user.id },
-      include: { children: true, parent: true },
+
+    const selectedFolder = allFolders.find((folder) => {
+      return folder.id == folderid;
     });
 
     if (!selectedFolder)
       return next({
         status: 404,
-        name: "SelectedFolderNotFound",
-        errorDetails: {
-          selectedid: folderid,
-        },
+        name: "FolderNotFound",
+        message: "The folder you are trying to access does not exists.",
       });
 
     const folderHierarchy = (folderId) => {
@@ -168,23 +170,12 @@ const createFolderController = async (req, res, next) => {
       data: { id, name, parentId, ownerId: user.id },
     });
 
-    const allFolders = await prisma.folder.findMany({
-      where: { ownerId: user.id },
-      include: { children: true, files: true, folderShare: true },
-    });
-
-    const allFiles = await prisma.file.findMany({
-      where: { ownerId: user.id },
-    });
-
     res.status(201).json({
       ok: true,
       name: "CreatedNewFolder",
       message: "User has successfully created a new folder.",
       data: {
         folder: createdFolder,
-        allFolders,
-        allFiles,
       },
     });
   } catch (err) {
@@ -193,6 +184,7 @@ const createFolderController = async (req, res, next) => {
 };
 
 const uploadFolderController = async (req, res, next) => {
+  let fileResult;
   try {
     const user = req.user;
     const parentId = req.body.parentId || `${user.id}-1`;
@@ -210,7 +202,7 @@ const uploadFolderController = async (req, res, next) => {
 
     let filesUploaded = [];
     for (let file of files) {
-      const fileResult = await uploadToCloudinary(file.buffer);
+      fileResult = await uploadToCloudinary(file.buffer);
       filesUploaded.push(
         await prisma.file.create({
           data: {
@@ -227,22 +219,14 @@ const uploadFolderController = async (req, res, next) => {
       );
     }
 
-    const allFolders = await prisma.folder.findMany({
-      where: { ownerId: user.id },
-      include: { children: true, files: true, folderShare: true },
-    });
-
-    const allFiles = await prisma.file.findMany({
-      where: { ownerId: user.id },
-    });
-
     res.status(200).json({
       ok: true,
       name: "UploadComplete",
       message: "Folder upload complete.",
-      data: { allFolders, allFiles },
+      data: { filesUploaded },
     });
   } catch (err) {
+    if (fileResult) await cloudinary.uploader.destroy(fileResult.public_id);
     next(err);
   }
 };
@@ -256,19 +240,9 @@ const updateFolderController = async (req, res, next) => {
     // Check if folderId and parentId folders exists, and user has access to that folder.
     const checkFolderId = await checkFolderAccessAuthorized(user.id, folderId);
     if (!checkFolderId.ok) return next(checkFolderId.err);
-    console.log("name: ", name);
     const updatedFolder = await prisma.folder.update({
       data: { name: name, parentId },
       where: { id: folderId },
-    });
-
-    const allFolders = await prisma.folder.findMany({
-      where: { ownerId: user.id },
-      include: { children: true, files: true, folderShare: true },
-    });
-
-    const allFiles = await prisma.file.findMany({
-      where: { ownerId: user.id },
     });
 
     res.status(200).json({
@@ -277,8 +251,6 @@ const updateFolderController = async (req, res, next) => {
       message: "User has successfully updated the folder.",
       data: {
         updatedFolder,
-        allFolders,
-        allFiles,
       },
     });
   } catch (err) {
@@ -295,35 +267,9 @@ const deleteFolderController = async (req, res, next) => {
     const checkFolderId = await checkFolderAccessAuthorized(user.id, folderId);
     if (!checkFolderId.ok) return next(checkFolderId.err);
 
-    const deleteCloudinaryFiles = async (currentFolderId) => {
-      const files = await prisma.file.findMany({
-        where: { folderId: currentFolderId },
-      });
-
-      for (const file of files) {
-        await cloudinary.uploader.destroy(file.publicId);
-      }
-
-      const childrenFolder = await prisma.folder.findMany({
-        where: { parentId: currentFolderId },
-      });
-      for (const folder of childrenFolder) {
-        deleteCloudinaryFiles(folder.id);
-      }
-    };
-
-    await deleteCloudinaryFiles(folderId);
+    await deleteCloudinaryFolderFiles(folderId);
     const deletedFolder = await prisma.folder.delete({
       where: { id: folderId },
-    });
-
-    const allFolders = await prisma.folder.findMany({
-      where: { ownerId: user.id },
-      include: { children: true, files: true, folderShare: true },
-    });
-
-    const allFiles = await prisma.file.findMany({
-      where: { ownerId: user.id },
     });
 
     res.status(200).json({
@@ -332,8 +278,6 @@ const deleteFolderController = async (req, res, next) => {
       message: "User has successfully deleted the folder.",
       data: {
         deletedFolder,
-        allFolders,
-        allFiles,
       },
     });
   } catch (err) {

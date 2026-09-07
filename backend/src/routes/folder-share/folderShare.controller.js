@@ -1,5 +1,5 @@
 import prisma from "../../config/database/database.config.js";
-import checkFolderAccessAuthorized from "../folder/folder.utils.js";
+import { checkFolderAccessAuthorized } from "../folder/folder.utils.js";
 
 const generateFolderShareController = async (req, res, next) => {
   try {
@@ -18,20 +18,11 @@ const generateFolderShareController = async (req, res, next) => {
       data: { folderId, expiresAt, ownerId: user.id },
     });
 
-    const allFolders = await prisma.folder.findMany({
-      where: { ownerId: user.id },
-      include: { children: true, files: true, folderShare: true },
-    });
-
-    const allFiles = await prisma.file.findMany({
-      where: { ownerId: user.id },
-    });
-
     res.status(200).json({
       ok: true,
       name: "FolderShared",
       message: "User has succesfully shared a folder.",
-      data: { folderShare, allFolders, allFiles },
+      data: { folderShare },
     });
   } catch (err) {
     next(err);

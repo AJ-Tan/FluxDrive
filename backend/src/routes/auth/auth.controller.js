@@ -2,8 +2,53 @@ import bcrypt from "bcrypt";
 import prisma from "../../config/database/database.config.js";
 import { generateToken } from "../../utils/jwt.js";
 import "dotenv/config";
+import { clearGuest } from "./auth.utils.js";
 
 const isProd = process.env.NODE_ENV === "prod";
+
+const signinGuestController = async (req, res, next) => {
+  try {
+    // Create guest account.
+    const guest = await prisma.user.create({
+      data: {
+        isGuest: true,
+        expiresAt: new Date(Date.now()),
+        // expiresAt: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+      },
+    });
+
+    // Sign in guest account.
+    const payload = { id: guest.id };
+    const accessToken = generateToken(payload);
+    const refreshToken = generateToken(payload, "refresh", "3d");
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: isProd,
+      sameSite: isProd ? "none" : "lax",
+      maxAge: 1000 * 60 * 60 * 24 * 3,
+    });
+
+    res.status(200).json({
+      ok: true,
+      name: "SignedIn",
+      message: "User has successfully signed in.",
+      data: {
+        user: {
+          id: guest.id,
+          email: guest.email,
+          firstName: guest.firstName,
+          lastName: guest.lastName,
+          createdAt: guest.createdAt,
+          isGuest: guest.isGuest,
+        },
+        accessToken,
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
 
 const signupController = async (req, res, next) => {
   try {
@@ -92,6 +137,7 @@ const signinController = async (req, res, next) => {
           firstName: user.firstName,
           lastName: user.lastName,
           createdAt: user.createdAt,
+          isGuest: user.isGuest,
         },
         accessToken,
       },
@@ -101,13 +147,17 @@ const signinController = async (req, res, next) => {
   }
 };
 
-const signoutController = (req, res) => {
+const signoutController = async (req, res) => {
   res.cookie("refreshToken", "", {
     httpOnly: true,
     secure: isProd,
     sameSite: isProd ? "none" : "lax",
     expires: new Date(0),
   });
+
+  if (req.user.isGuest) {
+    clearGuest(req.user.id);
+  }
 
   res.status(200).json({
     ok: true,
@@ -116,4 +166,9 @@ const signoutController = (req, res) => {
   });
 };
 
-export { signupController, signinController, signoutController };
+export {
+  signinGuestController,
+  signupController,
+  signinController,
+  signoutController,
+};
