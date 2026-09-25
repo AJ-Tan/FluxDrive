@@ -10,6 +10,8 @@ import ShareLayout from "../layouts/ShareLayout/ShareLayout";
 import SharePage from "../pages/SharePage/SharePage";
 import ErrorPage from "../pages/ErrorPage/ErrorPage";
 
+// Route map for the application.
+// PrivateRoute and PublicRoute guard access based on the user's login state.
 export const routes: RouteObject[] = [
   {
     path: "/",

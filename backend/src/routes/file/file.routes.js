@@ -10,9 +10,12 @@ import {
   uploadFileController,
 } from "./file.controller.js";
 
+// File routes handle uploads, metadata updates, and deletion.
+// Every request here is protected by JWT auth, so only signed-in users can manage files.
 const router = express.Router();
 
-// Storage Config
+// Storage config for Cloudinary upload.
+// The app accepts temporary in-memory files before sending them to Cloudinary.
 const cloudinaryStorage = new CloudinaryStorage({
   cloudinary,
   params: {
@@ -21,18 +24,21 @@ const cloudinaryStorage = new CloudinaryStorage({
 });
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 10485750 }, //10 MB
+  limits: { fileSize: 10485750 }, // 10 MB per file
 });
 
-// Middleware
+// All file endpoints require an authenticated user.
 router.use(passportAuth);
 
-// Routes
+// Routes:
+// POST /file -> upload one or more files
+// PUT /file/:fileId -> rename or update file metadata
+// DELETE /file/:fileId -> remove the file record and asset
 router.post("/", upload.array("files"), uploadFileController);
 router.put("/:fileId", updateFileController);
 router.delete("/:fileId", deleteFileController);
 
-// File validations
+// This middleware transforms format-specific upload errors into API-friendly validation errors.
 router.use((err, req, res, next) => {
   if (err instanceof multer.MulterError) {
     if (err.code === "LIMIT_FILE_SIZE") {

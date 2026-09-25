@@ -26,6 +26,8 @@ export type ErrorType = {
   message: string;
 } | null;
 
+// Main application state provider for the file/folder dashboard.
+// It owns the current folder contents, loading state, and upload operations used across the app.
 function AppProvider({ children }: { children: JSX.Element }) {
   const [appState, dispatchAppState] = useReducer(appReducer, appInitialState);
   const [appLoading, setAppLoading] = useState(true);
@@ -34,6 +36,7 @@ function AppProvider({ children }: { children: JSX.Element }) {
   const [searchParams] = useSearchParams();
   const { dispatchUploadState } = useUpload();
 
+  // Refreshes the table and breadcrumbs based on the active folder or search query.
   const updateAppUI = async (initialLoading = true) => {
     setAppLoading(initialLoading);
     const searchQuery = searchParams.get("search");
@@ -83,6 +86,7 @@ function AppProvider({ children }: { children: JSX.Element }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [folderid, searchParams]);
 
+  // Combines folders and files into a single list for rendering inside table-like views.
   const allContentItem = (): AllContentItemType[] => {
     const output: AllContentItemType[] = appState.allFolders.map((i) => ({
       ...i,
@@ -94,6 +98,7 @@ function AppProvider({ children }: { children: JSX.Element }) {
     return output;
   };
 
+  // Upload a whole folder structure into the app.
   const uploadFolder: UploadFolderType = async (folderItems) => {
     const uploadFolderId = crypto.randomUUID();
     dispatchUploadState({
@@ -120,6 +125,7 @@ function AppProvider({ children }: { children: JSX.Element }) {
     });
   };
 
+  // Upload a single file and refresh the current folder view afterwards.
   const uploadFile: UploadFileType = async (file, folderId) => {
     const uploadId = crypto.randomUUID();
     dispatchUploadState({

@@ -4,6 +4,8 @@ import type { UserType } from "../../types/auth.types";
 import { fetch_authUser } from "../../services/auth-service";
 import LoadingPage from "../../pages/LoadingPage/LoadingPage";
 
+// Global auth state provider.
+// This component fetches the current authenticated user once on app startup and exposes it to the rest of the UI.
 function AuthProvider({ children }: { children: JSX.Element | JSX.Element[] }) {
   const [user, setUser] = useState<UserType | null>(null);
   const [authLoading, setAuthLoading] = useState<string | null>(

@@ -9,6 +9,8 @@ import {
 } from "./auth.controller.js";
 import passportAuth from "../../config/passport/passport.auth.js";
 
+// Authentication routes.
+// These endpoints handle user sessions, sign in, sign up, and sign out.
 const router = express.Router();
 
 router.post("/signin/guest", signinGuestController);

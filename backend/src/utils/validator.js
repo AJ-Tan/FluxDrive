@@ -1,5 +1,7 @@
 import { validationResult } from "express-validator";
 
+// Reusable validation middleware factory.
+// Any route can pass a schema, and this middleware will ensure the request body matches it.
 const expressValidator = (schema) => {
   return [
     schema,
