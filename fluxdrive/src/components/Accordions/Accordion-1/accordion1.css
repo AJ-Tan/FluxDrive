@@ -19,9 +19,7 @@
 
   .accordion-content {
     display: grid;
-    grid-template-rows: 0fr;
     overflow: hidden;
-    transition: grid-template-rows var(--transition-normal);
 
     .accordion-content-wrapper {
       overflow: hidden;
@@ -51,10 +49,6 @@
   details[aria-selected="true"] {
     h3 {
       color: var(--text-h);
-    }
-
-    .accordion-content {
-      grid-template-rows: 1fr;
     }
 
     .heading::before,
