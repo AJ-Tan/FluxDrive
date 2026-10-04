@@ -12,8 +12,7 @@ const signinGuestController = async (req, res, next) => {
     const guest = await prisma.user.create({
       data: {
         isGuest: true,
-        expiresAt: new Date(Date.now()),
-        // expiresAt: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+        expiresAt: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
       },
     });
 
